@@ -90,7 +90,7 @@ const routes = [
       },
       {
         path: "/admin/orderManagement",
-        name: "订单管理管理",
+        name: "订单管理",
         component: () =>
           import(
             /* webpackChunkName: "admin/orderManagement" */ "../views/sellerSystem/orderManagement/index.vue"
