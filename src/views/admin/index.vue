@@ -64,6 +64,21 @@ export default {
           Icon: "ios-paper",
         },
         {
+          path: "/admin/accountManagement",
+          name: "财务管理",
+          Icon: "ios-paper",
+        },
+        {
+          path: "/admin/productManagement",
+          name: "商品管理",
+          Icon: "ios-paper",
+        },
+        {
+          path: "/admin/orderManagement",
+          name: "订单管理",
+          Icon: "ios-paper",
+        },
+        {
           path: "/admin",
           name: "系统管理",
           Icon: "ios-paper",

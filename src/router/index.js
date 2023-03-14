@@ -72,6 +72,30 @@ const routes = [
             /* webpackChunkName: "admin/businessManagement" */ "../views/admin/businessManagement/index.vue"
           ),
       },
+      {
+        path: "/admin/accountManagement",
+        name: "财务管理",
+        component: () =>
+          import(
+            /* webpackChunkName: "admin/accountManagement" */ "../views/sellerSystem/accountManagement/index.vue"
+          ),
+      },
+      {
+        path: "/admin/productManagement",
+        name: "商品管理",
+        component: () =>
+          import(
+            /* webpackChunkName: "admin/productManagement" */ "../views/sellerSystem/productManagement/index.vue"
+          ),
+      },
+      {
+        path: "/admin/orderManagement",
+        name: "订单管理管理",
+        component: () =>
+          import(
+            /* webpackChunkName: "admin/orderManagement" */ "../views/sellerSystem/orderManagement/index.vue"
+          ),
+      },
     ],
   },
 ];
