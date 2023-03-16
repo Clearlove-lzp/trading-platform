@@ -66,6 +66,8 @@ const loginUp = () => {
 </script>
 
 <style lang='stylus'>
+@import "view-ui-plus/dist/styles/viewuiplus.css";
+
 .login
   position relative
   width 100vw

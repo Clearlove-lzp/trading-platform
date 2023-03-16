@@ -1,9 +1,3 @@
-/*
- * @Author: 刘志鹏 
- * @Date: 2019-06-20 15:23:36 
- * @Last Modified by: 刘志鹏
- * @Last Modified time: 2023-03-12 21:24:18
- */
 <!-- 标签栏组件 -->
 <template>
   <div class="tags-nav">

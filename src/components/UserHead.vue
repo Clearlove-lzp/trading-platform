@@ -1,9 +1,3 @@
-/*
- * @Author: 刘志鹏 
- * @Date: 2019-06-21 16:31:33 
- * @Last Modified by: 刘志鹏
- * @Last Modified time: 2023-03-12 11:10:57
- */
 <!-- 用户 -->
 <template>
   <div class="UserHead" :style="styleSheet">
@@ -76,7 +70,7 @@ export default {
 .UserHead {
   cursor: pointer;
   width: 110px;
-  /deep/.ivu-dropdown{
+  :deep(.ivu-dropdown) {
     height: 100%;
     .ivu-dropdown-rel{
       height: 100%;

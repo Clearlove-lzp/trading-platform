@@ -1,9 +1,3 @@
-/*
- * @Author: 刘志鹏 
- * @Date: 2019-06-18 16:53:31 
- * @Last Modified by: 刘志鹏
- * @Last Modified time: 2023-03-12 12:08:30
- */
 <!-- 展开左边栏 -->
 <template>
   <Menu ref="sideMenuA" accordion :active-name="activeName" :open-names="openNames" theme="dark" width="auto" :class="menuitemClasses">

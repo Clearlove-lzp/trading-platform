@@ -1,13 +1,11 @@
 <template>
   <div class="main-body">
-    <!-- 主题一和主题三共用一个组件，具体组件内差别对待 -->
-    <div v-if="layOutType === '主题一' || layOutType === '主题三'">
+    <div v-if="layOutType === '主题一'">
       <LayOutA
         :routes="routes"
         :activeName="newRoute"
         :openNames="newRouteA"
         :layOutType="layOutType"
-        :idx="idx"
         @changeMenuOpen="changeMenuOpen"
         @showDrawer="showDrawer"
         :theme="theme"
@@ -101,7 +99,6 @@ export default {
       ], // 菜单路由
       newRoute: "/admin/dashboard", // 打开没有二级菜单的menuItem
       newRouteA: ["/admin/dashboard"], // 打开有二级菜单的submenu对应的menuItem
-      idx: 0, // 向布局三传递二级菜单下标
       theme: "theme4"
     };
   },
@@ -136,12 +133,6 @@ export default {
       this.newRoute = newRoute.path;
       let str = newRoute.path.split("/")[1];
       this.newRouteA = [`/${str}`];
-      // 以下布局三所需
-      this.routes.forEach((item, index) => {
-        if (item.path === this.newRouteA[0]) {
-          this.idx = index;
-        }
-      });
     }
   },
   watch: {},
@@ -159,4 +150,6 @@ export default {
 .main-body {
   overflow-x: hidden;
 }
+
+@import "view-ui-plus/dist/styles/viewuiplus.css";
 </style>

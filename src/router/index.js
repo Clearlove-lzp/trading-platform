@@ -3,14 +3,32 @@ import { createRouter, createWebHashHistory } from "vue-router";
 const routes = [
   {
     path: "/login",
-    name: "登录",
+    name: "前台登录",
     component: () =>
-      import(/* webpackChunkName: "Login" */ "../views/Login.vue"),
+      import(/* webpackChunkName: "Login" */ "../views/front/Login.vue"),
+  },
+  {
+    path: "/register",
+    name: "前台注册",
+    component: () =>
+      import(/* webpackChunkName: "Register" */ "../views/front/Register.vue"),
   },
   {
     path: "/",
-    name: "首页",
-    component: () => import(/* webpackChunkName: "Home" */ "../views/Home.vue"),
+    name: "Home",
+    redirect: "/index",
+    component: () =>
+      import(/* webpackChunkName: "Home" */ "../views/front/index.vue"),
+    children: [
+      {
+        path: "/index",
+        name: "首页",
+        component: () =>
+          import(
+            /* webpackChunkName: "homePage" */ "../views/front/homePage/index.vue"
+          ),
+      },
+    ],
   },
   {
     path: "/admin/login",
@@ -77,7 +95,7 @@ const routes = [
         name: "财务管理",
         component: () =>
           import(
-            /* webpackChunkName: "admin/accountManagement" */ "../views/sellerSystem/accountManagement/index.vue"
+            /* webpackChunkName: "admin/accountManagement" */ "../views/admin/accountManagement/index.vue"
           ),
       },
       {
@@ -85,7 +103,7 @@ const routes = [
         name: "商品管理",
         component: () =>
           import(
-            /* webpackChunkName: "admin/productManagement" */ "../views/sellerSystem/productManagement/index.vue"
+            /* webpackChunkName: "admin/productManagement" */ "../views/admin/productManagement/index.vue"
           ),
       },
       {
@@ -93,7 +111,7 @@ const routes = [
         name: "订单管理",
         component: () =>
           import(
-            /* webpackChunkName: "admin/orderManagement" */ "../views/sellerSystem/orderManagement/index.vue"
+            /* webpackChunkName: "admin/orderManagement" */ "../views/admin/orderManagement/index.vue"
           ),
       },
     ],

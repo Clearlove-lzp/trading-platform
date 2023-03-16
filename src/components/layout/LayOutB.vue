@@ -1,9 +1,3 @@
-/*
- * @Author: 刘志鹏 
- * @Date: 2019-06-26 09:47:16 
- * @Last Modified by: 刘志鹏
- * @Last Modified time: 2023-03-12 15:20:55
- */
 <!-- 布局二 -->
 <template>
   <div class="layout">
@@ -206,7 +200,7 @@ export default {
 
 // less传参
 .colorType(@color1, @color2) {
-  /deep/.ivu-layout-sider-children{
+  :deep(.ivu-layout-sider-children){
     .ivu-menu{
       .ivu-menu-item-active{
         background: @color2 !important;
@@ -237,7 +231,7 @@ export default {
       flex: 0 0 200px;
       height: 100vh;
       background: transparent;
-      /deep/.ivu-layout-sider-children {
+      :deep(.ivu-layout-sider-children) {
         overflow-x: hidden;
         overflow-y: scroll !important;
         margin-right: -15px;

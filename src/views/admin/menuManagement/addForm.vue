@@ -138,7 +138,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-/deep/.vertical-center-modal{
+:deep(.vertical-center-modal){
   display: flex;
   align-items: center;
   justify-content: center;

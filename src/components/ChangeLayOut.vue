@@ -1,10 +1,3 @@
-/*
- * @Author: 刘志鹏 
- * @Date: 2019-06-18 17:37:56 
- * @Last Modified by: 刘志鹏
- * @Last Modified time: 2023-03-12 12:57:27
- */
-<!--  -->
 <template>
   <div :style="styleSheet" >
     <Dropdown trigger="click" @on-click="typeChange">
@@ -14,7 +7,6 @@
       <DropdownMenu slot="list" class="ownSize">
         <DropdownItem name="主题一">主题一</DropdownItem>
         <DropdownItem name="主题二">主题二</DropdownItem>
-        <!-- <DropdownItem name="主题三">主题三</DropdownItem> -->
       </DropdownMenu>
     </Dropdown>
     <!-- <Tooltip content="切换" placement="bottom">

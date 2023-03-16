@@ -1,9 +1,3 @@
-/*
- * @Author: 刘志鹏 
- * @Date: 2019-06-27 17:14:23 
- * @Last Modified by: 刘志鹏
- * @Last Modified time: 2023-03-12 12:58:17
- */
 <!-- 整体风格设置 -->
 <template>
   <Drawer title="整体风格设置" width="300" v-model="showDrawer" :closable="false">
@@ -51,11 +45,7 @@ export default {
         {
           type: '主题二',
           img: require('../assets/theme/type2.png')
-        },
-        // {
-        //   type: '主题三',
-        //   img: require('../assets/theme/type3.png')
-        // }
+        }
       ],
       colorList: [
         {

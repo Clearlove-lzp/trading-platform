@@ -1,9 +1,3 @@
-/*
- * @Author: 刘志鹏 
- * @Date: 2019-06-18 17:13:12 
- * @Last Modified by: 刘志鹏
- * @Last Modified time: 2023-03-12 12:32:52
- */
 <!-- 收缩左边栏 -->
 <template>
   <div class="menu-collapsed" :list="routes">

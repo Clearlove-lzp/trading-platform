@@ -1,9 +1,3 @@
-/*
- * @Author: 刘志鹏 
- * @Date: 2019-06-28 16:14:24 
- * @Last Modified by:   刘志鹏 
- * @Last Modified time: 2019-06-28 16:14:24 
- */
 <!-- 主题颜色切换按钮 -->
 <template>
   <div class="full-screen-btn-con" :style="styleSheet">

@@ -1,9 +1,3 @@
-/*
- * @Author: 刘志鹏 
- * @Date: 2019-06-26 18:01:23 
- * @Last Modified by: 刘志鹏
- * @Last Modified time: 2023-03-12 12:41:54
- */
 <!-- 顶部菜单栏A -->
 <template>
   <Menu ref="topMenu" mode="horizontal" :active-name="activeName" theme="primary" width="auto">
@@ -54,11 +48,11 @@ export default {
 }
 // ----------------- 导航条hover&active颜色 -----------------
 
-/deep/ .ivu-menu-submenu:hover {
+:deep(.ivu-menu-submenu:hover) {
   background: rgba(0, 0, 0, 0.2) !important;
   color: #fff !important;
 }
-/deep/ .ivu-menu-item-active {
+:deep(.ivu-menu-item-active) {
   background: rgba(0, 0, 0, 0.2) !important;
   color: #fff !important;
   &:hover {
@@ -66,7 +60,7 @@ export default {
     color: #fff !important;
   }
 }
-/deep/ .ivu-menu-item:hover {
+:deep(.ivu-menu-item:hover){
   background: rgba(0, 0, 0, 0.2) !important;
   color: #fff !important;
 }

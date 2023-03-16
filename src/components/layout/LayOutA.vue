@@ -11,13 +11,7 @@
           </div>
           <div class="navigation-up">
             <!-- 主题一部分的顶部菜单 -->
-            <template v-if="layOutType === '主题一'">
-              <TopMenuA :routes="routes" :activeName="activeName"></TopMenuA>
-            </template>
-            <!-- 主题三部分的顶部菜单 -->
-            <template v-else>
-              <TopMenuB :routes="routes" :activeName="openNames[0]"></TopMenuB>
-            </template>
+            <TopMenuA :routes="routes" :activeName="activeName"></TopMenuA>
           </div>
           <ThemeIcon @showDrawerFunc="showDrawerFunc"></ThemeIcon>
           <Fullscreen v-model="isFullscreen" />
@@ -28,24 +22,9 @@
       </div>
     </div>
     <div class="cep-content">
-      <!-- 主题三副菜单 只在主题三出现, 并且没有二级菜单不出现 -->
-      <div ref="sideLeftC" class="layout-content sideLeftC" :class="theme" v-if="layOutType === '主题三' && routes[idx].children && routes[idx].children.length > 0">
-        <div class="expand" @click.stop="change"><Icon type="ios-arrow-dropleft-circle" /></div>
-        <div class="shrink" @click.stop="change"><Icon type="ios-arrow-dropright-circle" /></div>
-        <sideMenuC class="side-menu" :collpase="collpase" :routes="routes" :idx="idx" :activeName="activeName"></sideMenuC>
-      </div>
       <div class="layout-content">
         <!-- 主题一的面包屑 -->
-        <PathLink v-if="layOutType === '主题一'"></PathLink>
-        <!-- 主题三的标签页 -->
-        <div class="tag-nav-wrapper" v-else>
-          <TagsNav
-            :value="$route"
-            @input="handleClick"
-            :list="tagNavList"
-            @on-close="handleCloseTag"
-          />
-        </div>
+        <PathLink></PathLink>
         <div class="main-content">
           <router-view></router-view>
         </div>
@@ -62,8 +41,6 @@ import Fullscreen from '../Fullscreen'
 import UserHead from '../UserHead'
 import PathLink from "@/components/PathLink";
 import TopMenuA from "@/components/topMenus/TopMenuA";
-import TopMenuB from "@/components/topMenus/TopMenuB";
-import sideMenuC from "@/components/sideMenus/sideMenuC";
 import TagsNav from "@/components/TagsNav";
 
 export default {
@@ -165,8 +142,6 @@ export default {
     UserHead,
     PathLink,
     TopMenuA,
-    TopMenuB,
-    sideMenuC,
     TagsNav
   },
   mounted() {
@@ -201,7 +176,7 @@ export default {
 // sass混合传参
 @mixin sideBg($color1) {
   .side-menu{
-    /deep/ .sides{
+    :deep(.sides) {
       .ivu-menu-item-group{
         ul{
           .ivu-menu-item-active{
@@ -330,7 +305,7 @@ export default {
   }
 }
 
-/deep/ .ivu-select-dropdown {
+:deep(.ivu-select-dropdown) {
   z-index: 100;
 }
 
@@ -367,7 +342,7 @@ export default {
       animation: movingNone 0.2s linear 0s 1 both;
     }
     .side-menu{
-      /deep/ .sides{
+      :deep(.sides){
         background: transparent;
         .ivu-menu-item-group{
           ul{
