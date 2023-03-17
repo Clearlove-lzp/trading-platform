@@ -490,7 +490,7 @@
 .banquan {
   height: 250px;
   background-color: #333;
-  margin-top: 70px;
+  margin-top: 30px;
 }
 
 .banquan .wrapper {

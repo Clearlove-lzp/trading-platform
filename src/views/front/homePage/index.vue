@@ -5,42 +5,48 @@
 				<div class="nav-menu">
 					<ul class="menu-wrap">
 						<li class="menu-item">
-								<a href="javascript:;">手机 电话卡</a>
-								<div class="children">
-										<ul v-for="(item,i) in menuList" :key="i">
-												<li v-for="(sub,j) in item" :key="j">
-														<a :href="sub?'/#/product/'+sub.id:''">
-														<img :src="sub?sub.img: require('@/assets/imgs/item-box-1.png')" alt="">
-														{{sub?sub.name:'小米9'}}
-														</a>
-												</li>
-										</ul>
-								</div>
+							<a href="javascript:;">经济建设</a>
+							<div class="children">
+								<ul v-for="(item,i) in menuList" :key="i">
+									<li v-for="(sub,j) in item" :key="j">
+										<a :href="sub?'/#/product/'+sub.id:''">
+										<img :src="sub?sub.img: require('@/assets/imgs/item-box-1.png')" alt="">
+										{{sub?sub.name:'小米9'}}
+										</a>
+									</li>
+								</ul>
+							</div>
 						</li>
 						<li class="menu-item">
-								<a href="javascript:;">笔记本 平板</a>
+							<a href="javascript:;">道路交通</a>
 						</li>
 						<li class="menu-item">
-								<a href="javascript:;">家电 插线板</a>
+							<a href="javascript:;">环境资源</a>
 						</li>
 						<li class="menu-item">
-								<a href="javascript:;">电视 盒子</a>
+							<a href="javascript:;">教育科技</a>
 						</li>
 						<li class="menu-item">
-								<a href="javascript:;">智能 路由器</a>
+							<a href="javascript:;">文化休闲</a>
 						</li>
 						<li class="menu-item">
-								<a href="javascript:;">出行 穿戴</a>
+							<a href="javascript:;">城市管理</a>
 						</li>
 						<li class="menu-item">
-								<a href="javascript:;">电源 配件</a>
+							<a href="javascript:;">机构团体</a>
 						</li>
 						<li class="menu-item">
-								<a href="javascript:;">生活 箱包</a>
+							<a href="javascript:;">民生服务</a>
+						</li>
+						<li class="menu-item">
+							<a href="javascript:;">地理空间</a>
+						</li>
+						<li class="menu-item">
+							<a href="javascript:;">气象气候</a>
 						</li>
 					</ul>
 				</div>
-				<swiper ref="mySwiper" :modules="modules" :navigation="true" :loop="true" 
+				<swiper ref="mySwiper" class="mySwiper" :modules="modules" :navigation="true" :loop="true" 
 					:autoplay="{ delay: 10000, disableOnInteraction: false, }"
 					:pagination="{ clickable: true }" effect="cube" :cubeEffect="{shadowOffset: 100, shadowScale: 0.6}">
 					<swiper-slide v-for="(item,index) in slideList" :key="index">
@@ -48,37 +54,104 @@
 					</swiper-slide>
 				</swiper>
 			</div>
-			<!-- <div class="ads-box">
+			<div class="ads-box">
 				<a :href="'/#/product/'+item.id" v-for="(item,index) in adsList" :key="index">
 					<img v-lazy="item.img" alt="">
 				</a>
 			</div>
 			<div class="banner">
 				<a href="/#/product/30">
-					<img v-lazy="'@/assets/imgs/banner-1.png'" alt="">
+					<img v-lazy="require('@/assets/imgs/banner-1.png')" alt="">
 				</a>
-			</div> -->
-			<!-- <div class="product-box">
-				<h2>手机</h2>
+			</div>
+			<div class="product-box">
+				<h2>数据产品</h2>
 				<div class="wrapper">
 					<div class="banner-left">
-						<a href="/#/product/35"><img v-lazy="'@/assets/imgs/mix-alpha.jpg'" alt=""></a>
+						<a href="/#/product/35"><img v-lazy="require('@/assets/imgs/mix-alpha.jpg')" alt=""></a>
 					</div>
 					<div class="list-box">
 						<div class="list" v-for="(arr,i) in phoneList" :key="i">
-						<div class="item" v-for="(item,j) in arr" :key="j">
-								<span :class="{'new-pro':j%2==0}">新品</span>
-								<div class="item-img"><img v-lazy="item.mainImage" alt=""></div>
-								<div class="item-info">
-									<h3>{{item.name}}</h3>
-									<p>{{item.subtitle}}</p>
-									<p class="price" @click="addCart(item.id)">{{item.price}}元</p>
+							<template v-for="(item,j) in arr">
+								<div class="item" :key="j" v-if="(i+1)*(j+1) < 8">
+									<span :class="{'new-pro':j % 2==0}">新品</span>
+									<div class="item-img"><img v-lazy="item.mainImage" alt=""></div>
+									<div class="item-info">
+										<h3>{{item.name}}</h3>
+										<p>{{item.subtitle}}</p>
+										<p class="price" @click="addCart(item.id)">{{item.price}}元</p>
+									</div>
 								</div>
-							</div>
+								<div class="item item-last" :key="j" v-if="(i+1)*(j+1) === 8">
+									<div class="item-last-top">
+										<div class="item-last-top-left">
+											<h3>{{item.name}}</h3>
+											<p class="price" @click="addCart(item.id)">{{item.price}}元</p>
+										</div>
+										<div class="item-last-top-right">
+											<div class="item-last-top-img"><img v-lazy="item.mainImage" alt=""></div>
+										</div>
+									</div>
+									<div class="item-last-bottom">
+										<div class="item-last-bottom-left">
+											<h2>浏览更多</h2>
+											<p>数据产品</p>
+										</div>
+										<div class="item-last-bottom-right">
+											<Icon class="item-last-bottom-right-icon" :size="40" type="ios-arrow-dropright" />
+											<!-- <div class="item-last-bottom-img"><img v-lazy="item.mainImage" alt=""></div> -->
+										</div>
+									</div>
+								</div>
+							</template>
 						</div>
 					</div>
 				</div>
-			</div> -->
+			</div>
+			<div class="product-box">
+				<h2>数据服务</h2>
+				<div class="wrapper">
+					<div class="banner-left">
+						<a href="/#/product/35"><img v-lazy="require('@/assets/imgs/mix-alpha.jpg')" alt=""></a>
+					</div>
+					<div class="list-box">
+						<div class="list" v-for="(arr,i) in phoneList" :key="i">
+							<template v-for="(item,j) in arr">
+								<div class="item" :key="j" v-if="(i+1)*(j+1) < 8">
+									<span :class="{'new-pro':j % 2==0}">新品</span>
+									<div class="item-img"><img v-lazy="item.mainImage" alt=""></div>
+									<div class="item-info">
+										<h3>{{item.name}}</h3>
+										<p>{{item.subtitle}}</p>
+										<p class="price" @click="addCart(item.id)">{{item.price}}元</p>
+									</div>
+								</div>
+								<div class="item item-last" :key="j" v-if="(i+1)*(j+1) === 8">
+									<div class="item-last-top">
+										<div class="item-last-top-left">
+											<h3>{{item.name}}</h3>
+											<p class="price" @click="addCart(item.id)">{{item.price}}元</p>
+										</div>
+										<div class="item-last-top-right">
+											<div class="item-last-top-img"><img v-lazy="item.mainImage" alt=""></div>
+										</div>
+									</div>
+									<div class="item-last-bottom">
+										<div class="item-last-bottom-left">
+											<h2>浏览更多</h2>
+											<p>数据服务</p>
+										</div>
+										<div class="item-last-bottom-right">
+											<Icon class="item-last-bottom-right-icon" :size="40" type="ios-arrow-dropright" />
+											<!-- <div class="item-last-bottom-img"><img v-lazy="item.mainImage" alt=""></div> -->
+										</div>
+									</div>
+								</div>
+							</template>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<!-- <service-bar></service-bar> -->
 		<!-- <modal
@@ -105,6 +178,7 @@ import 'swiper/swiper.css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import "swiper/css/effect-cube";
+import { productlist } from "./index.js"
 
 SwiperCore.use([EffectCube, Navigation, Autoplay, Pagination])
 
@@ -141,26 +215,26 @@ export default {
 						}
 			],
 			menuList:[
-					[
-							{
-									id:30,
-									img: require('@/assets/imgs/item-box-1.png'),
-									name:'小米CC9'
-							},{
-									id:31,
-									img: require('@/assets/imgs/item-box-2.png'),
-									name:'小米8青春版'
-							},{
-									id:32,
-									img: require('@/assets/imgs/item-box-3.jpg'),
-									name:'Redmi K20 Pro'
-							},{
-									id:33,
-									img: require('@/assets/imgs/item-box-4.jpg'),
-									name:'移动4G专区'
-							}
-					],
-					[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],
+				[
+					{
+						id:30,
+						img: require('@/assets/imgs/item-box-1.png'),
+						name:'小米CC9'
+					},{
+						id:31,
+						img: require('@/assets/imgs/item-box-2.png'),
+						name:'小米8青春版'
+					},{
+						id:32,
+						img: require('@/assets/imgs/item-box-3.jpg'),
+						name:'Redmi K20 Pro'
+					},{
+						id:33,
+						img: require('@/assets/imgs/item-box-4.jpg'),
+						name:'移动4G专区'
+					}
+				],
+				[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],
 			],
 			adsList:[
 					{
@@ -190,7 +264,7 @@ export default {
 	methods:{
 		init(){
 			// this.axios.get('/products',{
-			//     params:{
+			//     params: {
 			//        categoryId:'100012',
 			//        pageSize:14
 			//     }
@@ -198,6 +272,8 @@ export default {
 			//     res.list=res.list.slice(6,14);
 			//     this.phoneList = [res.list.slice(0,4),res.list.slice(4,8)];
 			// })
+			const arr = productlist.slice(6,14);
+			this.phoneList = [arr.slice(0,4), arr.slice(4,8)]
 		},
 	addCart(id){
 		this.axios.post('/carts',{
@@ -215,8 +291,10 @@ export default {
 }
 </script>
 <style lang="scss">
+@import '../../../assets/scss/reset.scss';
 @import '../../../assets/scss/mixin.scss';
 @import '../../../assets/scss/config.scss';
+@import "view-ui-plus/dist/styles/viewuiplus.css";
 .index{
 	.container{
 		.swiper-box{
@@ -239,8 +317,8 @@ export default {
 					.menu-item{
 						position: relative;
 						padding-left: 30px;
-						height: 50px;
-						line-height: 50px;
+						height: 40px;
+						line-height: 40px;
 						transition: all 0.5s;
 						&:hover{
 							background-color: $colorA;
@@ -308,7 +386,8 @@ export default {
 		}
 		.product-box{
 			background-color:$colorJ;
-			padding:30px 0 50px;
+			padding-top: 30px;
+			margin-bottom: 30px;
 			h2{
 				font-size:$fontF;
 				height:21px;
@@ -376,11 +455,82 @@ export default {
 									font-size:$fontJ;
 									font-weight:bold;
 									cursor:pointer;
-									&:after{
-										@include bgImg(22px,22px,'@/assets/imgs/icon-cart-hover.png');
-										content:' ';
-										margin-left:5px;
-										vertical-align: middle;
+									// &:after{
+									// 	@include bgImg(22px,22px,'@/assets/imgs/icon-cart-hover.png');
+									// 	content:' ';
+									// 	margin-left:5px;
+									// 	vertical-align: middle;
+									// }
+								}
+							}
+						}
+						.item-last{
+							background-color:$colorJ;
+							.item-last-top{
+								background-color:$colorG;
+								height: 150px;
+								margin-bottom: 10px;
+								.item-last-top-left{
+									width: 118px;
+									height: 150px;
+									float: left;
+									display: flex;
+									flex-direction: column;
+									justify-content:center;
+									align-items:center;
+									.price{
+										color:#F20A0A;
+										font-size:$fontJ;
+										font-weight:bold;
+										cursor:pointer;
+										margin-top: 10px;
+									}
+								}
+								.item-last-top-right{
+									width: 118px;
+									height: 150px;
+									float: left;
+									display: flex;
+									justify-content:center;
+									align-items:center;
+									.item-last-top-img{
+										width: 100%;
+										img{
+											width: 100%;
+										}
+									}
+								}
+							}
+							.item-last-bottom{
+								background-color:$colorG;
+								height: 142px;
+								.item-last-bottom-left{
+									width: 118px;
+									height: 142px;
+									float: left;
+									display: flex;
+									flex-direction: column;
+									justify-content:center;
+									align-items:center;
+									.price{
+										color:#F20A0A;
+										font-size:$fontJ;
+										font-weight:bold;
+										cursor:pointer;
+										margin-top: 10px;
+									}
+								}
+								.item-last-bottom-right{
+									width: 118px;
+									height: 142px;
+									float: left;
+									display: flex;
+									justify-content:center;
+									align-items:center;
+									.item-last-bottom-right-icon{
+										font-size: 40px;
+										color: orange;
+										cursor: pointer;
 									}
 								}
 							}
@@ -394,5 +544,9 @@ export default {
 
 .swiper-button-prev{
 	left: 274px;
+}
+
+.mySwiper {
+	height: 451px;
 }
 </style>
