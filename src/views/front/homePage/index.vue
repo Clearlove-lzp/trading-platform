@@ -1,5 +1,6 @@
 <template>
 	<div class='index'>
+		<Catergory></Catergory>
 		<div class="container">
 			<div class="swiper-box">
 				<div class="nav-menu">
@@ -153,8 +154,8 @@
 				</div>
 			</div>
 		</div>
-		<!-- <service-bar></service-bar> -->
-		<!-- <modal
+		<service-bar></service-bar>
+		<modal
 			title="提示"
 			sureText='查看购物车'
 			btnType='1'
@@ -166,12 +167,13 @@
 			<template v-slot:body>
 					<p>商品添加成功！</p>
 			</template>
-		</modal> -->
+		</modal>
 	</div>
 </template>
 <script>
-// import ServiceBar from './../components/ServiceBar'
-// import Modal from './../components/Modal'
+import ServiceBar from '@/components/front/ServiceBar.vue';
+import Catergory from "@/components/front/Catergory.vue"
+import Modal from '@/components/front/Modal'
 import SwiperCore, { EffectCube, Navigation, Autoplay, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/swiper.css'
@@ -185,10 +187,11 @@ SwiperCore.use([EffectCube, Navigation, Autoplay, Pagination])
 export default {
 	name:'index',
 	components:{
-		// ServiceBar,
+		ServiceBar,
 		Swiper,
 		SwiperSlide,
-		// Modal
+		Catergory,
+		Modal
 	},
 	data(){
 		return{

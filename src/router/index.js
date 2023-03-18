@@ -28,6 +28,14 @@ const routes = [
             /* webpackChunkName: "homePage" */ "../views/front/homePage/index.vue"
           ),
       },
+      {
+        path: "/orderlist",
+        name: "我的订单",
+        component: () =>
+          import(
+            /* webpackChunkName: "orderlist" */ "../views/front/orderlist/index.vue"
+          ),
+      },
     ],
   },
   {
