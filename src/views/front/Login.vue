@@ -1,36 +1,42 @@
 <template>
   <div class="login" :style="'background-image:url('+ Background +');'">
-    <Form ref="loginForm" :model="loginForm" :rules="loginRules" label-position="left" label-width="0px" class="login-form">
+    <Form ref="loginFormRef" :model="loginForm" :rules="loginRules" label-position="left" label-width="0px" class="login-form">
       <h3 class="title">
         XXX数据交易平台
       </h3>
-      <FormItem  prop="username">
+      <FormItem prop="username">
         <Input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
-          <svg-icon slot="prefix" icon-class="user" class="Input__icon input-icon" />
+          <template #prefix>
+            <Icon type="ios-person-outline" />
+          </template>
         </Input>
       </FormItem>
-      <FormItem  prop="password">
-        <Input v-model="loginForm.password" type="password" auto-complete="off" placeholder="密码" @keyup.enter.native="handleLogin">
-          <svg-icon slot="prefix" icon-class="password" class="Input__icon input-icon" />
+      <FormItem prop="password">
+        <Input v-model="loginForm.password" type="password" password auto-complete="off" placeholder="密码" @keyup.enter.native="handleLogin">
+          <template #prefix>
+            <Icon type="ios-lock-outline" />
+          </template>
         </Input>
       </FormItem>
       <FormItem  prop="code">
         <Input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%" @keyup.enter.native="handleLogin">
-          <svg-icon slot="prefix" icon-class="validCode" class="Input__icon input-icon" />
+          <template #prefix>
+            <Icon type="ios-unlock-outline" />
+          </template>
         </Input>
         <div class="login-code">
           <img :src="codeUrl" @click="getCode">
         </div>
-      </FormItem >
+      </FormItem>
       <Checkbox v-model="loginForm.rememberMe" style="margin:0 0 25px 0;">
         记住我
       </Checkbox>
-      <FormItem  style="width:100%;">
+      <FormItem style="width:100%;">
         <Button :loading="loading" size="medium" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </Button>
-      </FormItem >
+      </FormItem>
       <FormItem style="width:100%;">
         <Button size="medium" type="warning" style="width:100%;" @click.native.prevent="handleRegister">去注册</Button>
       </FormItem>
@@ -62,7 +68,7 @@ export default {
       loginRules: {
         username: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
         password: [{ required: true, trigger: 'blur', message: '密码不能为空' }],
-        code: [{ required: true, trigger: 'change', message: '验证码不能为空' }]
+        code: [{ required: true, trigger: 'blur', message: '验证码不能为空' }]
       },
       loading: false,
       redirect: undefined
@@ -114,7 +120,7 @@ export default {
       }
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginFormRef.validate(valid => {
         const user = {
           username: this.loginForm.username,
           password: this.loginForm.password,
@@ -172,8 +178,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import '../../assets/scss/reset.scss';
+<style lang="scss" scoped>
 @import "view-ui-plus/dist/styles/viewuiplus.css";
 
   .login {

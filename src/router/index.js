@@ -45,6 +45,14 @@ const routes = [
       import(/* webpackChunkName: "admin/login" */ "../views/admin/Login.vue"),
   },
   {
+    path: "/admin/register",
+    name: "后台注册",
+    component: () =>
+      import(
+        /* webpackChunkName: "admin/Register" */ "../views/admin/Register.vue"
+      ),
+  },
+  {
     path: "/admin",
     name: "后台管理",
     component: () =>

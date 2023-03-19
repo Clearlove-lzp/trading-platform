@@ -4,20 +4,55 @@
       <div class="title">
         <div class="title-wrap">
           <!-- <img src="@/assets/header/znlogo.jpg" alt="" class="logo"> -->
-          <span class="company">数据交易平台后台</span>
+          <span class="company">数据交易平台后台（登录）</span>
         </div>
       </div>
       <div class="form">
-        <div class="user">
-          <span>用户名：</span>
-          <Input class="i-user i-login" v-model='AppliForm.user'></Input>
-        </div>
-        <div class="pwd">
-          <span>密码：</span>
-          <Input class="i-pwd i-login" v-model='AppliForm.pwd' type='password'></Input>
-        </div>
-        <Button class="btn" @click='loginUp' :loading="loading">登录</Button>
-        <!-- <span class="forget-pwd">忘记密码？</span> -->
+        <Form :model="AppliForm" :rules="loginRules" ref="formRef">
+          <FormItem prop="username">
+            <Input v-model="AppliForm.username" type="text" auto-complete="off" placeholder="账号">
+              <template #prefix>
+                <Icon type="ios-person-outline" />
+              </template>
+            </Input>
+          </FormItem>
+          <FormItem prop="password">
+            <Input v-model="AppliForm.password" type="password" password auto-complete="off" placeholder="密码" @keyup.enter.native="loginUp">
+              <template #prefix>
+                <Icon type="ios-lock-outline" />
+              </template>
+            </Input>
+          </FormItem>
+          <FormItem prop="code">
+            <Row :gutter="20">
+              <Col span="12">
+                <Input v-model="AppliForm.code" auto-complete="off" placeholder="验证码" @keyup.enter.native="loginUp">
+                  <template #prefix>
+                    <Icon type="ios-unlock-outline" />
+                  </template>
+                </Input>
+              </Col>
+              <Col span="12">
+                <div class="login-code">
+                  <img :src="codeUrl" @click="getCode">
+                </div>
+              </Col>
+            </Row>
+          </FormItem>
+          <Row :gutter="20">
+            <Col span="12">
+              <Button :loading="loading" size="medium" type="primary" style="width:100%;" @click.native.prevent="loginUp">
+                <span v-if="!loading">登 录</span>
+                <span v-else>登 录 中...</span>
+              </Button>
+            </Col>
+            <Col span="12">
+              <Button size="medium" type="warning" style="width:100%;" @click.native.prevent="registerFunc">
+                去注册
+              </Button>
+            </Col>
+          </Row>
+        </Form>
       </div>
     </div>
   </div>
@@ -28,10 +63,17 @@ import { loginUser } from '@/api/index';
 import { useForm, useState, useRouter} from "@/hook/index.js";
 import { Message } from "view-ui-plus";
 
+const loginRules = {
+  username: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
+  password: [{ required: true, trigger: 'blur', message: '密码不能为空' }],
+  code: [{ required: true, trigger: 'blur', message: '验证码不能为空' }]
+}
+
 // 表单
 const form = {
-  user: "",
-  pwd: ""
+  username: "",
+  password: "",
+  code: ""
 }
 const [ formRef, AppliForm, resetForm, validateForm ] = useForm(form);
 
@@ -39,10 +81,21 @@ const [loading, setLoading] = useState(false);
 
 const { router } = useRouter()
 
-const loginUp = () => {
+// 验证码
+const [codeUrl, setCodeUrl] = useState("");
+const getCode = () => {
+  
+}
+
+const loginUp = async() => {
+  let boolean = await validateForm()
+  if(!boolean) {
+    return Message.error("请填写完整登录信息");
+  }
   let params = {
-    user: AppliForm.user,
-    pwd: AppliForm.pwd
+    username: AppliForm.username,
+    password: AppliForm.password,
+    code: AppliForm.code,
   }
   // setLoading(true);
   // loginUser(params).then(res => {
@@ -63,9 +116,15 @@ const loginUp = () => {
     path: '/admin/dashboard'
   })
 }
+
+const registerFunc = () => {
+  router.push({
+    path: '/admin/register'
+  })
+}
 </script>
 
-<style lang='stylus'>
+<style lang='stylus' scoped>
 @import "view-ui-plus/dist/styles/viewuiplus.css";
 
 .login
