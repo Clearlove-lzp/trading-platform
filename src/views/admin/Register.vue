@@ -10,14 +10,14 @@
       <div class="form">
         <Form ref="formRef" :model="AppliForm" :label-width="80" :rules="loginRules">
           <FormItem prop="username" label="用户名">
-          <Input v-model="AppliForm.username" type="text" auto-complete="off" @keyup.enter.native="registerFunc">
-            <template #prefix>
-                <Icon type="ios-person-outline" />
-            </template>
-          </Input>
-        </FormItem>
-          <FormItem prop="username" label="店铺名">
             <Input v-model="AppliForm.username" type="text" auto-complete="off" @keyup.enter.native="registerFunc">
+              <template #prefix>
+                  <Icon type="ios-person-outline" />
+              </template>
+            </Input>
+          </FormItem>
+          <FormItem prop="shopname" label="店铺名">
+            <Input v-model="AppliForm.shopname" type="text" auto-complete="off" @keyup.enter.native="registerFunc">
               <template #prefix>
                 <Icon type="ios-person-outline" />
               </template>

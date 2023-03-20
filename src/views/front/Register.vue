@@ -46,15 +46,13 @@
           </template>
         </Input>
       </FormItem>
-      <FormItem style="width:100%;">
-        <Button :loading="loading" size="medium" type="primary" style="width:100%;" @click.native.prevent="handleRegister">
+      <div class="button-container">
+        <Button :loading="loading" size="medium" type="primary" style="width:30%;margin-right: 20px" @click.native.prevent="handleRegister">
           <span v-if="!loading">注 册</span>
           <span v-else>注 册 中...</span>
         </Button>
-      </FormItem >
-      <FormItem style="width:100%;">
-        <Button size="medium" type="warning" style="width:100%;" @click.native.prevent="handleLogin">去登录</Button>
-      </FormItem>
+        <Button size="medium" type="warning" style="width:30%;" @click.native.prevent="handleLogin">去登录</Button>
+      </div>
     </Form>
   </div>
 </template>
@@ -217,5 +215,11 @@ export default {
     font-size: 13px;
     text-align: center;
     color: #bfbfbf;
+  }
+
+  .button-container{
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
   }
 </style>

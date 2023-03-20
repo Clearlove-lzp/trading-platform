@@ -31,15 +31,13 @@
       <Checkbox v-model="loginForm.rememberMe" style="margin:0 0 25px 0;">
         记住我
       </Checkbox>
-      <FormItem style="width:100%;">
-        <Button :loading="loading" size="medium" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
+      <div class="button-container">
+        <Button :loading="loading" size="medium" type="primary" style="width:30%;margin-right: 20px" @click.native.prevent="handleLogin">
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </Button>
-      </FormItem>
-      <FormItem style="width:100%;">
-        <Button size="medium" type="warning" style="width:100%;" @click.native.prevent="handleRegister">去注册</Button>
-      </FormItem>
+        <Button size="medium" type="warning" style="width:30%;" @click.native.prevent="handleRegister">去注册</Button>
+      </div>
     </Form>
   </div>
 </template>
@@ -223,5 +221,11 @@ export default {
       cursor: pointer;
       vertical-align:middle
     }
+  }
+
+  .button-container{
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
   }
 </style>

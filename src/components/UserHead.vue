@@ -53,7 +53,7 @@ export default {
         localStorage.removeItem("userName");
         localStorage.removeItem("roleList");
         localStorage.setItem("isLogin", false);
-        this.$router.push("/login");
+        this.$router.push("/admin/login");
       } else if (name === "passWordChange") {
       } else if (name === "message") {
       }

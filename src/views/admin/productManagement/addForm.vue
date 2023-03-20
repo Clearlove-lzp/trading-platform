@@ -12,46 +12,46 @@
         </FormItem>
         <FormItem label="售卖方式" prop="sell">
           <RadioGroup v-model="AppliForm.sell">
-            <Radio label="option1">数据产品</Radio>
-            <Radio label="option2">数据服务</Radio>
+            <Radio label="数据产品">数据产品</Radio>
+            <Radio label="数据服务">数据服务</Radio>
           </RadioGroup>
         </FormItem>
         <FormItem label="数据类型" prop="type">
           <RadioGroup v-model="AppliForm.type">
-            <Radio label="option1">图片</Radio>
-            <Radio label="option2">文本</Radio>
-            <Radio label="option3">结构化</Radio>
-            <Radio label="option4">音频</Radio>
-            <Radio label="option5">视频</Radio>
-            <Radio label="option6">其它</Radio>
+            <Radio label="图片">图片</Radio>
+            <Radio label="文本">文本</Radio>
+            <Radio label="结构化">结构化</Radio>
+            <Radio label="音频">音频</Radio>
+            <Radio label="视频">视频</Radio>
+            <Radio label="其它">其它</Radio>
           </RadioGroup>
         </FormItem>
         <FormItem label="使用场景" prop="field">
           <RadioGroup v-model="AppliForm.field">
-            <Radio label="option1">经济建设</Radio>
-            <Radio label="option2">道路交通</Radio>
-            <Radio label="option3">环境资源</Radio>
-            <Radio label="option4">教育科技</Radio>
-            <Radio label="option5">文化休闲</Radio>
-            <Radio label="option6">城市管理</Radio>
-            <Radio label="option7">机构团体</Radio>
-            <Radio label="option8">民生服务</Radio>
-            <Radio label="option9">地理空间</Radio>
-            <Radio label="option10">气象气候</Radio>
-            <Radio label="option11">其它</Radio>
+            <Radio label="经济建设">经济建设</Radio>
+            <Radio label="道路交通">道路交通</Radio>
+            <Radio label="环境资源">环境资源</Radio>
+            <Radio label="教育科技">教育科技</Radio>
+            <Radio label="文化休闲">文化休闲</Radio>
+            <Radio label="城市管理">城市管理</Radio>
+            <Radio label="机构团体">机构团体</Radio>
+            <Radio label="民生服务">民生服务</Radio>
+            <Radio label="地理空间">地理空间</Radio>
+            <Radio label="气象气候">气象气候</Radio>
+            <Radio label="其它">其它</Radio>
           </RadioGroup>
         </FormItem>
         
-        <FormItem label="图片格式" prop="img_type" v-if="AppliForm.type === 'option1'">
+        <FormItem label="图片格式" prop="img_type" v-if="AppliForm.type === '图片'">
           <RadioGroup v-model="AppliForm.img_type">
-            <Radio label="option1">bmp</Radio>
-            <Radio label="option2">jpeg</Radio>
-            <Radio label="option3">png</Radio>
-            <Radio label="option4">gif</Radio>
-            <Radio label="option5">混合</Radio>
+            <Radio label="bmp">bmp</Radio>
+            <Radio label="jpeg">jpeg</Radio>
+            <Radio label="png">png</Radio>
+            <Radio label="gif">gif</Radio>
+            <Radio label="混合">混合</Radio>
           </RadioGroup>
         </FormItem>
-        <FormItem label="文本语言" prop="text_lang" v-if="AppliForm.type === 'option2'">
+        <FormItem label="文本语言" prop="text_lang" v-if="AppliForm.type === '文本'">
           <Select v-model="AppliForm.text_lang">
             <Option value="chinese">中文</Option>
             <Option value="english">英语</Option>
@@ -61,27 +61,27 @@
             <Option value="other">其它</Option>
           </Select>
         </FormItem>
-        <FormItem label="文本平均长度" prop="text_length" v-if="AppliForm.type === 'option2'">
+        <FormItem label="文本平均长度" prop="text_length" v-if="AppliForm.type === '文本'">
           <InputNumber class="cdp-input" v-model="AppliForm.text_length" :min="0" controls-outside></InputNumber>
         </FormItem>
-        <FormItem label="属性个数" prop="structure_count" v-if="AppliForm.type === 'option3'">
+        <FormItem label="属性个数" prop="structure_count" v-if="AppliForm.type === '结构化'">
           <InputNumber class="cdp-input" v-model="AppliForm.structure_count" :min="0" controls-outside></InputNumber>
         </FormItem>
-        <FormItem label="音频质量" prop="audio_quality" v-if="AppliForm.type === 'option4'">
+        <FormItem label="音频质量" prop="audio_quality" v-if="AppliForm.type === '音频'">
           <RadioGroup v-model="AppliForm.audio_quality">
-            <Radio label="option1">高品质</Radio>
-            <Radio label="option2">标准</Radio>
-            <Radio label="option3">无损</Radio>
-            <Radio label="option5">混合</Radio>
+            <Radio label="高品质">高品质</Radio>
+            <Radio label="标准">标准</Radio>
+            <Radio label="无损">无损</Radio>
+            <Radio label="混合">混合</Radio>
           </RadioGroup>
         </FormItem>
-         <FormItem label="视频清晰度" prop="video_quality" v-if="AppliForm.type === 'option5'">
+         <FormItem label="视频清晰度" prop="video_quality" v-if="AppliForm.type === '视频'">
           <RadioGroup v-model="AppliForm.video_quality">
-            <Radio label="option1">超清</Radio>
-            <Radio label="option2">高清</Radio>
-            <Radio label="option3">标清</Radio>
-            <Radio label="option4">流畅</Radio>
-            <Radio label="option5">混合</Radio>
+            <Radio label="超清">超清</Radio>
+            <Radio label="高清">高清</Radio>
+            <Radio label="标清">标清</Radio>
+            <Radio label="流畅">流畅</Radio>
+            <Radio label="混合">混合</Radio>
           </RadioGroup>
         </FormItem>
         <FormItem label="单位数据价格" prop="price">
