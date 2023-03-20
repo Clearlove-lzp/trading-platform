@@ -10,14 +10,14 @@
         <FormItem label="数据描述" prop="desc">
           <Input class="cdp-input" v-model="AppliForm.desc" type="textarea" :autosize="{minRows: 3}"></Input>
         </FormItem>
-        <FormItem label="售卖方式" prop="desc">
-          <RadioGroup v-model="AppliForm.option1">
+        <FormItem label="售卖方式" prop="sell">
+          <RadioGroup v-model="AppliForm.sell">
             <Radio label="option1">数据产品</Radio>
             <Radio label="option2">数据服务</Radio>
           </RadioGroup>
         </FormItem>
-        <FormItem label="数据类型" prop="desc">
-          <RadioGroup v-model="AppliForm.option2">
+        <FormItem label="数据类型" prop="type">
+          <RadioGroup v-model="AppliForm.type">
             <Radio label="option1">图片</Radio>
             <Radio label="option2">文本</Radio>
             <Radio label="option3">结构化</Radio>
@@ -26,8 +26,8 @@
             <Radio label="option6">其它</Radio>
           </RadioGroup>
         </FormItem>
-        <FormItem label="使用场景" prop="desc">
-          <RadioGroup v-model="AppliForm.option3">
+        <FormItem label="使用场景" prop="field">
+          <RadioGroup v-model="AppliForm.field">
             <Radio label="option1">经济建设</Radio>
             <Radio label="option2">道路交通</Radio>
             <Radio label="option3">环境资源</Radio>
@@ -42,8 +42,8 @@
           </RadioGroup>
         </FormItem>
         
-        <FormItem label="图片格式" prop="desc" v-if="AppliForm.option2 === 'option1'">
-          <RadioGroup v-model="AppliForm.option4">
+        <FormItem label="图片格式" prop="img_type" v-if="AppliForm.type === 'option1'">
+          <RadioGroup v-model="AppliForm.img_type">
             <Radio label="option1">bmp</Radio>
             <Radio label="option2">jpeg</Radio>
             <Radio label="option3">png</Radio>
@@ -51,8 +51,8 @@
             <Radio label="option5">混合</Radio>
           </RadioGroup>
         </FormItem>
-        <FormItem label="文本语言" prop="desc" v-if="AppliForm.option2 === 'option2'">
-          <Select v-model="AppliForm.option4">
+        <FormItem label="文本语言" prop="text_lang" v-if="AppliForm.type === 'option2'">
+          <Select v-model="AppliForm.text_lang">
             <Option value="chinese">中文</Option>
             <Option value="english">英语</Option>
             <Option value="french">法语</Option>
@@ -61,22 +61,22 @@
             <Option value="other">其它</Option>
           </Select>
         </FormItem>
-        <FormItem label="文本平均长度" prop="price" v-if="AppliForm.option2 === 'option2'">
-          <InputNumber class="cdp-input" v-model="AppliForm.number" :min="0" controls-outside></InputNumber>
+        <FormItem label="文本平均长度" prop="text_length" v-if="AppliForm.type === 'option2'">
+          <InputNumber class="cdp-input" v-model="AppliForm.text_length" :min="0" controls-outside></InputNumber>
         </FormItem>
-        <FormItem label="属性个数" prop="count" v-if="AppliForm.option2 === 'option3'">
-          <InputNumber class="cdp-input" v-model="AppliForm.number" :min="0" controls-outside></InputNumber>
+        <FormItem label="属性个数" prop="structure_count" v-if="AppliForm.type === 'option3'">
+          <InputNumber class="cdp-input" v-model="AppliForm.structure_count" :min="0" controls-outside></InputNumber>
         </FormItem>
-        <FormItem label="音频质量" prop="desc" v-if="AppliForm.option2 === 'option4'">
-          <RadioGroup v-model="AppliForm.option5">
+        <FormItem label="音频质量" prop="audio_quality" v-if="AppliForm.type === 'option4'">
+          <RadioGroup v-model="AppliForm.audio_quality">
             <Radio label="option1">高品质</Radio>
             <Radio label="option2">标准</Radio>
             <Radio label="option3">无损</Radio>
             <Radio label="option5">混合</Radio>
           </RadioGroup>
         </FormItem>
-         <FormItem label="视频清晰度" prop="desc" v-if="AppliForm.option2 === 'option5'">
-          <RadioGroup v-model="AppliForm.option6">
+         <FormItem label="视频清晰度" prop="video_quality" v-if="AppliForm.type === 'option5'">
+          <RadioGroup v-model="AppliForm.video_quality">
             <Radio label="option1">超清</Radio>
             <Radio label="option2">高清</Radio>
             <Radio label="option3">标清</Radio>
@@ -84,7 +84,6 @@
             <Radio label="option5">混合</Radio>
           </RadioGroup>
         </FormItem>
-        
         <FormItem label="单位数据价格" prop="price">
           <InputNumber class="cdp-input" v-model="AppliForm.price" :min="0" controls-outside></InputNumber>
         </FormItem>
@@ -94,7 +93,7 @@
             <span slot="close">下架</span>
           </i-switch>
         </FormItem>
-        <FormItem label="商品图片" prop="pic">
+        <FormItem label="数据图片" prop="pic">
           <Upload action="//jsonplaceholder.typicode.com/posts/">
             <Button icon="ios-cloud-upload-outline">点击上传</Button>
           </Upload>
@@ -119,16 +118,40 @@ import moment from 'moment';
 
 const ruleValidate = {
   proName: [
-    { required: true, message: '商品名称不能为空'}
+    { required: true, message: '数据名称不能为空'}
   ],
   desc: [
-    { required: true, message: '商品描述不能为空'}
+    { required: true, message: '数据描述不能为空'}
   ],
-  proNum: [
-    { required: true, type: 'number', message: '商品数量不能为空'}
+  sell: [
+    { required: true, message: '售卖方式不能为空'}
+  ],
+  type: [
+    { required: true, message: '数据类型不能为空'}
+  ],
+  field: [
+    { required: true, message: '使用场景不能为空'}
+  ],
+  img_type: [
+    { required: true, message: '图片格式不能为空'}
+  ],
+  text_lang: [
+    { required: true, message: '文本语言不能为空'}
+  ],
+  text_length: [
+    { required: true, message: '文本平均长度不能为空'}
+  ],
+  structure_count: [
+    { required: true, message: '属性个数不能为空'}
+  ],
+  audio_quality: [
+    { required: true, message: '音频质量不能为空'}
+  ],
+  video_quality: [
+    { required: true, message: '视频清晰度不能为空'}
   ],
   price: [
-    { required: true, type: 'number', message: '商品价格不能为空'}
+    { required: true, type: 'number', message: '单位数据价格不能为空'}
   ],
   status: [
     { required: true, message: '是否上架不能为空'}
@@ -158,10 +181,16 @@ export default {
       id: "",
       proName: "",
       desc: "",
-      proNum: 0,
+      sell: "",
+      type: "",
+      field: "",
+      img_type: "",
+      text_lang: "",
+      text_length: 0,
+      structure_count: 0,
+      audio_quality: "",
+      video_quality: "",
       price: 0,
-      oldPrice: 0,
-      proSize: "",
       status: "是",
       createUserId: "",
       createuserName: ""
@@ -182,10 +211,16 @@ export default {
       let params = {
         proName: AppliForm.proName,
         desc: AppliForm.desc,
-        proNum: AppliForm.proNum,
+        sell: AppliForm.sell,
+        type: AppliForm.type,
+        field: AppliForm.field,
+        img_type: AppliForm.img_type,
+        text_lang: AppliForm.text_lang,
+        text_length: AppliForm.text_length,
+        structure_count: AppliForm.structure_count,
+        audio_quality: AppliForm.audio_quality,
+        video_quality: AppliForm.video_quality,
         price: AppliForm.price,
-        oldPrice: AppliForm.oldPrice,
-        proSize: AppliForm.proSize,
         id: AppliForm.id,
         createUserId: AppliForm.createUserId,
         createuserName: AppliForm.createuserName
@@ -213,10 +248,16 @@ export default {
         AppliForm.id = props.detailInfo.id ? props.detailInfo.id : "";
         AppliForm.proName = props.detailInfo.proName ? props.detailInfo.proName : "";
         AppliForm.desc = props.detailInfo.desc ? props.detailInfo.desc : "";
-        AppliForm.proNum = props.detailInfo.proNum ? props.detailInfo.proNum : 0;
+        AppliForm.sell = props.detailInfo.sell ? props.detailInfo.sell : "";
+        AppliForm.type = props.detailInfo.type ? props.detailInfo.type : "";
+        AppliForm.field = props.detailInfo.field ? props.detailInfo.field : "";
+        AppliForm.img_type = props.detailInfo.img_type ? props.detailInfo.img_type : "";
+        AppliForm.text_lang = props.detailInfo.text_lang ? props.detailInfo.text_lang : "";
+        AppliForm.text_length = props.detailInfo.text_length ? props.detailInfo.text_length : 0;
+        AppliForm.structure_count = props.detailInfo.structure_count ? props.detailInfo.structure_count : 0;
+        AppliForm.audio_quality = props.detailInfo.audio_quality ? props.detailInfo.audio_quality : "";
+        AppliForm.video_quality = props.detailInfo.video_quality ? props.detailInfo.video_quality : "";
         AppliForm.price = props.detailInfo.price ? props.detailInfo.price : 0;
-        AppliForm.oldPrice = props.detailInfo.oldPrice ? props.detailInfo.oldPrice : 0;
-        AppliForm.proSize = props.detailInfo.proSize ? props.detailInfo.proSize : "";
         AppliForm.status = props.detailInfo.status ? props.detailInfo.status : "是";
         // AppliForm.createUserId = props.detailInfo.createUserId ? props.detailInfo.createUserId : userInfo.userId;
         // AppliForm.createuserName = props.detailInfo.createuserName ? props.detailInfo.createuserName : userInfo.userName;
