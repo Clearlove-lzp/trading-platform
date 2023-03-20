@@ -9,6 +9,13 @@
       </div>
       <div class="form">
         <Form ref="formRef" :model="AppliForm" :label-width="80" :rules="loginRules">
+          <FormItem prop="username" label="用户名">
+          <Input v-model="AppliForm.username" type="text" auto-complete="off" @keyup.enter.native="registerFunc">
+            <template #prefix>
+                <Icon type="ios-person-outline" />
+            </template>
+          </Input>
+        </FormItem>
           <FormItem prop="username" label="店铺名">
             <Input v-model="AppliForm.username" type="text" auto-complete="off" @keyup.enter.native="registerFunc">
               <template #prefix>
@@ -118,6 +125,7 @@ let emailPass = (rule, value, callback) => {
 
 const loginRules = {
   username: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
+  shopname: [{ required: true, trigger: 'blur', message: '店铺名不能为空' }],
   password: [{ required: true, trigger: 'blur', message: '密码不能为空' }],
   repassword: [{ required: true, validator: validatePass2, trigger: 'blur' }],
   phone: [{ required: true, validator: phonePass, trigger: 'blur' }],
@@ -128,6 +136,7 @@ const loginRules = {
 // 表单
 const form = {
   username: "",
+  shopname: "",
   password: "",
   repassword: "",
   phone: "",
@@ -153,6 +162,7 @@ const registerFunc = async() => {
   }
   let params = {
     username: AppliForm.username,
+    shopname: AppliForm.shopname,
     password: AppliForm.password,
     repassword: AppliForm.repassword,
     phone: AppliForm.phone,
@@ -228,7 +238,7 @@ const loginUp = () => {
           vertical-align top
     .form
       position relative
-      height 460px
+      height 512px
       background #FFF
       padding 50px 75px
       .user, .pwd
