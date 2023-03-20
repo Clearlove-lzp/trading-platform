@@ -4,26 +4,89 @@
     @on-visible-change="visibleChange">
     <div class="content">
       <Form ref="formRef" class="cdp-form" :rules="ruleValidate" :model="AppliForm" :label-width="120">
-        <FormItem label="商品名称" prop="proName">
+        <FormItem label="数据名称" prop="proName">
           <Input class="cdp-input" v-model="AppliForm.proName"></Input>
         </FormItem>
-        <FormItem label="商品描述" prop="desc">
+        <FormItem label="数据描述" prop="desc">
           <Input class="cdp-input" v-model="AppliForm.desc" type="textarea" :autosize="{minRows: 3}"></Input>
         </FormItem>
-        <FormItem label="商品库存" prop="proNum">
-          <InputNumber class="cdp-input" v-model="AppliForm.proNum" :min="0" controls-outside></InputNumber>
+        <FormItem label="售卖方式" prop="desc">
+          <RadioGroup v-model="AppliForm.option1">
+            <Radio label="option1">数据产品</Radio>
+            <Radio label="option2">数据服务</Radio>
+          </RadioGroup>
         </FormItem>
-        <FormItem label="商品价格" prop="price">
+        <FormItem label="数据类型" prop="desc">
+          <RadioGroup v-model="AppliForm.option2">
+            <Radio label="option1">图片</Radio>
+            <Radio label="option2">文本</Radio>
+            <Radio label="option3">结构化</Radio>
+            <Radio label="option4">音频</Radio>
+            <Radio label="option5">视频</Radio>
+            <Radio label="option6">其它</Radio>
+          </RadioGroup>
+        </FormItem>
+        <FormItem label="使用场景" prop="desc">
+          <RadioGroup v-model="AppliForm.option3">
+            <Radio label="option1">经济建设</Radio>
+            <Radio label="option2">道路交通</Radio>
+            <Radio label="option3">环境资源</Radio>
+            <Radio label="option4">教育科技</Radio>
+            <Radio label="option5">文化休闲</Radio>
+            <Radio label="option6">城市管理</Radio>
+            <Radio label="option7">机构团体</Radio>
+            <Radio label="option8">民生服务</Radio>
+            <Radio label="option9">地理空间</Radio>
+            <Radio label="option10">气象气候</Radio>
+            <Radio label="option11">其它</Radio>
+          </RadioGroup>
+        </FormItem>
+        
+        <FormItem label="图片格式" prop="desc" v-if="AppliForm.option2 === 'option1'">
+          <RadioGroup v-model="AppliForm.option4">
+            <Radio label="option1">bmp</Radio>
+            <Radio label="option2">jpeg</Radio>
+            <Radio label="option3">png</Radio>
+            <Radio label="option4">gif</Radio>
+            <Radio label="option5">混合</Radio>
+          </RadioGroup>
+        </FormItem>
+        <FormItem label="文本语言" prop="desc" v-if="AppliForm.option2 === 'option2'">
+          <Select v-model="AppliForm.option4">
+            <Option value="chinese">中文</Option>
+            <Option value="english">英语</Option>
+            <Option value="french">法语</Option>
+            <Option value="german">德语</Option>
+            <Option value="hindi">印度语</Option>
+            <Option value="other">其它</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="文本平均长度" prop="price" v-if="AppliForm.option2 === 'option2'">
+          <InputNumber class="cdp-input" v-model="AppliForm.number" :min="0" controls-outside></InputNumber>
+        </FormItem>
+        <FormItem label="属性个数" prop="count" v-if="AppliForm.option2 === 'option3'">
+          <InputNumber class="cdp-input" v-model="AppliForm.number" :min="0" controls-outside></InputNumber>
+        </FormItem>
+        <FormItem label="音频质量" prop="desc" v-if="AppliForm.option2 === 'option4'">
+          <RadioGroup v-model="AppliForm.option5">
+            <Radio label="option1">高品质</Radio>
+            <Radio label="option2">标准</Radio>
+            <Radio label="option3">无损</Radio>
+            <Radio label="option5">混合</Radio>
+          </RadioGroup>
+        </FormItem>
+         <FormItem label="视频清晰度" prop="desc" v-if="AppliForm.option2 === 'option5'">
+          <RadioGroup v-model="AppliForm.option6">
+            <Radio label="option1">超清</Radio>
+            <Radio label="option2">高清</Radio>
+            <Radio label="option3">标清</Radio>
+            <Radio label="option4">流畅</Radio>
+            <Radio label="option5">混合</Radio>
+          </RadioGroup>
+        </FormItem>
+        
+        <FormItem label="单位数据价格" prop="price">
           <InputNumber class="cdp-input" v-model="AppliForm.price" :min="0" controls-outside></InputNumber>
-        </FormItem>
-        <FormItem label="商品原价" prop="oldPrice">
-          <InputNumber class="cdp-input" v-model="AppliForm.oldPrice" :min="0" controls-outside></InputNumber>
-        </FormItem>
-        <FormItem label="商品尺码" prop="proSize">
-          <Input class="cdp-input" v-model="AppliForm.proSize"></Input>
-        </FormItem>
-        <FormItem label="商品尺码" prop="proSize">
-          <Input class="cdp-input" v-model="AppliForm.proSize"></Input>
         </FormItem>
         <FormItem label="是否上架" prop="status">
           <i-switch v-model="AppliForm.status" true-value="是" false-value="否" true-color="#13ce66" false-color="#ff4949">
