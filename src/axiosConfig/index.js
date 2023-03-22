@@ -41,7 +41,7 @@ axios.interceptors.response.use(
   (error) => {
     if (error.response) {
       // console.log(error.response)
-      Message.error(error.response.statusText);
+      Message.error(error.response.status + "：" + error.response.statusText);
       // Message({
       //   message: error.response.statusText,
       //   type: 'error',

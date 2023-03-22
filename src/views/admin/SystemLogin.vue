@@ -57,7 +57,7 @@
 import { loginPlatForm, loginCode } from '@/api/index';
 import { useForm, useState, useRouter, useEffect} from "@/hook/index.js";
 import { Message } from "view-ui-plus";
-import crypto from "crypto";
+import md5 from 'js-md5'
 
 const loginRules = {
   admin_name: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
@@ -80,7 +80,7 @@ const { router } = useRouter()
 // 验证码
 const [codeUrl, setCodeUrl] = useState("");
 const getCode = () => {
-  let params = parseInt(Math.random() * 99998) + 1
+  let params = parseInt(Math.random() * 89999) + 10000
   loginCode(params).then(res => {
     console.log(res)
   })
@@ -92,14 +92,12 @@ const loginUp = async() => {
   if(!boolean) {
     return Message.error("请填写完整登录信息");
   }
-  let md5 = crypto.createHash("md5");
-  md5.update(AppliForm.admin_psd);
-  let passwordMd5 = md5.digest("hex");
   let params = {
     admin_name: AppliForm.admin_name,
-    admin_psd: passwordMd5.toUpperCase(),
+    admin_psd: md5(AppliForm.admin_psd),
     code: AppliForm.code
   }
+  console.log(params)
   setLoading(true);
   loginPlatForm(params).then(res => {
     console.log(res)
