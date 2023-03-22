@@ -3,7 +3,7 @@ let [api, code] = ["", ""];
 if (process.env.NODE_ENV == "development") {
   // 开发环境
   api = "/api";
-  api = "/code";
+  code = "/code";
 } else if (process.env.VUE_APP_PATH_ENV == "production") {
   // 现网环境
   api = "http://127.0.0.1:3000/api";
