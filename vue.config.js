@@ -39,6 +39,13 @@ module.exports = defineConfig({
         //   "^/api": "",
         // },
       },
+      "/code": {
+        target: "http://192.168.3.43:8080", // 本地代理
+        // changeOrigin: true,
+        // pathRewrite: {
+        //   "^/code": "",
+        // },
+      },
     },
   },
   // 第三方插件配置
