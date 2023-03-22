@@ -4,20 +4,20 @@
       <div class="title">
         <div class="title-wrap">
           <!-- <img src="@/assets/header/znlogo.jpg" alt="" class="logo"> -->
-          <span class="company">数据交易平台卖家（登录）</span>
+          <span class="company">数据交易平台后台（登录）</span>
         </div>
       </div>
       <div class="form">
         <Form :model="AppliForm" :rules="loginRules" ref="formRef">
-          <FormItem prop="username">
-            <Input v-model="AppliForm.username" type="text" auto-complete="off" placeholder="账号">
+          <FormItem prop="admin_name">
+            <Input v-model="AppliForm.admin_name" type="text" auto-complete="off" placeholder="账号">
               <template #prefix>
                 <Icon type="ios-person-outline" />
               </template>
             </Input>
           </FormItem>
-          <FormItem prop="password">
-            <Input v-model="AppliForm.password" type="password" password auto-complete="off" placeholder="密码" @keyup.enter.native="loginUp">
+          <FormItem prop="admin_psd">
+            <Input v-model="AppliForm.admin_psd" type="password" password auto-complete="off" placeholder="密码" @keyup.enter.native="loginUp">
               <template #prefix>
                 <Icon type="ios-lock-outline" />
               </template>
@@ -40,15 +40,10 @@
             </Row>
           </FormItem>
           <Row :gutter="20">
-            <Col span="12">
+            <Col span="24">
               <Button :loading="loading" size="medium" type="primary" style="width:100%;" @click.native.prevent="loginUp">
                 <span v-if="!loading">登 录</span>
                 <span v-else>登 录 中...</span>
-              </Button>
-            </Col>
-            <Col span="12">
-              <Button size="medium" type="warning" style="width:100%;" @click.native.prevent="registerFunc">
-                去注册
               </Button>
             </Col>
           </Row>
@@ -59,20 +54,21 @@
 </template>
 
 <script setup>
-import { loginUser } from '@/api/index';
-import { useForm, useState, useRouter} from "@/hook/index.js";
+import { loginPlatForm, loginCode } from '@/api/index';
+import { useForm, useState, useRouter, useEffect} from "@/hook/index.js";
 import { Message } from "view-ui-plus";
+import crypto from "crypto";
 
 const loginRules = {
-  username: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
-  password: [{ required: true, trigger: 'blur', message: '密码不能为空' }],
+  admin_name: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
+  admin_psd: [{ required: true, trigger: 'blur', message: '密码不能为空' }],
   code: [{ required: true, trigger: 'blur', message: '验证码不能为空' }]
 }
 
 // 表单
 const form = {
-  username: "",
-  password: "",
+  admin_name: "",
+  admin_psd: "",
   code: ""
 }
 const [ formRef, AppliForm, resetForm, validateForm ] = useForm(form);
@@ -84,42 +80,41 @@ const { router } = useRouter()
 // 验证码
 const [codeUrl, setCodeUrl] = useState("");
 const getCode = () => {
-  
+  let params = parseInt(Math.random() * 99998) + 1
+  loginCode(params).then(res => {
+    console.log(res)
+  })
 }
+useEffect(getCode, [])
 
 const loginUp = async() => {
   let boolean = await validateForm()
   if(!boolean) {
     return Message.error("请填写完整登录信息");
   }
+  let md5 = crypto.createHash("md5");
+  md5.update(AppliForm.admin_psd);
+  let passwordMd5 = md5.digest("hex");
   let params = {
-    username: AppliForm.username,
-    password: AppliForm.password,
+    admin_name: AppliForm.admin_name,
+    admin_psd: passwordMd5.toUpperCase(),
     code: AppliForm.code
   }
-  // setLoading(true);
-  // loginUser(params).then(res => {
-  //   setLoading(false);
-  //   if(res.data.code === 200) {
-  //     Message.success("登录成功")
-  //     window.sessionStorage.setItem("TOKEN", "znwy")
-  //     router.push({
-  //       path: '/admin/newsManagement'
-  //     })
-  //   }else {
-  //     Message.error(res.data.msg)
-  //   }
-  // }, err => {
-  //   setLoading(false);
-  // })
-  router.push({
-    path: '/admin/dashboard'
-  })
-}
-
-const registerFunc = () => {
-  router.push({
-    path: '/admin/register'
+  setLoading(true);
+  loginPlatForm(params).then(res => {
+    console.log(res)
+    setLoading(false);
+    if(res.data.code === 200) {
+      Message.success("登录成功")
+      window.sessionStorage.setItem("TOKEN", "znwy")
+      router.push({
+        path: '/admin/newsManagement'
+      })
+    }else {
+      Message.error(res.data.msg)
+    }
+  }, err => {
+    setLoading(false);
   })
 }
 </script>
@@ -135,7 +130,7 @@ const registerFunc = () => {
   background linear-gradient(rgba(51, 51, 51, 1) 50%, rgba(239, 239, 239, 1) 50%)
   .main
     position absolute
-    width 562px
+    width 540px
     height 374px
     margin auto
     top 0

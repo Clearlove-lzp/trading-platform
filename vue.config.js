@@ -33,11 +33,11 @@ module.exports = defineConfig({
     port: 8080,
     proxy: {
       "/api": {
-        target: "http://127.0.0.1:3000", // 本地代理
-        changeOrigin: true,
-        pathRewrite: {
-          "^/api": "",
-        },
+        target: "http://192.168.3.43:8080", // 本地代理
+        // changeOrigin: true,
+        // pathRewrite: {
+        //   "^/api": "",
+        // },
       },
     },
   },

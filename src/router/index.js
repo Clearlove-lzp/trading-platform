@@ -40,13 +40,21 @@ const routes = [
   },
   {
     path: "/admin/login",
-    name: "后台登录",
+    name: "卖家登录",
     component: () =>
       import(/* webpackChunkName: "admin/login" */ "../views/admin/Login.vue"),
   },
   {
+    path: "/admin/SystemLogin",
+    name: "平台登录",
+    component: () =>
+      import(
+        /* webpackChunkName: "admin/systemLogin" */ "../views/admin/SystemLogin.vue"
+      ),
+  },
+  {
     path: "/admin/register",
-    name: "后台注册",
+    name: "卖家注册",
     component: () =>
       import(
         /* webpackChunkName: "admin/Register" */ "../views/admin/Register.vue"
