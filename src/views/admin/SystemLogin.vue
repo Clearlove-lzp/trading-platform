@@ -81,11 +81,10 @@ const { router } = useRouter()
 const [codeUrl, setCodeUrl] = useState("");
 const getCode = () => {
   let params = parseInt(Math.random() * 89999) + 10000
-  loginCode(params).then(res => {
-    console.log(res)
-  })
+  setCodeUrl(loginCode + params)
 }
 useEffect(getCode, [])
+
 
 const loginUp = async() => {
   let boolean = await validateForm()
@@ -94,7 +93,8 @@ const loginUp = async() => {
   }
   let params = {
     admin_name: AppliForm.admin_name,
-    admin_psd: md5(AppliForm.admin_psd),
+    admin_psd: AppliForm.admin_psd,
+    // admin_psd: md5(AppliForm.admin_psd),
     code: AppliForm.code
   }
   console.log(params)
@@ -102,14 +102,15 @@ const loginUp = async() => {
   loginPlatForm(params).then(res => {
     console.log(res)
     setLoading(false);
-    if(res.data.code === 200) {
+    if(res.data.code === 1) {
       Message.success("登录成功")
-      window.sessionStorage.setItem("TOKEN", "znwy")
+      window.localStorage.setItem("TOKEN", res.data.token)
       router.push({
-        path: '/admin/newsManagement'
+        path: '/admin/dashboard'
       })
     }else {
       Message.error(res.data.msg)
+      getCode();
     }
   }, err => {
     setLoading(false);

@@ -26,13 +26,4 @@ export function loginPlatForm(data) {
 }
 
 // 获取验证码
-export function loginCode(data) {
-  return axios.get(code + `/getCode/` + data).then(
-    (res) => {
-      return Promise.resolve(res);
-    },
-    (err) => {
-      return Promise.reject(err);
-    }
-  );
-}
+export const loginCode = code + `/getCode/`

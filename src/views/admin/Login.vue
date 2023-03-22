@@ -104,7 +104,7 @@ const loginUp = async() => {
   //     Message.success("登录成功")
   //     window.sessionStorage.setItem("TOKEN", "znwy")
   //     router.push({
-  //       path: '/admin/newsManagement'
+  //       path: '/admin/dashboard'
   //     })
   //   }else {
   //     Message.error(res.data.msg)
