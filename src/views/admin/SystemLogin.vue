@@ -93,8 +93,8 @@ const loginUp = async() => {
   }
   let params = {
     admin_name: AppliForm.admin_name,
-    admin_psd: AppliForm.admin_psd,
-    // admin_psd: md5(AppliForm.admin_psd),
+    // admin_psd: AppliForm.admin_psd,
+    admin_psd: md5(AppliForm.admin_psd),
     code: AppliForm.code
   }
   console.log(params)
