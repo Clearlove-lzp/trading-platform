@@ -9,15 +9,15 @@
       </div>
       <div class="form">
         <Form :model="AppliForm" :rules="loginRules" ref="formRef">
-          <FormItem prop="username">
-            <Input v-model="AppliForm.username" type="text" auto-complete="off" placeholder="账号">
+          <FormItem prop="seller_name">
+            <Input v-model="AppliForm.seller_name" type="text" auto-complete="off" placeholder="账号">
               <template #prefix>
                 <Icon type="ios-person-outline" />
               </template>
             </Input>
           </FormItem>
-          <FormItem prop="password">
-            <Input v-model="AppliForm.password" type="password" password auto-complete="off" placeholder="密码" @keyup.enter.native="loginUp">
+          <FormItem prop="seller_psd">
+            <Input v-model="AppliForm.seller_psd" type="password" password auto-complete="off" placeholder="密码" @keyup.enter.native="loginUp">
               <template #prefix>
                 <Icon type="ios-lock-outline" />
               </template>
@@ -59,20 +59,21 @@
 </template>
 
 <script setup>
-import { loginUser } from '@/api/index';
-import { useForm, useState, useRouter} from "@/hook/index.js";
+import { loginSeller, loginCode } from '@/api/index';
+import { useForm, useState, useRouter, useEffect} from "@/hook/index.js";
 import { Message } from "view-ui-plus";
+import md5 from 'js-md5'
 
 const loginRules = {
-  username: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
-  password: [{ required: true, trigger: 'blur', message: '密码不能为空' }],
+  seller_name: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
+  seller_psd: [{ required: true, trigger: 'blur', message: '密码不能为空' }],
   code: [{ required: true, trigger: 'blur', message: '验证码不能为空' }]
 }
 
 // 表单
 const form = {
-  username: "",
-  password: "",
+  seller_name: "",
+  seller_psd: "",
   code: ""
 }
 const [ formRef, AppliForm, resetForm, validateForm ] = useForm(form);
@@ -81,11 +82,14 @@ const [loading, setLoading] = useState(false);
 
 const { router } = useRouter()
 
+
 // 验证码
 const [codeUrl, setCodeUrl] = useState("");
 const getCode = () => {
-  
+  let params = parseInt(Math.random() * 89999) + 10000
+  setCodeUrl(loginCode + params)
 }
+useEffect(getCode, [])
 
 const loginUp = async() => {
   let boolean = await validateForm()
@@ -93,27 +97,27 @@ const loginUp = async() => {
     return Message.error("请填写完整登录信息");
   }
   let params = {
-    username: AppliForm.username,
-    password: AppliForm.password,
+    seller_name: AppliForm.seller_name,
+    // seller_psd: md5(AppliForm.seller_psd),
+    seller_psd: AppliForm.seller_psd,
     code: AppliForm.code
   }
-  // setLoading(true);
-  // loginUser(params).then(res => {
-  //   setLoading(false);
-  //   if(res.data.code === 200) {
-  //     Message.success("登录成功")
-  //     window.sessionStorage.setItem("TOKEN", "znwy")
-  //     router.push({
-  //       path: '/admin/dashboard'
-  //     })
-  //   }else {
-  //     Message.error(res.data.msg)
-  //   }
-  // }, err => {
-  //   setLoading(false);
-  // })
-  router.push({
-    path: '/admin/dashboard'
+
+  setLoading(true);
+  loginSeller(params).then(res => {
+    setLoading(false);
+    if(res.data.code === 1) {
+      Message.success("登录成功")
+      window.localStorage.setItem("TOKEN", res.data.data.token)
+      router.push({
+        path: '/admin/dashboard'
+      })
+    }else {
+      Message.error(res.data.msg);
+      getCode();
+    }
+  }, err => {
+    setLoading(false);
   })
 }
 

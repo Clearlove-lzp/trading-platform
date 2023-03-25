@@ -24,7 +24,7 @@ axios.interceptors.request.use(
     // config.url = encodeURIComponent(config.url);
     // console.log('222222wwwwwww', config.url);
     // 让每个请求携带token--['token']为自定义key
-    let token = localStorage.getItem("token");
+    let token = localStorage.getItem("TOKEN");
     Object.assign(config.headers, {
       token: token,
     });

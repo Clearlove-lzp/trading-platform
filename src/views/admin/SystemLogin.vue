@@ -97,14 +97,12 @@ const loginUp = async() => {
     admin_psd: md5(AppliForm.admin_psd),
     code: AppliForm.code
   }
-  console.log(params)
   setLoading(true);
   loginPlatForm(params).then(res => {
-    console.log(res)
     setLoading(false);
     if(res.data.code === 1) {
       Message.success("登录成功")
-      window.localStorage.setItem("TOKEN", res.data.token)
+      window.localStorage.setItem("TOKEN", res.data.data.token)
       router.push({
         path: '/admin/dashboard'
       })

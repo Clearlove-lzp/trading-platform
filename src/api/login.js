@@ -13,6 +13,19 @@ export function loginUser(data) {
   );
 }
 
+// 卖家登录
+export function loginSeller(data) {
+  return axios.post(api + `/seller/login`, data).then(
+    (res) => {
+      return Promise.resolve(res);
+    },
+    (err) => {
+      return Promise.reject(err);
+    }
+  );
+}
+
+
 // 平台登录
 export function loginPlatForm(data) {
   return axios.post(api + `/admin/login`, data).then(

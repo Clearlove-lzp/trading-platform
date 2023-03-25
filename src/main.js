@@ -9,6 +9,12 @@ import VueLazyLoad from "vue-lazyload";
 
 const app = createApp(App);
 
+// router钩子函数
+router.beforeEach((to, from, next) => {
+  console.log(to);
+  next();
+})
+
 app
   .use(store)
   .use(router)
