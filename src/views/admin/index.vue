@@ -37,6 +37,7 @@ import LayOutB from "@/components/layout/LayOutB";
 import ThemeConfig from "@/components/ThemeConfig.vue";
 import { loginGetUser } from "@/api/index";
 import { mapMutations } from "vuex";
+import {sellerMenu, adminMenu} from "./menu.js"
 
 export default {
   components: {
@@ -149,6 +150,13 @@ export default {
           this.$router.push("/admin/login");
           }
       })
+    },
+    ckeckMenu() {
+      if(window.localStorage.getItem("role") === "admin") {
+        this.routes = adminMenu;
+      }else{
+        this.routes = sellerMenu;
+      }
     }
   },
   watch: {},
@@ -156,6 +164,7 @@ export default {
     this.localStorageDate();
   },
   created() {
+    this.ckeckMenu()
     this.checkLoyOut();
     this.loginUser()
   },

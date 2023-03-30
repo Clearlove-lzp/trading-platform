@@ -11,8 +11,12 @@ const app = createApp(App);
 
 // router钩子函数
 router.beforeEach((to, from, next) => {
-  console.log(to);
-  next();
+  if(to.path === "/admin/login" || to.path === "/admin/SystemLogin" 
+    || to.path === "/login" || to.path === "/admin/register" | to.path === "/register" ) {
+    next()
+  }else{
+    next();
+  }
 })
 
 app
