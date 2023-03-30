@@ -102,13 +102,12 @@ const loginUp = async() => {
     seller_psd: AppliForm.seller_psd,
     code: AppliForm.code
   }
-
   setLoading(true);
   loginSeller(params).then(res => {
     setLoading(false);
     if(res.data.code === 1) {
       Message.success("登录成功")
-      window.localStorage.setItem("TOKEN", res.data.data.token)
+      window.localStorage.setItem("role", "seller");
       router.push({
         path: '/admin/dashboard'
       })

@@ -102,7 +102,7 @@ const loginUp = async() => {
     setLoading(false);
     if(res.data.code === 1) {
       Message.success("登录成功")
-      window.localStorage.setItem("TOKEN", res.data.data.token)
+      window.localStorage.setItem("role", "admin");
       router.push({
         path: '/admin/dashboard'
       })

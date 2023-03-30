@@ -3,7 +3,7 @@
   <div class="UserHead" :style="styleSheet">
     <Dropdown trigger="click" placement="bottom-start" @on-click="handleClickUserDropdown">
       <div class="name" title="点击退出">
-        <span class="sp1">欢迎您, {{userName ? userName : '游客'}}</span>
+        <span class="sp1">欢迎您, {{getUserInfo.admin_name ? getUserInfo.admin_name : getUserInfo.seller_name ? getUserInfo.seller_name : '游客'}}</span>
       </div>
       <template #list>
         <DropdownMenu>
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   props: {
     styleSheet: {
@@ -34,25 +35,24 @@ export default {
   },
   data() {
     return {
-      userName: ''
     };
   },
   components: {
     
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      getUserInfo: state => state.user.userInfo
+    })
+  },
   methods: {
     handleClickUserDropdown(name) {
       if (name === "ownSpace") {
-        // util.openNewPage(this, 'ownspace_index');
-        this.$router.push("");
       } else if (name === "loginout") {
         // 退出登录
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("userName");
-        localStorage.removeItem("roleList");
-        localStorage.setItem("isLogin", false);
+        if(this.getUserInfo.admin_id) {
+          return this.$router.push("/admin/SystemLogin");
+        }
         this.$router.push("/admin/login");
       } else if (name === "passWordChange") {
       } else if (name === "message") {

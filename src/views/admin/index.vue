@@ -35,6 +35,8 @@
 import LayOutA from "@/components/layout/LayOutA";
 import LayOutB from "@/components/layout/LayOutB";
 import ThemeConfig from "@/components/ThemeConfig.vue";
+import { loginGetUser } from "@/api/index";
+import { mapMutations } from "vuex";
 
 export default {
   components: {
@@ -133,6 +135,20 @@ export default {
       this.newRoute = newRoute.path;
       let str = newRoute.path.split("/")[1];
       this.newRouteA = [`/${str}`];
+    },
+    ...mapMutations("user", ["setUserInfo"]),
+    loginUser() {
+      loginGetUser().then(res => {
+        if(res.data.code === 1) {
+          this.setUserInfo(res.data.data);
+        }else {
+          this.$Message.error(res.data.msg);
+          if(window.localStorage.getItem("role") === "admin") {
+            return this.$router.push("/admin/SystemLogin");
+          }
+          this.$router.push("/admin/login");
+          }
+      })
     }
   },
   watch: {},
@@ -141,6 +157,7 @@ export default {
   },
   created() {
     this.checkLoyOut();
+    this.loginUser()
   },
   updated() {}
 };

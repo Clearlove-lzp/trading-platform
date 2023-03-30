@@ -40,3 +40,16 @@ export function loginPlatForm(data) {
 
 // 获取验证码
 export const loginCode = code + `/getCode/`
+
+
+// 获取卖家和平台信息
+export function loginGetUser() {
+  return axios.get(api + `/data/getUser`).then(
+    (res) => {
+      return Promise.resolve(res);
+    },
+    (err) => {
+      return Promise.reject(err);
+    }
+  );
+}
