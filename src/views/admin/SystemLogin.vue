@@ -41,7 +41,7 @@
           </FormItem>
           <Row :gutter="20">
             <Col span="24">
-              <Button :loading="loading" size="medium" type="primary" style="width:100%;" @click.native.prevent="loginUp">
+              <Button :loading="loading" size="small" type="primary" style="width:100%;" @click.native.prevent="loginUp">
                 <span v-if="!loading">登 录</span>
                 <span v-else>登 录 中...</span>
               </Button>

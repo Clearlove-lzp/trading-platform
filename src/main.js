@@ -7,6 +7,9 @@ import ViewUIPlus from "view-ui-plus";
 
 import VueLazyLoad from "vue-lazyload";
 
+import 'viewerjs/dist/viewer.css'
+import VueViewer from 'v-viewer'
+
 const app = createApp(App);
 
 // router钩子函数
@@ -26,4 +29,13 @@ app
   .use(VueLazyLoad, {
     loading: require("./assets/imgs/loading-svg/loading-bars.svg"),
   })
+  .use(VueViewer)
+  // .use(VueViewer, {
+  //   defaultOptions: {
+  //     zIndex: 9999,
+  //     title: (image, imageData) => {
+  //       return `(${imageData.naturalWidth} × ${imageData.naturalHeight})`;
+  //     }
+  //   }
+  // })
   .mount("#app");

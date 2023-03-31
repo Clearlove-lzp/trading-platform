@@ -60,13 +60,13 @@
           </FormItem>
           <Row :gutter="20">
             <Col span="12">
-              <Button :loading="loading" size="medium" type="primary" style="width:100%;" @click.native.prevent="registerFunc">
+              <Button :loading="loading" size="small" type="primary" style="width:100%;" @click.native.prevent="registerFunc">
                 <span v-if="!loading">注 册</span>
                 <span v-else>注 册 中...</span>
               </Button>
             </Col>
             <Col span="12">
-              <Button size="medium" type="warning" style="width:100%;" @click.native.prevent="loginUp">
+              <Button size="small" type="warning" style="width:100%;" @click.native.prevent="loginUp">
                 去登录
               </Button>
             </Col>

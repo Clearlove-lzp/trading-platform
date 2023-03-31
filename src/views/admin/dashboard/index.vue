@@ -32,6 +32,9 @@ const [
 ] = useEcharts();
 
 const fontSize = (res, dom) => {
+  if (!dom.value) {
+    return 12
+  }
   let clientWidth = dom.value.clientWidth || window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
       if (!clientWidth) return;
       let fontSize = 100 * (clientWidth / 1920);

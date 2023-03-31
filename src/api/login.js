@@ -65,15 +65,3 @@ export function sellerRegister(data) {
     }
   );
 }
-
-// 查询数据集
-export function datasetGet() {
-  return axios.get(agencyStr + `/api/data/dataset/get`).then(
-    (res) => {
-      return Promise.resolve(res);
-    },
-    (err) => {
-      return Promise.reject(err);
-    }
-  );
-}

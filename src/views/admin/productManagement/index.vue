@@ -22,14 +22,18 @@
       <!-- 表格数据 -->
       <div class="cdp-table">
         <i-table border :loading="loading" size="small" stripe :columns="columns" :data="datalist">
-          <template #proPic="{ row, index }">
-            <img :src="row.proPic" alt="" style="width: 100%;">
+          <template #data_pic_path="{ row, index }">
+            <img v-lazy="row.data_pic_path" alt="" style="width: 100%;">
           </template>
-          <template #status="{ row, index }">
-            <i-switch v-model="row.status" true-value="是"
-              @on-change="(value) => {switchChange(value, row)}" false-value="否" true-color="#13ce66" false-color="#ff4949">
-              <span slot="open">上架</span>
-              <span slot="close">下架</span>
+          <template #data_status="{ row, index }">
+            <i-switch v-model="row.data_status" :true-value="true"
+              @on-change="(value) => {switchChange(value, row)}" :false-value="false" true-color="#13ce66" false-color="#ff4949">
+              <template #open>
+                <span>是</span>
+              </template>
+              <template #close>
+                <span>否</span>
+              </template>
             </i-switch>
           </template>
           <template #action="{ row, index }">
@@ -63,18 +67,21 @@ import { usePage, useTable, useForm, useUserInfo, useEffect, useState, useModal 
 import addForm from './addForm.vue'
 import { datasetGet, cutoverLevelLimitDel, cutoverLevelLimitEnabled, cutoverLevelLimitDisabled } from '@/api/index';
 import { Message } from "view-ui-plus";
+import { agencyStr } from "@/axiosConfig/enviromentConfig.js"
 
   const columns = [
     {
       title: "序号",
       type: "index",
-      align: 'center'
+      align: 'center',
+      width: 80,
     },
     {
       title: "商品图片",
-      key: "proPic",
-      slot: "proPic",
-      align: 'center'
+      key: "data_pic_path",
+      slot: "data_pic_path",
+      align: 'center',
+      width: 150,
     },
     {
       title: "商品名称",
@@ -83,19 +90,19 @@ import { Message } from "view-ui-plus";
     },
     {
       title: "商品描述",
-      key: "desc",
+      key: "data_intro",
       align: 'center'
     },
     {
       title: "价格",
-      key: "price",
+      key: "data_per_price",
       align: 'center'
     },
     {
       title: "商品状态",
       width: 100,
-      key: "status",
-      slot: "status",
+      key: "data_status",
+      slot: "data_status",
       align: 'center'
     },
     {
@@ -118,21 +125,16 @@ import { Message } from "view-ui-plus";
   const { datalist, setDatalist, loading, setLoading } = useTable()
   const query = () => {
     let params = `?page=${pages.current}&count=${pages.limit}&data_name${AppliForm.data_name}`
-    // setDatalist([
-    //   {
-    //     proPic: require("@/assets/logo.png"),
-    //     data_name: "数智校对（政府集约化平台插件）",
-    //     desc: "数智校对（贵州省政府网站集约化平台）面向党政网站发稿中的书写错误，依据媒体，出版等领域规范和业务标准，利用自然语言理解、文本挖掘和机器学习等技术，对文本开展深度语义分析，实现文本书写中字词语法、政治类、禁用词、敏感词等错误的自动识别，并依据识别结果提出修正建议。该服务为各行业的写稿辅助、内容审阅等实际行业场景提供支撑，全面提升文稿的内容质量。",
-    //     price: "12000.00",
-    //     status: "是",
-    //   }
-    // ])
     setLoading(true)
     datasetGet(params).then(res => {
       setLoading(false);
-      if(res.data.code === 200) {
-        setDatalist(res.data.result.records);
-        pages.total = res.data.result.total;
+      if (res.data.code === 1) {
+        let arr = res.data.data.data.map(x => {
+          x.data_pic_path = agencyStr + "/file" + x.data_pic;
+          return x;
+        })
+        setDatalist(arr);
+        pages.total = res.data.data.page.total_page;
       }
     })
   }

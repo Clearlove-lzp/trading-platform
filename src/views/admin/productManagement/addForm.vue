@@ -89,20 +89,38 @@
         </FormItem>
         <FormItem label="是否上架" prop="data_status">
           <i-switch v-model="AppliForm.data_status" :true-value="true" :false-value="false" true-color="#13ce66" false-color="#ff4949">
-            <span slot="open">上架</span>
-            <span slot="close">下架</span>
+            <template #open>
+              <span>是</span>
+            </template>
+            <template #close>
+              <span>否</span>
+            </template>
           </i-switch>
         </FormItem>
         <FormItem label="数据图片" prop="data_pic">
+          <Input class="cdp-input" v-model="AppliForm.data_pic" style="display: none;"></Input>
+          <div class="demo-upload-list" v-for="(item, index) in defaultList" :key="index">
+            <img v-lazy="item.url" v-show="item.url" :alt="item.name">
+            <div class="demo-upload-list-cover">
+              <Icon type="ios-eye-outline" title="查看图片" @click.native="handleView(index)"></Icon>
+              <Icon type="ios-trash-outline" title="删除图片" @click.native="handleRemove(index)"></Icon>
+            </div>
+          </div>
           <Upload ref="uploadRef" :data="{type: 'dataFace'}" :action="uploadAction"
+            v-if="!defaultList.length"
+            :show-upload-list="false"
             :format="['jpg', 'jpeg', 'png']"
             accept=".jpg,.jpeg,.png"
             :max-size="10240"
             :on-success="handleSucFunc" :on-error="handleErrFunc"
             :on-format-error="handleFormatError"
             :on-exceeded-size="handleMaxSize"
-            :on-remove="handleRemove" :default-file-list="defaultList">
-            <Button icon="ios-cloud-upload-outline">点击上传</Button>
+            :default-file-list="defaultList"
+            type="drag"
+            style="display: inline-block;width:78px;">
+            <div style="width: 78px;height:78px;line-height: 78px;">
+              <Icon type="ios-camera" size="20"></Icon>
+            </div>
           </Upload>
         </FormItem>
       </Form>
@@ -117,9 +135,9 @@
 </template>
 
 <script setup>
-import { useForm, useState, useUserInfo, useUpload } from '@/hook/index'
+import { useForm, useState, useUserInfo, useUpload, useViewer } from '@/hook/index'
 import { Message } from "view-ui-plus";
-import { toRef, computed } from "vue";
+import { toRef, watch } from "vue";
 import { datasetUpdate, uploadFile } from '@/api/index';
 import moment from 'moment';
 
@@ -159,6 +177,9 @@ const ruleValidate = {
   ],
   data_status: [
     { required: true, message: '是否上架不能为空'}
+  ],
+  data_pic: [
+    { required: true, message: '数据图片不能为空' }
   ]
 }
 
@@ -176,12 +197,12 @@ const emit = defineEmits(['closeModal', 'updateList']);
 
 const modalVisible = toRef(props, 'visible');
 const { userInfo } = useUserInfo()
-const { uploadRef, uploadAction, defaultList, handleSucFunc, handleErrFunc, handleRemove,
+const { uploadRef, uploadAction, defaultList, setDefaultlist, handleSucFunc, handleErrFunc,
   handleFormatError, handleMaxSize } = useUpload(uploadFile);
 
 // 表单
 const form = {
-  id: "",
+  data_id: "",
   data_name: "",
   data_intro: "",
   data_use: "",
@@ -193,13 +214,28 @@ const form = {
   attr_num: 0,
   quality: "",
   data_per_price: 0,
-  data_status: "是",
-  createUserId: "",
-  createuserName: ""
+  data_status: true,
+  data_pic: ""
 }
-const [ formRef, AppliForm, resetForm, validateForm ] = useForm(form)
+const [formRef, AppliForm, resetForm, validateForm, validateFieldForm] = useForm(form)
+
+const handleRemove = (index) => {
+  defaultList.value.splice(index, 1);
+}
+
+const { viewerApi } = useViewer()
+const handleView = (index) => {
+  viewerApi({
+    options: {
+      initialViewIndex: index,
+      url: 'url',
+    },
+    images: defaultList.value
+  })
+}
 
 const modalCancel = () => { // 点击取消
+  setDefaultlist([]);
   resetForm(true);
   emit('closeModal')
 }
@@ -222,10 +258,8 @@ const modalOK = async() => { //点击确定
     attr_num: AppliForm.attr_num,
     quality: AppliForm.quality,
     data_per_price: AppliForm.data_per_price,
-    id: AppliForm.id,
-    createUserId: AppliForm.createUserId,
-    createuserName: AppliForm.createuserName,
-    data_pic: defaultList.value.map(x => x.filePath).join(",")
+    data_id: AppliForm.data_id,
+    data_pic: AppliForm.data_pic
   }
   setLoading(true);
   datasetUpdate(params).then(res => {
@@ -242,9 +276,22 @@ const modalOK = async() => { //点击确定
   })
 }
 
+watch(defaultList, (newValue, oldValue) => {
+  if (newValue && newValue.length) {
+    AppliForm.data_pic = newValue
+      .map(x => x.filePath)
+      .join(",");
+  } else {
+    AppliForm.data_pic = "";
+  }
+  // validateFieldForm("data_pic");
+}, {
+  deep: true
+})
+
 const visibleChange = (value) => {
   if(value) {   // 打开模态框执行
-    AppliForm.id = props.detailInfo.id ? props.detailInfo.id : "";
+    AppliForm.data_id = props.detailInfo.data_id ? props.detailInfo.data_id : "";
     AppliForm.data_name = props.detailInfo.data_name ? props.detailInfo.data_name : "";
     AppliForm.data_intro = props.detailInfo.data_intro ? props.detailInfo.data_intro : "";
     AppliForm.data_use = props.detailInfo.data_use ? props.detailInfo.data_use : "";
@@ -255,11 +302,16 @@ const visibleChange = (value) => {
     AppliForm.text_avg_len = props.detailInfo.text_avg_len ? props.detailInfo.text_avg_len : 0;
     AppliForm.attr_num = props.detailInfo.attr_num ? props.detailInfo.attr_num : 0;
     AppliForm.quality = props.detailInfo.quality ? props.detailInfo.quality : "";
-    AppliForm.quality = props.detailInfo.quality ? props.detailInfo.quality : "";
     AppliForm.data_per_price = props.detailInfo.data_per_price ? props.detailInfo.data_per_price : 0;
     AppliForm.data_status = props.detailInfo.data_status ? props.detailInfo.data_status : true;
-    // AppliForm.createUserId = props.detailInfo.createUserId ? props.detailInfo.createUserId : userInfo.userId;
-    // AppliForm.createuserName = props.detailInfo.createuserName ? props.detailInfo.createuserName : userInfo.userName;
+    AppliForm.data_pic = props.detailInfo.data_pic ? props.detailInfo.data_pic : "";
+    if (props.detailInfo.data_pic) {
+      defaultList.value.push({
+        name: "image",
+        url: props.detailInfo.data_pic_path,
+        filePath: props.detailInfo.data_pic
+      })
+    }
   }
 }
 </script>
@@ -287,5 +339,43 @@ const visibleChange = (value) => {
 
 .cdp-input{
   width: 100%;
+}
+
+
+.demo-upload-list{
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  text-align: center;
+  line-height: 80px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+  position: relative;
+  box-shadow: 0 1px 1px rgba(0,0,0,.2);
+  margin-right: 4px;
+}
+.demo-upload-list img{
+  width: 100%;
+  height: 100%;
+}
+.demo-upload-list-cover{
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,.6);
+}
+.demo-upload-list:hover .demo-upload-list-cover{
+  display: block;
+}
+.demo-upload-list-cover i{
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  margin: 0 2px;
 }
 </style>

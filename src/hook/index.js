@@ -138,10 +138,10 @@ export const useForm = (form) => {
   return [formRef, AppliForm, resetForm, validateForm, validateFieldForm];
 };
 
+import { agencyStr } from "@/axiosConfig/enviromentConfig.js"
 export const useUpload = (url) => {
   // 上传控件
   const uploadRef = ref(null);
-  const token = window.localStorage.getItem("token");
   const uploadAction = url;
   const [defaultList, setDefaultlist] = useState([]);
   const showUploadBtn = ref(true);
@@ -158,7 +158,7 @@ export const useUpload = (url) => {
     if (res.code === 1) {
       defaultList.value.push({
         name: getFile.name,
-        url: uploadAction,
+        url: agencyStr + "/file" + res.data.path,
         filePath: res.data.path,
       });
       Message.success(res.msg);
@@ -196,7 +196,6 @@ export const useUpload = (url) => {
   };
   return {
     uploadRef,
-    token,
     uploadAction,
     defaultList,
     setDefaultlist,
@@ -451,6 +450,18 @@ export const useRefs = () => {
   const refs = vm.proxy.$refs;
   return {
     refs,
+  };
+};
+
+export const useViewer = () => {
+  // 获取viewerApi
+  const vm = getCurrentInstance();
+  if (!vm) {
+    throw new Error("必须在setup()方法里使用!!");
+  }
+  const viewerApi = vm.proxy.$viewerApi;
+  return {
+    viewerApi,
   };
 };
 

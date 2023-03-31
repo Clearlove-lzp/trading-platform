@@ -148,7 +148,7 @@ export default {
             return this.$router.push("/admin/SystemLogin");
           }
           this.$router.push("/admin/login");
-          }
+        }
       })
     },
     ckeckMenu() {

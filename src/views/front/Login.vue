@@ -32,11 +32,11 @@
         记住我
       </Checkbox>
       <div class="button-container">
-        <Button :loading="loading" size="medium" type="primary" style="width:30%;margin-right: 20px" @click.native.prevent="handleLogin">
+        <Button :loading="loading" size="small" type="primary" style="width:30%;margin-right: 20px" @click.native.prevent="handleLogin">
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </Button>
-        <Button size="medium" type="warning" style="width:30%;" @click.native.prevent="handleRegister">去注册</Button>
+        <Button size="small" type="warning" style="width:30%;" @click.native.prevent="handleRegister">去注册</Button>
       </div>
     </Form>
   </div>
