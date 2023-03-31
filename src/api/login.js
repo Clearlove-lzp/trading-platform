@@ -1,9 +1,9 @@
 import axios from "axios";
-import { api, code } from "@/axiosConfig/enviromentConfig.js";
+import { agencyStr } from "@/axiosConfig/enviromentConfig.js";
 
 // 用户登录
 export function loginUser(data) {
-  return axios.post(api + `/user/login`, data).then(
+  return axios.post(agencyStr + `/api/user/login`, data).then(
     (res) => {
       return Promise.resolve(res);
     },
@@ -15,7 +15,7 @@ export function loginUser(data) {
 
 // 卖家登录
 export function loginSeller(data) {
-  return axios.post(api + `/seller/login`, data).then(
+  return axios.post(agencyStr + `/api/seller/login`, data).then(
     (res) => {
       return Promise.resolve(res);
     },
@@ -28,7 +28,7 @@ export function loginSeller(data) {
 
 // 平台登录
 export function loginPlatForm(data) {
-  return axios.post(api + `/admin/login`, data).then(
+  return axios.post(agencyStr + `/api/admin/login`, data).then(
     (res) => {
       return Promise.resolve(res);
     },
@@ -39,12 +39,36 @@ export function loginPlatForm(data) {
 }
 
 // 获取验证码
-export const loginCode = code + `/getCode/`
+export const loginCode = agencyStr + `/code/getCode/`
 
 
 // 获取卖家和平台信息
 export function loginGetUser() {
-  return axios.get(api + `/data/getUser`).then(
+  return axios.get(agencyStr + `/api/data/getUser`).then(
+    (res) => {
+      return Promise.resolve(res);
+    },
+    (err) => {
+      return Promise.reject(err);
+    }
+  );
+}
+
+// 卖家注册
+export function sellerRegister(data) {
+  return axios.post(agencyStr + `/api/seller/register`, data).then(
+    (res) => {
+      return Promise.resolve(res);
+    },
+    (err) => {
+      return Promise.reject(err);
+    }
+  );
+}
+
+// 查询数据集
+export function datasetGet() {
+  return axios.get(agencyStr + `/api/data/dataset/get`).then(
     (res) => {
       return Promise.resolve(res);
     },
