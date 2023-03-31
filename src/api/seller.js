@@ -2,8 +2,8 @@ import axios from "axios";
 import { agencyStr } from "@/axiosConfig/enviromentConfig.js";
 
 // 商品新增
-export function datasetUpdate(params) {
-  return axios.post(agencyStr + `/api/data/dataset/update`, params).then(
+export function datasetAdd(params) {
+  return axios.post(agencyStr + `/api/data/dataset/add`, params).then(
     (res) => {
       return Promise.resolve(res);
     },
@@ -25,7 +25,7 @@ export function datasetGet(params) {
   );
 }
 
-// 商品查询
+// 商品删除
 export function datasetDelete(params) {
   return axios.post(agencyStr + `/api/data/dataset/delete`, params).then(
     (res) => {

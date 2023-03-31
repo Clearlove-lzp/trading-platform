@@ -38,23 +38,8 @@ export const adminMenu = [
     Icon: "ios-paper",
   },
   {
-    path: "/admin",
-    name: "系统管理",
+    path: "/admin/userManagement",
+    name: "用户管理",
     Icon: "ios-paper",
-    redirect: "/admin/userManagement",
-    children: [
-      {
-        path: "userManagement",
-        name: "用户管理",
-      },
-      // {
-      // 	path: "roleManagement",
-      // 	name: "角色管理"
-      // },
-      // {
-      // 	path: "menuManagement",
-      // 	name: "菜单管理"
-      // }
-    ],
   },
 ];

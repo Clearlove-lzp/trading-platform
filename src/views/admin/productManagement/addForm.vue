@@ -227,7 +227,7 @@ import {
 } from "@/hook/index";
 import { Message } from "view-ui-plus";
 import { toRef, watch } from "vue";
-import { datasetUpdate, uploadFile } from "@/api/index";
+import { datasetAdd, uploadFile } from "@/api/index";
 import moment from "moment";
 
 const ruleValidate = {
@@ -333,11 +333,12 @@ const modalOK = async () => {
     attr_num: AppliForm.attr_num,
     quality: AppliForm.quality,
     data_per_price: AppliForm.data_per_price,
+    data_status: AppliForm.data_status,
     data_id: AppliForm.data_id,
     data_pic: AppliForm.data_pic,
   };
   setLoading(true);
-  datasetUpdate(params).then(
+  datasetAdd(params).then(
     (res) => {
       setLoading(false);
       if (res.data.code === 1) {

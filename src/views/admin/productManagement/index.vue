@@ -223,11 +223,11 @@ const deleteFunc = (info) => {
     data_id: info.data_id,
   };
   datasetDelete(params).then((res) => {
-    if (res.data.code === 200) {
-      Message.success(res.data.message);
+    if (res.data.code === 1) {
+      Message.success(res.data.msg);
       queryPageFunc(query);
     } else {
-      Message.error(res.data.message);
+      Message.error(res.data.msg);
     }
   });
 };

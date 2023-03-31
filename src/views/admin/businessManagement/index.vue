@@ -24,7 +24,6 @@
                   >查询</Button
                 >
                 <Button type="primary" @click="resetForm()">重置</Button>
-                <Button type="success" @click="addFunc({})">新增</Button>
               </Space>
             </Col>
           </Row>
@@ -111,12 +110,6 @@
         </div>
       </div>
     </Card>
-    <addForm
-      :detailInfo="detailInfo"
-      :visible="addFormShow"
-      @closeModal="closeAddModal"
-      @updateList="query"
-    ></addForm>
   </div>
 </template>
 
@@ -128,10 +121,9 @@ import {
   useUserInfo,
   useEffect,
   useState,
-  useModal,
 } from "@/hook/index.js";
-import addForm from "./addForm.vue";
-// import { cutoverLevelLimitList, cutoverLevelLimitDel, cutoverLevelLimitEnabled, cutoverLevelLimitDisabled } from '@/api/index';
+import { businessGet, businessDelete } from "@/api/index";
+
 import { Message } from "view-ui-plus";
 
 const columns = [
@@ -186,7 +178,6 @@ const columns = [
 ];
 
 const form = {
-  buyer: "",
   orderId: "",
 };
 const [formRef, AppliForm, resetForm] = useForm(form);
@@ -194,59 +185,21 @@ const { userInfo } = useUserInfo();
 const { pages, queryPageFunc, queryCurrentFunc, queryLimitFunc } = usePage(); // 分页器
 const [detailInfo, setDetailInfo] = useState({});
 
-const getParams = () => {
-  let params = {
-    currentPage: pages.current,
-    pageSize: pages.limit,
-    orderId: AppliForm.orderId,
-  };
-  return params;
-};
-
 // 查询  表格数据
 const { datalist, setDatalist, loading, setLoading } = useTable();
 const query = () => {
-  let params = getParams();
-  setDatalist([
-    {
-      buyer: "买家1",
-      orderId: "mode-20230312-000000-001",
-      content1: "交易内容1",
-      amount: "100",
-      createTime: "2023-03-22 12:00:00",
-      status: 2,
-      seller: "卖家1",
-      updateTime: "2023-03-22 12:00:00",
-    },
-    {
-      buyer: "买家2",
-      orderId: "mode-20230312-000000-002",
-      content1: "交易内容2",
-      amount: "200",
-      createTime: "2023-03-22 12:00:00",
-      status: 1,
-      seller: "卖家2",
-      updateTime: "",
-    },
-  ]);
-  // setLoading(true)
-  // cutoverLevelLimitList(params).then(res => {
-  //   setLoading(false);
-  //   if(res.data.code === 200) {
-  //     setDatalist(res.data.result.records);
-  //     pages.total = res.data.result.total;
-  //   }
-  // })
+  let params = `?page=${pages.current}&count=${pages.limit}&orderId=${AppliForm.orderId}`;
+  setLoading(true);
+  businessGet(params).then((res) => {
+    setLoading(false);
+    if (res.data.code === 1) {
+      setDatalist(res.data.result.records);
+      pages.total = res.data.result.total;
+    }
+  });
 };
 
 useEffect(query, []);
-
-// 新增/编辑 模态框
-const [addFormShow, openAddModal, closeAddModal] = useModal();
-const addFunc = (info) => {
-  setDetailInfo(info);
-  openAddModal();
-};
 
 // 删除
 const deleteFunc = (info) => {
