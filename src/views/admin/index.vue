@@ -37,13 +37,13 @@ import LayOutB from "@/components/layout/LayOutB";
 import ThemeConfig from "@/components/ThemeConfig.vue";
 import { loginGetUser } from "@/api/index";
 import { mapMutations } from "vuex";
-import {sellerMenu, adminMenu} from "./menu.js"
+import { sellerMenu, adminMenu } from "./menu.js";
 
 export default {
   components: {
     LayOutA,
     LayOutB,
-    ThemeConfig
+    ThemeConfig,
   },
   data() {
     return {
@@ -52,7 +52,7 @@ export default {
         {
           path: "/admin/dashboard",
           name: "概览",
-          Icon: "md-home"
+          Icon: "md-home",
         },
         {
           path: "/admin/businessManagement",
@@ -87,22 +87,22 @@ export default {
           children: [
             {
               path: "userManagement",
-              name: "用户管理"
+              name: "用户管理",
             },
             {
               path: "roleManagement",
-              name: "角色管理"
+              name: "角色管理",
             },
             {
               path: "menuManagement",
-              name: "菜单管理"
-            }
-          ]
-        }
+              name: "菜单管理",
+            },
+          ],
+        },
       ], // 菜单路由
       newRoute: "/admin/dashboard", // 打开没有二级菜单的menuItem
       newRouteA: ["/admin/dashboard"], // 打开有二级菜单的submenu对应的menuItem
-      theme: "theme4"
+      theme: "theme4",
     };
   },
   computed: {},
@@ -139,36 +139,36 @@ export default {
     },
     ...mapMutations("user", ["setUserInfo"]),
     loginUser() {
-      loginGetUser().then(res => {
-        if(res.data.code === 1) {
+      loginGetUser().then((res) => {
+        if (res.data.code === 1) {
           this.setUserInfo(res.data.data);
-        }else {
+        } else {
           this.$Message.error(res.data.msg);
-          if(window.localStorage.getItem("role") === "admin") {
+          if (window.localStorage.getItem("role") === "admin") {
             return this.$router.push("/admin/SystemLogin");
           }
           this.$router.push("/admin/login");
         }
-      })
+      });
     },
     ckeckMenu() {
-      if(window.localStorage.getItem("role") === "admin") {
+      if (window.localStorage.getItem("role") === "admin") {
         this.routes = adminMenu;
-      }else{
+      } else {
         this.routes = sellerMenu;
       }
-    }
+    },
   },
   watch: {},
   mounted() {
     this.localStorageDate();
   },
   created() {
-    this.ckeckMenu()
+    this.ckeckMenu();
     this.checkLoyOut();
-    this.loginUser()
+    this.loginUser();
   },
-  updated() {}
+  updated() {},
 };
 </script>
 

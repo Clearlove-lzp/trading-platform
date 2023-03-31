@@ -1,28 +1,37 @@
 <!-- 展开左边栏 -->
 <template>
-  <Menu ref="sideMenuA" accordion :active-name="activeName" :open-names="openNames" theme="dark" width="auto" :class="menuitemClasses">
+  <Menu
+    ref="sideMenuA"
+    accordion
+    :active-name="activeName"
+    :open-names="openNames"
+    theme="dark"
+    width="auto"
+    :class="menuitemClasses"
+  >
     <div class="logo-con">
-      <img src="@/assets/imgs/seize_seat.jpg" key="max-logo">
+      <img src="@/assets/imgs/seize_seat.jpg" key="max-logo" />
     </div>
     <template v-for="(item, index) in routes">
       <template v-if="item.children && item.children.length > 0">
         <Submenu :name="`${item.path}`" :key="index">
           <template #title>
-            <Icon :type="item.Icon"/>
-            <span>{{item.name}}</span>
+            <Icon :type="item.Icon" />
+            <span>{{ item.name }}</span>
           </template>
           <Menu-item
             v-for="(value, i) in item.children"
             :to="`${item.path}/${value.path}`"
             :name="`${item.path}/${value.path}`"
             :key="i"
-          >{{value.name}}</Menu-item>
+            >{{ value.name }}</Menu-item
+          >
         </Submenu>
       </template>
       <template v-else>
         <Menu-item :name="`${item.path}`" :key="index" :to="item.path">
           <Icon :type="item.Icon"></Icon>
-          {{item.name}}
+          {{ item.name }}
         </Menu-item>
       </template>
     </template>
@@ -31,7 +40,7 @@
 
 <script>
 export default {
-  props: ['routes', 'activeName', 'openNames'],
+  props: ["routes", "activeName", "openNames"],
   data() {
     return {
       isCollapsed: false,
@@ -41,7 +50,7 @@ export default {
   computed: {
     menuitemClasses() {
       return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
-    }
+    },
   },
   methods: {},
   mounted() {},
@@ -49,10 +58,10 @@ export default {
   watch: {
     openNames() {
       this.$nextTick(() => {
-        this.$refs.sideMenuA.updateOpened()
-      })
-    }
-  }
+        this.$refs.sideMenuA.updateOpened();
+      });
+    },
+  },
 };
 </script>
 

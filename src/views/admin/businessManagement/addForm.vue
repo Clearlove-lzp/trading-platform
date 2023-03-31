@@ -1,9 +1,21 @@
 <template>
-  <Modal v-model="modalVisible" :title="AppliForm.id ? '编辑' : '新增'" width="900px"
-    class-name="vertical-center-modal" :mask-closable="false" @on-cancel="modalCancel"
-    @on-visible-change="visibleChange">
+  <Modal
+    v-model="modalVisible"
+    :title="AppliForm.id ? '编辑' : '新增'"
+    width="900px"
+    class-name="vertical-center-modal"
+    :mask-closable="false"
+    @on-cancel="modalCancel"
+    @on-visible-change="visibleChange"
+  >
     <div class="content">
-      <Form ref="formRef" class="cdp-form" :rules="ruleValidate" :model="AppliForm" :label-width="120">
+      <Form
+        ref="formRef"
+        class="cdp-form"
+        :rules="ruleValidate"
+        :model="AppliForm"
+        :label-width="120"
+      >
         <Row :gutter="10">
           <Col span="12">
             <FormItem label="订单编号" prop="orderId">
@@ -66,50 +78,36 @@
 </template>
 
 <script>
-import { useForm, useState, useUserInfo } from '@/hook/index'
+import { useForm, useState, useUserInfo } from "@/hook/index";
 import { Message } from "view-ui-plus";
 import { toRef, computed } from "vue";
 // import { cutoverLevelLimitAdd, cutoverLevelLimitEdit } from '@/api/index';
-import moment from 'moment';
+import moment from "moment";
 
 const ruleValidate = {
-  buyer: [
-    { required: true, message: '买方不能为空'}
-  ],
-  orderId: [
-    { required: true, message: '订单编号不能为空'}
-  ],
-  status: [
-    { required: true, message: '状态不能为空'}
-  ],
-  seller: [
-    { required: true, message: '卖方不能为空'}
-  ],
-  content1: [
-    { required: true, message: '交易内容不能为空'}
-  ],
-  amount: [
-    { required: true, message: '交易金额不能为空'}
-  ]
-}
+  buyer: [{ required: true, message: "买方不能为空" }],
+  orderId: [{ required: true, message: "订单编号不能为空" }],
+  status: [{ required: true, message: "状态不能为空" }],
+  seller: [{ required: true, message: "卖方不能为空" }],
+  content1: [{ required: true, message: "交易内容不能为空" }],
+  amount: [{ required: true, message: "交易金额不能为空" }],
+};
 
 export default {
   props: {
     detailInfo: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     visible: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
-  components: {
-  },
+  components: {},
   setup(props, { emit }) {
-
-    const modalVisible = toRef(props, 'visible');
-    const { userInfo } = useUserInfo()
+    const modalVisible = toRef(props, "visible");
+    const { userInfo } = useUserInfo();
 
     // 表单
     const form = {
@@ -121,19 +119,21 @@ export default {
       amount: "",
       status: "",
       createUserId: "",
-      createbuyer: ""
-    }
-    const [ formRef, AppliForm, resetForm, validateForm ] = useForm(form)
+      createbuyer: "",
+    };
+    const [formRef, AppliForm, resetForm, validateForm] = useForm(form);
 
-    const modalCancel = () => { // 点击取消
+    const modalCancel = () => {
+      // 点击取消
       resetForm(true);
-      emit('closeModal')
-    }
+      emit("closeModal");
+    };
 
-    const [loading, setLoading] = useState(false)
-    const modalOK = async() => { //点击确定
-      let boolean = await validateForm()
-      if(!boolean) {
+    const [loading, setLoading] = useState(false);
+    const modalOK = async () => {
+      //点击确定
+      let boolean = await validateForm();
+      if (!boolean) {
         return Message.error("请填写完整");
       }
       let params = {
@@ -145,8 +145,8 @@ export default {
         status: AppliForm.status,
         id: AppliForm.id,
         createUserId: AppliForm.createUserId,
-        createbuyer: AppliForm.createbuyer
-      }
+        createbuyer: AppliForm.createbuyer,
+      };
       // setLoading(true);
       // let func = !AppliForm.id ? cutoverLevelLimitAdd : cutoverLevelLimitEdit
       // func(params).then(res => {
@@ -163,24 +163,35 @@ export default {
       // })
 
       modalCancel();
-    }
+    };
 
     const visibleChange = (value) => {
-      if(value) {   // 打开模态框执行
+      if (value) {
+        // 打开模态框执行
         AppliForm.id = props.detailInfo.id ? props.detailInfo.id : "";
         AppliForm.buyer = props.detailInfo.buyer ? props.detailInfo.buyer : "";
-        AppliForm.orderId = props.detailInfo.orderId ? props.detailInfo.orderId : "";
-        AppliForm.seller = props.detailInfo.seller ? props.detailInfo.seller : "";
-        AppliForm.content1 = props.detailInfo.content1 ? props.detailInfo.content1 : "";
-        AppliForm.amount = props.detailInfo.amount ? props.detailInfo.amount : "";
-        
-        AppliForm.status = props.detailInfo.status ? props.detailInfo.status : "";
+        AppliForm.orderId = props.detailInfo.orderId
+          ? props.detailInfo.orderId
+          : "";
+        AppliForm.seller = props.detailInfo.seller
+          ? props.detailInfo.seller
+          : "";
+        AppliForm.content1 = props.detailInfo.content1
+          ? props.detailInfo.content1
+          : "";
+        AppliForm.amount = props.detailInfo.amount
+          ? props.detailInfo.amount
+          : "";
+
+        AppliForm.status = props.detailInfo.status
+          ? props.detailInfo.status
+          : "";
         // AppliForm.createUserId = props.detailInfo.createUserId ? props.detailInfo.createUserId : userInfo.userId;
         // AppliForm.createbuyer = props.detailInfo.createbuyer ? props.detailInfo.createbuyer : userInfo.buyer;
       }
-    }
+    };
 
-    return{
+    return {
       formRef,
       ruleValidate,
       AppliForm,
@@ -189,9 +200,9 @@ export default {
       loading,
       visibleChange,
       modalVisible,
-    }
-  }
-}
+    };
+  },
+};
 </script>
 
 <style scoped lang="less">
@@ -199,23 +210,23 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  .ivu-modal{
+  .ivu-modal {
     top: 0;
-    .ivu-modal-content{
-      .ivu-modal-header{
+    .ivu-modal-content {
+      .ivu-modal-header {
         padding: 10px;
       }
-      .ivu-modal-body{
+      .ivu-modal-body {
         padding: 10px;
       }
-      .ivu-modal-footer{
+      .ivu-modal-footer {
         padding: 10px;
       }
     }
   }
 }
 
-.cdp-input{
+.cdp-input {
   width: 100%;
 }
 </style>

@@ -47,11 +47,11 @@
         </Input>
       </FormItem>
       <div class="button-container">
-        <Button :loading="loading" size="small" type="primary" style="width:30%;margin-right: 20px" @click.native.prevent="handleRegister">
+        <Button :loading="loading" type="primary" style="width:30%;margin-right: 20px" @click.native.prevent="handleRegister">
           <span v-if="!loading">注 册</span>
           <span v-else>注 册 中...</span>
         </Button>
-        <Button size="small" type="warning" style="width:30%;" @click.native.prevent="handleLogin">去登录</Button>
+        <Button type="warning" style="width:30%;" @click.native.prevent="handleLogin">去登录</Button>
       </div>
     </Form>
   </div>

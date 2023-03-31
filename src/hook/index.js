@@ -138,7 +138,7 @@ export const useForm = (form) => {
   return [formRef, AppliForm, resetForm, validateForm, validateFieldForm];
 };
 
-import { agencyStr } from "@/axiosConfig/enviromentConfig.js"
+import { agencyStr } from "@/axiosConfig/enviromentConfig.js";
 export const useUpload = (url) => {
   // 上传控件
   const uploadRef = ref(null);
@@ -467,7 +467,7 @@ export const useViewer = () => {
 
 export const useUserInfo = () => {
   const { useVuexState } = useVuex();
-  const userInfo = useVuexState('userInfo', 'user')
+  const userInfo = useVuexState("userInfo", "user");
   // 用户基本信息
   return {
     userInfo,

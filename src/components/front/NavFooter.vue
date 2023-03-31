@@ -31,12 +31,12 @@
   </div>
 </template>
 <script>
-  export default{
-    name:'nav-footer'//home直接引用的nav-footer标签，与这个名字无关，与NavFooter.vue这个名字有关
-  }
+export default {
+  name: "nav-footer", //home直接引用的nav-footer标签，与这个名字无关，与NavFooter.vue这个名字有关
+};
 </script>
 <style lang="scss" scoped>
-@import '../../assets/scss/config.scss';
+@import "../../assets/scss/config.scss";
 * {
   padding: 0;
   margin: 0;
@@ -64,7 +64,7 @@
 }
 
 .site-topbar .sep {
-  margin: 0 .4em;
+  margin: 0 0.4em;
   color: #575656;
 }
 
@@ -152,7 +152,7 @@
 }
 
 .site-header .search:hover {
-  border: 1px solid #FF6700;
+  border: 1px solid #ff6700;
   border-bottom: none;
 }
 
@@ -175,7 +175,7 @@
 
 .site-header .header-search .search_box {
   width: 238px;
-  border: 1px solid #FF6700;
+  border: 1px solid #ff6700;
   position: absolute;
   top: 75px;
   right: 52px;
@@ -273,7 +273,7 @@
 }
 
 .footer div:hover {
-  box-shadow: 1px 3px 12px #999
+  box-shadow: 1px 3px 12px #999;
 }
 
 .footer .one {
@@ -281,7 +281,6 @@
   height: 170px;
   background: url("@/assets/imgs/图片1.png");
   background-size: cover;
-
 }
 
 .footer .two {
@@ -352,7 +351,7 @@
   box-shadow: 4px 4px 2px #999;
 }
 
-.phone .phone_right li:nth-child(-n+4) {
+.phone .phone_right li:nth-child(-n + 4) {
   margin-bottom: 14px;
 }
 
@@ -418,7 +417,7 @@
   background-size: cover;
 }
 
-.house li:nth-child(-n+4) {
+.house li:nth-child(-n + 4) {
   margin-bottom: 11px;
 }
 
@@ -526,7 +525,7 @@
   left: 0;
   top: 0;
   /* display: inline-block; */
-  content: '';
+  content: "";
   width: 58px;
   height: 58px;
   background-image: url(@/assets/imgs/sprites.png);
@@ -566,7 +565,7 @@
 
 .header-nav .order-font {
   font-size: 30px;
-  font-family: '微软雅黑';
+  font-family: "微软雅黑";
   margin-left: 30px;
 }
 

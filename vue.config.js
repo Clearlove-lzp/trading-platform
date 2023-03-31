@@ -38,7 +38,7 @@ module.exports = defineConfig({
         pathRewrite: {
           "^/agencyStr": "",
         },
-      }
+      },
     },
   },
   // 第三方插件配置

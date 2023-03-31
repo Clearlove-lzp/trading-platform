@@ -25,7 +25,6 @@ export function loginSeller(data) {
   );
 }
 
-
 // 平台登录
 export function loginPlatForm(data) {
   return axios.post(agencyStr + `/api/admin/login`, data).then(
@@ -39,8 +38,7 @@ export function loginPlatForm(data) {
 }
 
 // 获取验证码
-export const loginCode = agencyStr + `/code/getCode/`
-
+export const loginCode = agencyStr + `/code/getCode/`;
 
 // 获取卖家和平台信息
 export function loginGetUser() {

@@ -12,33 +12,32 @@ export default {
   props: {
     styleSheet: {
       type: Object,
-      default: function(){
-        return{
-          position: 'fixed',
-          width: '40px',
-          right: '160px',
-          height: '40px;',
-          top: '2px',
-          color: '#fff',
-          zIndex: 1000
-        }
-      }
-    }
+      default: function () {
+        return {
+          position: "fixed",
+          width: "40px",
+          right: "160px",
+          height: "40px;",
+          top: "2px",
+          color: "#fff",
+          zIndex: 1000,
+        };
+      },
+    },
   },
-  data () {
-    return {
-    };
+  data() {
+    return {};
   },
   components: {},
   computed: {},
   methods: {
     clickHandler() {
-      this.$emit('showDrawerFunc', true)
-    }
+      this.$emit("showDrawerFunc", true);
+    },
   },
   mounted() {},
   created() {},
-}
+};
 </script>
 
 <style scoped>

@@ -5,7 +5,7 @@
       <div class="head-v3">
         <div id="themenu" :class="theme">
           <div class="NavItem">
-            <img src="@/assets/imgs/seize_seat.jpg" class="home-class">
+            <img src="@/assets/imgs/seize_seat.jpg" class="home-class" />
             <div class="NavLine"></div>
             <h2 class="NavTitml">数据交易平台</h2>
           </div>
@@ -36,15 +36,15 @@
 <script>
 // import StyleSwitch from '../StyleSwitch'
 // import ChangeLayOut from '../ChangeLayOut'
-import ThemeIcon from '../ThemeIcon'
-import Fullscreen from '../Fullscreen'
-import UserHead from '../UserHead'
+import ThemeIcon from "../ThemeIcon";
+import Fullscreen from "../Fullscreen";
+import UserHead from "../UserHead";
 import PathLink from "@/components/PathLink";
 import TopMenuA from "@/components/topMenus/TopMenuA";
 import TagsNav from "@/components/TagsNav";
 
 export default {
-  props: ['routes', 'activeName', 'layOutType', 'openNames', 'idx', 'theme'],
+  props: ["routes", "activeName", "layOutType", "openNames", "idx", "theme"],
   data() {
     return {
       isFullscreen: false,
@@ -55,67 +55,67 @@ export default {
   methods: {
     // 添加标签
     addTag(newRoute) {
-      let lock = this.routes.some(item => {
-        if(item.children && item.children.length > 0) {
-          return item.children.some(item1 => {
-            return item1.name === newRoute.name
-          })
-        }else{
-          return item.name === newRoute.name
+      let lock = this.routes.some((item) => {
+        if (item.children && item.children.length > 0) {
+          return item.children.some((item1) => {
+            return item1.name === newRoute.name;
+          });
+        } else {
+          return item.name === newRoute.name;
         }
-      })
-      if(lock) {
+      });
+      if (lock) {
         // const { name, params, query, meta, path} = this.$route
-        this.checkRoute(this.tagNavList, newRoute)
-        if(!this.checkResult) {
-          this.tagNavList.push(newRoute)
+        this.checkRoute(this.tagNavList, newRoute);
+        if (!this.checkResult) {
+          this.tagNavList.push(newRoute);
         }
       }
     },
     // 点击标签跳转路由
     handleClick(item) {
       this.$router.push({
-        path: item.path
-      })
+        path: item.path,
+      });
     },
     // 删除标签
     handleCloseTag(data, current) {
-      this.tagNavList = data
-      if(current.name != this.$route.name) {
-        return
+      this.tagNavList = data;
+      if (current.name != this.$route.name) {
+        return;
       }
       this.$router.push({
-        path: this.tagNavList[this.tagNavList.length - 1].path
-      })
+        path: this.tagNavList[this.tagNavList.length - 1].path,
+      });
     },
     // 检查是否已有
     checkRoute(x, y) {
-      this.checkResult = x.some(item => {
-        return (item.name === y.name && item.path === y.path)
-      })
+      this.checkResult = x.some((item) => {
+        return item.name === y.name && item.path === y.path;
+      });
     },
     // 初始化标签
     initTag() {
-      const { name, params, query, meta, path} = this.$route
+      const { name, params, query, meta, path } = this.$route;
       this.tagNavList.push({
         name: "概览",
         params: {},
         query: {},
         meta: {},
         path: "/admin/dashboard",
-      })
-      this.sendChangeMenuOpen({ name, params, query, meta, path})
-      this.addTag({ name, params, query, meta, path})
+      });
+      this.sendChangeMenuOpen({ name, params, query, meta, path });
+      this.addTag({ name, params, query, meta, path });
     },
     // 点击显示主题风格设置
     showDrawerFunc(value) {
-      this.$emit('showDrawer', value)
+      this.$emit("showDrawer", value);
     },
     // 点击展开或收缩左菜单
     change(e) {
       // 增加class和去掉class
-      this.$refs.sideLeftC.classList.toggle("change")
-      this.collpase = !this.collpase
+      this.$refs.sideLeftC.classList.toggle("change");
+      this.collpase = !this.collpase;
     },
     // // 切换布局方式
     // changeLayOut(value) {
@@ -131,7 +131,7 @@ export default {
     // },
     // 请求父组件改变菜单的打开状态
     sendChangeMenuOpen(newRoute) {
-      this.$emit('changeMenuOpen', newRoute)
+      this.$emit("changeMenuOpen", newRoute);
     },
   },
   components: {
@@ -142,10 +142,10 @@ export default {
     UserHead,
     PathLink,
     TopMenuA,
-    TagsNav
+    TagsNav,
   },
   mounted() {
-    this.initTag()
+    this.initTag();
     // this.$nextTick(() => {
     //   const { name, params, query, meta, path} = this.$route
     //   // this.localStorageDate();
@@ -153,13 +153,12 @@ export default {
     // })
   },
   watch: {
-    '$route' (newRoute) {
-      this.sendChangeMenuOpen(newRoute)
-      this.addTag(newRoute)
+    $route(newRoute) {
+      this.sendChangeMenuOpen(newRoute);
+      this.addTag(newRoute);
     },
   },
-  created() {
-  }
+  created() {},
 };
 </script>
 
@@ -175,13 +174,13 @@ export default {
 
 // sass混合传参
 @mixin sideBg($color1) {
-  .side-menu{
+  .side-menu {
     :deep(.sides) {
-      .ivu-menu-item-group{
-        ul{
-          .ivu-menu-item-active{
+      .ivu-menu-item-group {
+        ul {
+          .ivu-menu-item-active {
             background: $color1;
-            &:hover{
+            &:hover {
               background: $color1;
             }
           }
@@ -196,28 +195,28 @@ export default {
   from {
     flex: 0 0 200px;
   }
-  to{
+  to {
     flex: 0 0 0px;
   }
 }
 
-@keyframes movingNone{
+@keyframes movingNone {
   from {
     opacity: 1;
     z-index: 2;
   }
-  to{
+  to {
     opacity: 0;
     z-index: 1;
   }
 }
 
-@keyframes movingBlock{
+@keyframes movingBlock {
   from {
     opacity: 0;
     z-index: 1;
   }
-  to{
+  to {
     opacity: 1;
     z-index: 2;
   }
@@ -227,7 +226,7 @@ export default {
   from {
     flex: 0 0 0px;
   }
-  to{
+  to {
     flex: 0 0 200px;
   }
 }
@@ -251,7 +250,7 @@ export default {
 }
 .navigation-up {
   height: 60px;
-  @include background(#26282e, #546697)
+  @include background(#26282e, #546697);
 }
 
 .tag-nav-wrapper {
@@ -312,16 +311,16 @@ export default {
 .cep-content {
   background-color: rgb(238, 238, 238);
   display: flex;
-  .layout-content{
+  .layout-content {
     flex: 1;
     background: #f5f7f9;
   }
-  .sideLeftC{
+  .sideLeftC {
     flex: 0 0 200px;
     background-color: #fff;
     position: relative;
     animation: movingRight 0.2s linear 0s 1 both;
-    .expand{
+    .expand {
       position: absolute;
       right: -10px;
       top: 50%;
@@ -331,7 +330,7 @@ export default {
       z-index: 2;
       animation: movingBlock 0.2s linear 0s 1 both;
     }
-    .shrink{
+    .shrink {
       position: absolute;
       right: -15px;
       top: 50%;
@@ -341,62 +340,62 @@ export default {
       z-index: 1;
       animation: movingNone 0.2s linear 0s 1 both;
     }
-    .side-menu{
-      :deep(.sides){
+    .side-menu {
+      :deep(.sides) {
         background: transparent;
-        .ivu-menu-item-group{
-          ul{
-            .ivu-menu-item{
-              &:hover{
+        .ivu-menu-item-group {
+          ul {
+            .ivu-menu-item {
+              &:hover {
                 background: transparent;
               }
             }
-            .ivu-menu-item-active{
+            .ivu-menu-item-active {
               background: transparent;
-              color: #FFF;
+              color: #fff;
             }
           }
         }
       }
     }
   }
-  .theme1{
+  .theme1 {
     background: #56324e;
-    @include sideBg(#7a4d7b)
+    @include sideBg(#7a4d7b);
   }
-  .theme2{
+  .theme2 {
     background: #00978b;
-    @include sideBg(#155d56)
-    // @include background(#00978b, #75e9df);
+    @include sideBg(#155d56) // @include background(#00978b, #75e9df);
+;
   }
-  .theme3{
+  .theme3 {
     background: #3264fb;
-    @include sideBg(#2d8cf0)
-    // @include background(#3264fb, #6ac7ff);
+    @include sideBg(#2d8cf0) // @include background(#3264fb, #6ac7ff);
+;
   }
-  .theme4{
+  .theme4 {
     background: #26282e;
-    @include sideBg(#363a47)
-    // @include background(#26282e, #546697);
+    @include sideBg(#363a47) // @include background(#26282e, #546697);
+;
   }
-  .change{
+  .change {
     animation: movingLeft 0.2s linear 0s 1 forwards;
-    .expand{
+    .expand {
       animation: movingNone 0.2s linear 0s 1 both;
     }
-    .shrink{
+    .shrink {
       animation: movingBlock 0.2s linear 0s 1 both;
     }
   }
 }
 
-.main-content{
+.main-content {
   height: calc(100vh - 100px); // sass计算属性  同 stylus
   overflow: auto;
   overflow-x: hidden;
 }
 
-.layout-content{
+.layout-content {
   width: 100%;
 }
 </style>

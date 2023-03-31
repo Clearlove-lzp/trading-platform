@@ -2,9 +2,16 @@
 <template>
   <div class="path-link">
     <Breadcrumb class="Bread-Crumb">
-      <BreadcrumbItem v-for="matched in $route.matched" :key="matched.path">{{matched.name}}</BreadcrumbItem>
+      <BreadcrumbItem v-for="matched in $route.matched" :key="matched.path">{{
+        matched.name
+      }}</BreadcrumbItem>
     </Breadcrumb>
-    <Icon @click="$router.back()" class="icon-btn" size="38" type="md-arrow-back"></Icon>
+    <Icon
+      @click="$router.back()"
+      class="icon-btn"
+      size="38"
+      type="md-arrow-back"
+    ></Icon>
   </div>
 </template>
 
@@ -17,7 +24,7 @@ export default {
   computed: {},
   methods: {},
   mounted() {},
-  created() {}
+  created() {},
 };
 </script>
 

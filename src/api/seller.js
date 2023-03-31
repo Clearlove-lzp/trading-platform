@@ -24,3 +24,15 @@ export function datasetGet(params) {
     }
   );
 }
+
+// 商品查询
+export function datasetDelete(params) {
+  return axios.post(agencyStr + `/api/data/dataset/delete`, params).then(
+    (res) => {
+      return Promise.resolve(res);
+    },
+    (err) => {
+      return Promise.reject(err);
+    }
+  );
+}

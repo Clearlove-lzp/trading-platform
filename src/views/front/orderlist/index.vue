@@ -5,7 +5,7 @@
         <div class="main-title">我的订单</div>
         <div class="header-search">
           <div class="wrapper">
-            <input type="text" name="keyword">
+            <input type="text" name="keyword" />
             <a href="javascript:;"></a>
           </div>
         </div>
@@ -22,8 +22,9 @@
         <th class="title-th">
           <Checkbox
             :model-value="productCheckAll"
-            @click.prevent="productHandleCheckAll"></Checkbox>
-            <span>全选</span>
+            @click.prevent="productHandleCheckAll"
+          ></Checkbox>
+          <span>全选</span>
         </th>
         <th class="title-th">商品</th>
         <th class="title-th">单价</th>
@@ -35,8 +36,8 @@
       </tr>
       <template v-for="(x, i) in produltList" :key="i">
         <tr>
-          <td class="order-td base-info">{{x.time}}</td>
-          <td class="order-td" colspan="7">订单号：{{x.orderNo}}</td>
+          <td class="order-td base-info">{{ x.time }}</td>
+          <td class="order-td" colspan="7">订单号：{{ x.orderNo }}</td>
         </tr>
         <tr>
           <td class="base-info">
@@ -44,18 +45,20 @@
           </td>
           <td>
             <div class="productBox">
-              <div class="producrt-img"><img :src="x.img" alt=""></div>
+              <div class="producrt-img"><img :src="x.img" alt="" /></div>
               <div class="product-info">
-                <p><a href="javascript:;">{{x.name}}</a></p>
-                <p class="tip-info">{{x.tip}}</p>
+                <p>
+                  <a href="javascript:;">{{ x.name }}</a>
+                </p>
+                <p class="tip-info">{{ x.tip }}</p>
               </div>
             </div>
           </td>
-          <td class="base-info">{{x.price}}</td>
-          <td class="base-info">{{x.count}}</td>
-          <td class="base-info">{{x.total}}</td>
-          <td class="base-info">{{x.lastTime}}</td>
-          <td class="base-info">{{x.status}}</td>
+          <td class="base-info">{{ x.price }}</td>
+          <td class="base-info">{{ x.count }}</td>
+          <td class="base-info">{{ x.total }}</td>
+          <td class="base-info">{{ x.lastTime }}</td>
+          <td class="base-info">{{ x.status }}</td>
           <td>
             <div class="order-action">
               <span>订单详情</span>
@@ -70,150 +73,152 @@
   </div>
 </template>
 <script>
-  import OrderHeader from '@/components/front/OrderHeader.vue'
-  import Loading from '@/components/front/Loading'
-  import NoData from '@/components/front/NoData'
-  import infiniteScroll from 'vue-infinite-scroll'
-  import ServiceBar from '@/components/front/ServiceBar.vue'
-  export default{
-    name:'order-list',
-    components:{
-      OrderHeader,
-      Loading,
-      NoData,
-      ServiceBar
+import OrderHeader from "@/components/front/OrderHeader.vue";
+import Loading from "@/components/front/Loading";
+import NoData from "@/components/front/NoData";
+import infiniteScroll from "vue-infinite-scroll";
+import ServiceBar from "@/components/front/ServiceBar.vue";
+export default {
+  name: "order-list",
+  components: {
+    OrderHeader,
+    Loading,
+    NoData,
+    ServiceBar,
+  },
+  data() {
+    return {
+      productCheckAll: false,
+      modeCheckAll: false,
+      produltList: [
+        {
+          time: "2022-12-1",
+          orderNo: "2560479320126",
+          ckecked: false,
+          img: require("@/assets/imgs/猫2.jpg"),
+          name: "中小企业信用评级数据",
+          tip: "按条数购买，非一次性购买",
+          price: "￥80",
+          count: 100,
+          total: 8000,
+          lastTime: "2022-12-13 22:00:12",
+          status: "未发货",
+        },
+      ],
+    };
+  },
+  mounted() {
+    this.getOrderList();
+  },
+  directives: {
+    infiniteScroll,
+  }, //设置一个infiniteScroll指令，之后就可以v-infinite-scroll进行使用了
+  methods: {
+    productHandleCheckAll() {
+      this.productCheckAll = !this.productCheckAll;
     },
-    data(){
-      return{
-        productCheckAll: false,
-        modeCheckAll: false,
-        produltList: [
-          {
-            time: "2022-12-1",
-            orderNo: "2560479320126",
-            ckecked: false,
-            img: require("@/assets/imgs/猫2.jpg"),
-            name: "中小企业信用评级数据",
-            tip: "按条数购买，非一次性购买",
-            price: "￥80",
-            count: 100,
-            total: 8000,
-            lastTime: "2022-12-13 22:00:12",
-            status: "未发货",
+    modeHandleCheckAll() {
+      this.modeCheckAll = !this.modeCheckAll;
+    },
+    getOrderList() {
+      // this.loading=true
+      // this.axios.get('/orders',{
+      //     params:{
+      //         pageSize:10,
+      //         pageNum:this.pageNum
+      //     }
+      // }).then((res)=>{
+      //     this.list =  this.list.concat(res.list);
+      //     this.loading = false;
+      //     this.total = res.total;
+      //     this.showNextPage = res.hasNextPage;
+      // })
+    },
+    goPay(orderNo) {
+      this.$router.push({
+        path: "/order/pay",
+        query: {
+          orderNo,
+        },
+      });
+    },
+    //第一种分页器方式
+    handleChange(pageNum) {
+      this.pageNum = pageNum;
+      this.getOrderList();
+    },
+    //第二种加载更多按钮方式
+    loadMore() {
+      this.pageNum++;
+      this.getOrderList();
+    },
+    //第三种滚动加载
+    scrollMore() {
+      this.busy = true;
+      setTimeout(() => {
+        this.pageNum++;
+        this.getList();
+      }, 500); //设置定时器，防止一直调用接口
+    },
+    //滚动加载专用接口调用函数
+    getList() {
+      this.loading = true;
+      this.axios
+        .get("/orders", {
+          params: {
+            pageSize: 10,
+            pageNum: this.pageNum,
+          },
+        })
+        .then((res) => {
+          this.list = this.list.concat(res.list);
+          this.loading = false;
+          if (res.hasNextPage) {
+            this.busy = false;
+          } else {
+            this.busy = true;
           }
-        ]
-      }
+        });
     },
-    mounted(){
-        this.getOrderList();
-    },
-    directives: {
-      infiniteScroll
-    },//设置一个infiniteScroll指令，之后就可以v-infinite-scroll进行使用了
-    methods:{
-      productHandleCheckAll() {
-        this.productCheckAll = !this.productCheckAll;
-      },
-      modeHandleCheckAll() {
-        this.modeCheckAll = !this.modeCheckAll;
-      },
-      getOrderList(){
-        // this.loading=true
-        // this.axios.get('/orders',{
-        //     params:{
-        //         pageSize:10,
-        //         pageNum:this.pageNum
-        //     }
-        // }).then((res)=>{
-        //     this.list =  this.list.concat(res.list);
-        //     this.loading = false;
-        //     this.total = res.total;
-        //     this.showNextPage = res.hasNextPage;
-        // })
-      },
-      goPay(orderNo){
-          this.$router.push({
-              path:'/order/pay',
-              query:{
-                  orderNo
-              }
-          })
-      },
-      //第一种分页器方式
-      handleChange(pageNum){
-          this.pageNum = pageNum;
-          this.getOrderList();
-      },
-      //第二种加载更多按钮方式
-      loadMore(){
-          this.pageNum++;
-          this.getOrderList();
-      },
-      //第三种滚动加载
-      scrollMore(){
-        this.busy = true;
-        setTimeout(()=>{
-          this.pageNum++;
-          this.getList();
-        },500);//设置定时器，防止一直调用接口
-      },
-      //滚动加载专用接口调用函数
-      getList(){
-          this.loading= true;
-          this.axios.get('/orders',{
-              params:{
-                  pageSize:10,
-                  pageNum:this.pageNum
-              }
-          }).then((res)=>{
-              this.list =  this.list.concat(res.list);
-              this.loading = false;
-              if(res.hasNextPage){
-                  this.busy=false;
-              }else{
-                  this.busy =true
-              }
-          })
-      }
-    }
-  }
+  },
+};
 </script>
 <style lang="scss">
-  @import '../../../assets/scss/config.scss';
-  @import '../../../assets/scss/mixin.scss';
-  @import "view-ui-plus/dist/styles/viewuiplus.css";
-  .order-list{
-    width: 1226px;
-    margin: 0 auto;
-  }
-  .nav-header{
-  .container{
+@import "../../../assets/scss/config.scss";
+@import "../../../assets/scss/mixin.scss";
+@import "view-ui-plus/dist/styles/viewuiplus.css";
+.order-list {
+  width: 1226px;
+  margin: 0 auto;
+}
+.nav-header {
+  .container {
     @include flex();
     position: relative;
     height: 112px;
     width: 1226px;
     margin: 0 auto;
-    .main-title{
+    .main-title {
       // font-weight: bold;
       font-size: 30px;
     }
-    .header-search{
+    .header-search {
       width: 319px;
-      .wrapper{
-        height:50px;
-        border:1px solid #E0E0E0;
-        display:flex;
-        align-items:center;
-        input{
+      .wrapper {
+        height: 50px;
+        border: 1px solid #e0e0e0;
+        display: flex;
+        align-items: center;
+        input {
           border: none;
           box-sizing: border-box;
-          border-right: 1px solid #E0E0E0;
+          border-right: 1px solid #e0e0e0;
           width: 264px;
           height: 48px;
           padding-left: 14px;
         }
-        a{
-          @include bgImg(18px,18px,'@/assets/imgs/icon-search.png');
+        a {
+          @include bgImg(18px, 18px, "@/assets/imgs/icon-search.png");
           margin-left: 17px;
         }
       }
@@ -221,12 +226,13 @@
   }
 }
 
-.table-order{
+.table-order {
   width: 100%;
   font-size: 12px;
   border-collapse: collapse;
-  font-family: PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,Helvetica Neue,Arial,sans-serif !important;
-  .title-th{
+  font-family: PingFang SC, Hiragino Sans GB, Microsoft YaHei,
+    WenQuanYi Micro Hei, Helvetica Neue, Arial, sans-serif !important;
+  .title-th {
     background-color: #dfe5f6;
     height: 40px;
   }
@@ -234,16 +240,16 @@
     background-color: #f6f7fb;
     height: 40px;
   }
-  td{
-    .productBox{
+  td {
+    .productBox {
       display: flex;
-      .producrt-img{
+      .producrt-img {
         width: 60px;
         img {
           width: 100%;
         }
       }
-      .product-info{
+      .product-info {
         padding-left: 30px;
         display: flex;
         flex-direction: column;
@@ -253,13 +259,13 @@
         }
       }
     }
-    .order-action{
+    .order-action {
       display: flex;
       flex-direction: column;
       align-items: center;
-      span{
+      span {
         cursor: pointer;
-        &:hover{
+        &:hover {
           color: skyblue;
         }
       }

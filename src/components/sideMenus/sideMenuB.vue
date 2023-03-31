@@ -2,7 +2,7 @@
 <template>
   <div class="menu-collapsed" :list="routes">
     <div class="logo-con">
-      <img src="@/assets/imgs/seize_seat.jpg" key="min-logo">
+      <img src="@/assets/imgs/seize_seat.jpg" key="min-logo" />
     </div>
     <template v-for="(item, index) in routes" :key="index">
       <Dropdown
@@ -12,12 +12,14 @@
         @on-click="handleClickUserDropdown"
       >
         <a class="drop-menu-a" type="text">
-          <Icon :type="item.Icon" style="color: #FFF" :size="24"/>
+          <Icon :type="item.Icon" style="color: #fff" :size="24" />
         </a>
         <template #list>
           <DropdownMenu ref="dropdown">
             <template v-for="(child, i) in item.children" :key="i">
-              <DropdownItem :name="`${item.path}/${child.path}`">{{child.name}}</DropdownItem>
+              <DropdownItem :name="`${item.path}/${child.path}`">{{
+                child.name
+              }}</DropdownItem>
             </template>
           </DropdownMenu>
         </template>
@@ -25,10 +27,10 @@
       <Tooltip transfer v-else :content="item.name" placement="right">
         <a
           class="drop-menu-a"
-          @click="$router.push({path: item.path})"
-          :style="{textAlign: 'center'}"
+          @click="$router.push({ path: item.path })"
+          :style="{ textAlign: 'center' }"
         >
-          <Icon :type="item.Icon" style="color: #FFF" :size="24"/>
+          <Icon :type="item.Icon" style="color: #fff" :size="24" />
         </a>
       </Tooltip>
     </template>
@@ -37,10 +39,9 @@
 
 <script>
 export default {
-  props: ['routes'],
+  props: ["routes"],
   data() {
-    return {
-    };
+    return {};
   },
   components: {},
   computed: {},
@@ -48,10 +49,10 @@ export default {
     // 点击跳转
     handleClickUserDropdown(name) {
       this.$router.push(name);
-    }
+    },
   },
   mounted() {},
-  created() {}
+  created() {},
 };
 </script>
 
