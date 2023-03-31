@@ -193,7 +193,7 @@
   width: 1226px;
   height: 460px;
   margin: 20px auto;
-  background: url("@/assets/imgs/占位符.jpg");
+  background: url("@/assets/imgs/seize_seat.jpg");
   background-size: cover;
   position: relative;
 }
@@ -324,7 +324,7 @@
 
 .phone .phone_site {
   display: inline-block;
-  background: url("@/assets/imgs/占位符.jpg");
+  background: url("@/assets/imgs/seize_seat.jpg");
   background-size: cover;
   height: 614px;
   width: 234px;
@@ -389,14 +389,14 @@
 
 .banner_w1 {
   height: 120px;
-  background: url("@/assets/imgs/占位符.jpg");
+  background: url("@/assets/imgs/seize_seat.jpg");
   background-size: cover;
   margin-top: 40px;
 }
 
 .banner_w2 {
   height: 120px;
-  background: url("@/assets/imgs/占位符.jpg");
+  background: url("@/assets/imgs/seize_seat.jpg");
   background-size: cover;
   margin-top: 40px;
 }
@@ -408,13 +408,13 @@
 
 .house li:nth-child(5) {
   margin-left: 0;
-  background: url("@/assets/imgs/占位符.jpg");
+  background: url("@/assets/imgs/seize_seat.jpg");
   background-size: cover;
 }
 
 .house li:nth-child(10) {
   margin-left: 0;
-  background: url("@/assets/imgs/占位符.jpg");
+  background: url("@/assets/imgs/seize_seat.jpg");
   background-size: cover;
 }
 

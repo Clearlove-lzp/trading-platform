@@ -2,7 +2,7 @@
 <template>
   <Menu ref="sideMenuA" accordion :active-name="activeName" :open-names="openNames" theme="dark" width="auto" :class="menuitemClasses">
     <div class="logo-con">
-      <img :src="require('../../assets/logo-login-mobile.png')" key="max-logo">
+      <img src="@/assets/imgs/seize_seat.jpg" key="max-logo">
     </div>
     <template v-for="(item, index) in routes">
       <template v-if="item.children && item.children.length > 0">

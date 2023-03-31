@@ -7,7 +7,7 @@
         <Form ref="formRef" :model="AppliForm" label-position="right" :label-width="100">
           <Row style="margin-bottom: 10px" :gutter="10">
             <Col span="8">
-              <Input v-model="AppliForm.proName" class="cdp-input" placeholder="商品名称"></Input>
+              <Input v-model="AppliForm.data_name" class="cdp-input" placeholder="商品名称"></Input>
             </Col>
             <Col span="4" align="left">
               <Space direction="horizontal">
@@ -61,91 +61,80 @@
 <script setup>
 import { usePage, useTable, useForm, useUserInfo, useEffect, useState, useModal } from '@/hook/index.js';
 import addForm from './addForm.vue'
-// import { cutoverLevelLimitList, cutoverLevelLimitDel, cutoverLevelLimitEnabled, cutoverLevelLimitDisabled } from '@/api/index';
+import { datasetGet, cutoverLevelLimitDel, cutoverLevelLimitEnabled, cutoverLevelLimitDisabled } from '@/api/index';
 import { Message } from "view-ui-plus";
 
-const columns = [
-  {
-    title: "序号",
-    type: "index",
-    align: 'center'
-  },
-  {
-    title: "商品图片",
-    key: "proPic",
-    slot: "proPic",
-    align: 'center'
-  },
-  {
-    title: "商品名称",
-    key: "proName",
-    align: 'center'
-  },
-  {
-    title: "商品描述",
-    key: "desc",
-    align: 'center'
-  },
-  {
-    title: "价格",
-    key: "price",
-    align: 'center'
-  },
-  {
-    title: "商品状态",
-    width: 100,
-    key: "status",
-    slot: "status",
-    align: 'center'
-  },
-  {
-    title: "操作",
-    slot: 'action',
-    width: 130,
-    align: "center",
-  }
-]
+  const columns = [
+    {
+      title: "序号",
+      type: "index",
+      align: 'center'
+    },
+    {
+      title: "商品图片",
+      key: "proPic",
+      slot: "proPic",
+      align: 'center'
+    },
+    {
+      title: "商品名称",
+      key: "data_name",
+      align: 'center'
+    },
+    {
+      title: "商品描述",
+      key: "desc",
+      align: 'center'
+    },
+    {
+      title: "价格",
+      key: "price",
+      align: 'center'
+    },
+    {
+      title: "商品状态",
+      width: 100,
+      key: "status",
+      slot: "status",
+      align: 'center'
+    },
+    {
+      title: "操作",
+      slot: 'action',
+      width: 130,
+      align: "center",
+    }
+  ]
 
   const form = {
-    userName: "",
-    roleId: "",
-    createUserName: ""
+    data_name: "",
   }
   const [ formRef, AppliForm, resetForm ] = useForm(form)
-  const { userInfo } = useUserInfo()
+  const { userInfo } = useUserInfo();
   const { pages, queryPageFunc, queryCurrentFunc, queryLimitFunc } = usePage(); // 分页器
   const [detailInfo, setDetailInfo] = useState({})
-
-  const getParams = () => {
-    let params = {
-      currentPage: pages.current,
-      pageSize: pages.limit,
-      proName: AppliForm.proName
-    }
-    return params;
-  }
 
   // 查询  表格数据
   const { datalist, setDatalist, loading, setLoading } = useTable()
   const query = () => {
-    let params = getParams()
-    setDatalist([
-      {
-        proPic: require("@/assets/logo.png"),
-        proName: "数智校对（政府集约化平台插件）",
-        desc: "数智校对（贵州省政府网站集约化平台）面向党政网站发稿中的书写错误，依据媒体，出版等领域规范和业务标准，利用自然语言理解、文本挖掘和机器学习等技术，对文本开展深度语义分析，实现文本书写中字词语法、政治类、禁用词、敏感词等错误的自动识别，并依据识别结果提出修正建议。该服务为各行业的写稿辅助、内容审阅等实际行业场景提供支撑，全面提升文稿的内容质量。",
-        price: "12000.00",
-        status: "是",
-      }
-    ])
-    // setLoading(true)
-    // cutoverLevelLimitList(params).then(res => {
-    //   setLoading(false);
-    //   if(res.data.code === 200) {
-    //     setDatalist(res.data.result.records);
-    //     pages.total = res.data.result.total;
+    let params = `?page=${pages.current}&count=${pages.limit}&data_name${AppliForm.data_name}`
+    // setDatalist([
+    //   {
+    //     proPic: require("@/assets/logo.png"),
+    //     data_name: "数智校对（政府集约化平台插件）",
+    //     desc: "数智校对（贵州省政府网站集约化平台）面向党政网站发稿中的书写错误，依据媒体，出版等领域规范和业务标准，利用自然语言理解、文本挖掘和机器学习等技术，对文本开展深度语义分析，实现文本书写中字词语法、政治类、禁用词、敏感词等错误的自动识别，并依据识别结果提出修正建议。该服务为各行业的写稿辅助、内容审阅等实际行业场景提供支撑，全面提升文稿的内容质量。",
+    //     price: "12000.00",
+    //     status: "是",
     //   }
-    // })
+    // ])
+    setLoading(true)
+    datasetGet(params).then(res => {
+      setLoading(false);
+      if(res.data.code === 200) {
+        setDatalist(res.data.result.records);
+        pages.total = res.data.result.total;
+      }
+    })
   }
 
   useEffect(query, [])

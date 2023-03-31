@@ -47,14 +47,14 @@ export const adminMenu = [
 				path: "userManagement",
 				name: "用户管理"
 			},
-			{
-				path: "roleManagement",
-				name: "角色管理"
-			},
-			{
-				path: "menuManagement",
-				name: "菜单管理"
-			}
+			// {
+			// 	path: "roleManagement",
+			// 	name: "角色管理"
+			// },
+			// {
+			// 	path: "menuManagement",
+			// 	name: "菜单管理"
+			// }
 		]
 	}
 ]

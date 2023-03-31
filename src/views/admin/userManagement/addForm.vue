@@ -105,7 +105,7 @@ export default {
       emit('closeModal')
     }
 
-    const [loading, setLoading] = useState()
+    const [loading, setLoading] = useState(false)
     const modalOK = async() => { //点击确定
       let boolean = await validateForm()
       if(!boolean) {

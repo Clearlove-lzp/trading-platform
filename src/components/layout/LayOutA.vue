@@ -5,7 +5,7 @@
       <div class="head-v3">
         <div id="themenu" :class="theme">
           <div class="NavItem">
-            <img src="../../assets/logo-login-mobile.png" class="home-class">
+            <img src="@/assets/imgs/seize_seat.jpg" class="home-class">
             <div class="NavLine"></div>
             <h2 class="NavTitml">数据交易平台</h2>
           </div>

@@ -2,7 +2,7 @@
 <template>
   <div class="menu-collapsed" :list="routes">
     <div class="logo-con">
-      <img :src="require('../../assets/logo-login.png')" key="min-logo">
+      <img src="@/assets/imgs/seize_seat.jpg" key="min-logo">
     </div>
     <template v-for="(item, index) in routes" :key="index">
       <Dropdown

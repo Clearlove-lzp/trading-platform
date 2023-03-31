@@ -9,50 +9,50 @@
       </div>
       <div class="form">
         <Form ref="formRef" :model="AppliForm" :label-width="80" :rules="loginRules">
-          <FormItem prop="username" label="用户名">
-            <Input v-model="AppliForm.username" type="text" auto-complete="off" @keyup.enter.native="registerFunc">
+          <FormItem prop="seller_account" label="用户名">
+            <Input v-model="AppliForm.seller_account" type="text" auto-complete="off" @keyup.enter.native="registerFunc">
               <template #prefix>
                   <Icon type="ios-person-outline" />
               </template>
             </Input>
           </FormItem>
-          <FormItem prop="shopname" label="店铺名">
-            <Input v-model="AppliForm.shopname" type="text" auto-complete="off" @keyup.enter.native="registerFunc">
+          <FormItem prop="seller_name" label="店铺名">
+            <Input v-model="AppliForm.seller_name" type="text" auto-complete="off" @keyup.enter.native="registerFunc">
               <template #prefix>
                 <Icon type="ios-person-outline" />
               </template>
             </Input>
           </FormItem>
-          <FormItem prop="password" label="密码">
-            <Input v-model="AppliForm.password" type="password" password auto-complete="off" @keyup.enter.native="registerFunc">
+          <FormItem prop="seller_psd" label="密码">
+            <Input v-model="AppliForm.seller_psd" type="password" password auto-complete="off" @keyup.enter.native="registerFunc">
               <template #prefix>
                 <Icon type="ios-lock-outline" />
               </template>
             </Input>
           </FormItem>
-          <FormItem prop="repassword" label="确认密码">
-            <Input v-model="AppliForm.repassword" type="password" password auto-complete="off"  @keyup.enter.native="registerFunc">
+          <FormItem prop="seller_re_psd" label="确认密码">
+            <Input v-model="AppliForm.seller_re_psd" type="password" password auto-complete="off"  @keyup.enter.native="registerFunc">
               <template #prefix>
                 <Icon type="ios-lock-outline" />
               </template>
             </Input>
           </FormItem>
-          <FormItem prop="phone" label="手机号">
-            <Input v-model="AppliForm.phone" type="tel" auto-complete="off" placeholder="手机号" @keyup.enter.native="registerFunc">
+          <FormItem prop="seller_tel" label="手机号">
+            <Input v-model="AppliForm.seller_tel" type="tel" auto-complete="off" placeholder="手机号" @keyup.enter.native="registerFunc">
               <template #prefix>
                 <Icon type="ios-call-outline" />
               </template>
             </Input>
           </FormItem>
-          <FormItem prop="idcard" label="身份证号">
-            <Input v-model="AppliForm.idcard" auto-complete="off" placeholder="身份证号" @keyup.enter.native="registerFunc">
+          <FormItem prop="seller_idcard" label="身份证号">
+            <Input v-model="AppliForm.seller_idcard" auto-complete="off" placeholder="身份证号" @keyup.enter.native="registerFunc">
               <template #prefix>
                 <Icon type="ios-card-outline" />
               </template>
             </Input>
           </FormItem>
-          <FormItem prop="email" label="邮箱">
-            <Input v-model="AppliForm.email" type="email" auto-complete="off" placeholder="邮箱" @keyup.enter.native="registerFunc">
+          <FormItem prop="seller_email" label="邮箱">
+            <Input v-model="AppliForm.seller_email" type="email" auto-complete="off" placeholder="邮箱" @keyup.enter.native="registerFunc">
               <template #prefix>
                 <Icon type="ios-mail-outline" />
               </template>
@@ -78,20 +78,20 @@
 </template>
 
 <script setup>
-import { loginUser } from '@/api/index';
+import { sellerRegister } from '@/api/index';
 import { useForm, useState, useRouter} from "@/hook/index.js";
 import { Message } from "view-ui-plus";
 
 let validatePass2 = (rule, value, callback) => {
   if (value === '') {
     callback(new Error('请再次输入密码'))
-  } else if (value !== this.loginForm.password) {
+  } else if (value !== AppliForm.seller_psd) {
     callback(new Error('两次输入密码不一致!'))
   } else {
     callback()
   }
 }
-let phonePass = (rule, value, callback) => {
+let seller_telPass = (rule, value, callback) => {
   let reg = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
   if (value === '') {
     callback(new Error('请输入手机号'))
@@ -101,7 +101,7 @@ let phonePass = (rule, value, callback) => {
     callback()
   }
 }
-let idcardPass = (rule, value, callback) => {
+let seller_idcardPass = (rule, value, callback) => {
   let IDRe18 = /^([1-6][1-9]|50)\d{4}(18|19|20)\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
   let IDre15 =  /^([1-6][1-9]|50)\d{4}\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\d{3}$/
   if (value === '') {
@@ -124,24 +124,24 @@ let emailPass = (rule, value, callback) => {
 }
 
 const loginRules = {
-  username: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
-  shopname: [{ required: true, trigger: 'blur', message: '店铺名不能为空' }],
-  password: [{ required: true, trigger: 'blur', message: '密码不能为空' }],
-  repassword: [{ required: true, validator: validatePass2, trigger: 'blur' }],
-  phone: [{ required: true, validator: phonePass, trigger: 'blur' }],
-  idcard: [{ required: true, validator: idcardPass, trigger: 'blur' }],
-  email: [{ validator: emailPass, trigger: 'blur' }]
+  seller_account: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
+  seller_name: [{ required: true, trigger: 'blur', message: '店铺名不能为空' }],
+  seller_psd: [{ required: true, trigger: 'blur', message: '密码不能为空' }],
+  seller_re_psd: [{ required: true, validator: validatePass2, trigger: 'blur' }],
+  seller_tel: [{ required: true, validator: seller_telPass, trigger: 'blur' }],
+  seller_idcard: [{ required: true, validator: seller_idcardPass, trigger: 'blur' }],
+  seller_email: [{ validator: emailPass, trigger: 'blur' }]
 }
 
 // 表单
 const form = {
-  username: "",
-  shopname: "",
-  password: "",
-  repassword: "",
-  phone: "",
-  idcard: "",
-  email: "",
+  seller_account: "",
+  seller_name: "",
+  seller_psd: "",
+  seller_re_psd: "",
+  seller_tel: "",
+  seller_idcard: "",
+  seller_email: "",
 }
 const [ formRef, AppliForm, resetForm, validateForm ] = useForm(form);
 
@@ -149,46 +149,35 @@ const [loading, setLoading] = useState(false);
 
 const { router } = useRouter()
 
-// 验证码
-const [codeUrl, setCodeUrl] = useState("");
-const getCode = () => {
-  
-}
-
-const registerFunc = async() => {
+const registerFunc = async () => {
   let boolean = await validateForm()
   if(!boolean) {
     return Message.error("请填写完整注册信息");
   }
   let params = {
-    username: AppliForm.username,
-    shopname: AppliForm.shopname,
-    password: AppliForm.password,
-    repassword: AppliForm.repassword,
-    phone: AppliForm.phone,
-    idcard: AppliForm.idcard,
-    email: AppliForm.email,
+    seller_account: AppliForm.seller_account,
+    seller_name: AppliForm.seller_name,
+    seller_psd: AppliForm.seller_psd,
+    seller_re_psd: AppliForm.seller_re_psd,
+    seller_tel: AppliForm.seller_tel,
+    seller_idcard: AppliForm.seller_idcard,
+    seller_email: AppliForm.seller_email,
   }
-  // setLoading(true);
-  // loginUser(params).then(res => {
-  //   setLoading(false);
-  //   if(res.data.code === 200) {
-  //     Message.success("登录成功")
-  //     window.sessionStorage.setItem("TOKEN", "znwy")
-  //     router.push({
-  //       path: '/admin/newsManagement'
-  //     })
-  //   }else {
-  //     Message.error(res.data.msg)
-  //   }
-  // }, err => {
-  //   setLoading(false);
-  // })
-  router.push({
-    path: '/admin/login'
+  setLoading(true);
+  sellerRegister(params).then(res => {
+    setLoading(false);
+    if(res.data.code === 1) {
+      Message.success("注册成功，前往登录")
+      router.push({
+        path: '/admin/login'
+      })
+    }else {
+      Message.error(res.data.msg)
+    }
+  }, err => {
+    setLoading(false);
   })
 }
-
 const loginUp = () => {
   router.push({
     path: '/admin/login'

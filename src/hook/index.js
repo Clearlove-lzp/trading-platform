@@ -152,19 +152,21 @@ export const useUpload = (url) => {
     showUploadBtn.value = true;
   };
   const handleSucFunc = (res, file, fileList) => {
+    const getFile = JSON.parse(JSON.stringify(file));
+    const getFileList = JSON.parse(JSON.stringify(fileList));
     // 上传成功
-    if (res.code === 200) {
+    if (res.code === 1) {
       defaultList.value.push({
-        name: file.name,
+        name: getFile.name,
         url: uploadAction,
-        fileId: res.result.fileId,
+        filePath: res.data.path,
       });
-      Message.success(res.message);
+      Message.success(res.msg);
     } else {
-      defaultList.value = fileList.filter((x) => {
-        return x.uid !== file.uid;
+      defaultList.value = getFileList.filter((x) => {
+        return x.uid !== getFile.uid;
       });
-      Message.error(res.message);
+      Message.error(res.msg);
     }
   };
   const handleErrFunc = (error, file, fileList) => {
@@ -172,8 +174,9 @@ export const useUpload = (url) => {
     Message.error("上传失败");
   };
   const handleRemove = (file, fileList) => {
+    const getFileList = JSON.parse(JSON.stringify(fileList));
     // 移除
-    defaultList.value = fileList;
+    defaultList.value = getFileList;
   };
   const handleFormatError = (file, fileList) => {
     // 格式验证错误
@@ -392,7 +395,6 @@ class BusEvent {
     if (this.list[name]) {
       delete this.list[name];
     }
-    console.log(this.list);
   }
 }
 const Bus = new BusEvent();
@@ -453,8 +455,9 @@ export const useRefs = () => {
 };
 
 export const useUserInfo = () => {
+  const { useVuexState } = useVuex();
+  const userInfo = useVuexState('userInfo', 'user')
   // 用户基本信息
-  const userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
   return {
     userInfo,
   };

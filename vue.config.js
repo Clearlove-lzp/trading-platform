@@ -32,20 +32,13 @@ module.exports = defineConfig({
     host: "localhost",
     port: 8080,
     proxy: {
-      "/api": {
+      "/agencyStr": {
         target: "http://192.168.3.43:8080", // 本地代理
-        // changeOrigin: true,
-        // pathRewrite: {
-        //   "^/api": "",
-        // },
-      },
-      "/code": {
-        target: "http://192.168.3.43:8080", // 本地代理
-        // changeOrigin: true,
-        // pathRewrite: {
-        //   "^/code": "",
-        // },
-      },
+        changeOrigin: true,
+        pathRewrite: {
+          "^/agencyStr": "",
+        },
+      }
     },
   },
   // 第三方插件配置
