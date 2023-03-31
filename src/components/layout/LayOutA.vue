@@ -44,69 +44,14 @@ import TopMenuA from "@/components/topMenus/TopMenuA";
 import TagsNav from "@/components/TagsNav";
 
 export default {
-  props: ["routes", "activeName", "layOutType", "openNames", "idx", "theme"],
+  props: ["routes", "activeName", "layOutType", "idx", "theme"],
   data() {
     return {
       isFullscreen: false,
       collpase: false,
-      tagNavList: [],
     };
   },
   methods: {
-    // 添加标签
-    addTag(newRoute) {
-      let lock = this.routes.some((item) => {
-        if (item.children && item.children.length > 0) {
-          return item.children.some((item1) => {
-            return item1.name === newRoute.name;
-          });
-        } else {
-          return item.name === newRoute.name;
-        }
-      });
-      if (lock) {
-        // const { name, params, query, meta, path} = this.$route
-        this.checkRoute(this.tagNavList, newRoute);
-        if (!this.checkResult) {
-          this.tagNavList.push(newRoute);
-        }
-      }
-    },
-    // 点击标签跳转路由
-    handleClick(item) {
-      this.$router.push({
-        path: item.path,
-      });
-    },
-    // 删除标签
-    handleCloseTag(data, current) {
-      this.tagNavList = data;
-      if (current.name != this.$route.name) {
-        return;
-      }
-      this.$router.push({
-        path: this.tagNavList[this.tagNavList.length - 1].path,
-      });
-    },
-    // 检查是否已有
-    checkRoute(x, y) {
-      this.checkResult = x.some((item) => {
-        return item.name === y.name && item.path === y.path;
-      });
-    },
-    // 初始化标签
-    initTag() {
-      const { name, params, query, meta, path } = this.$route;
-      this.tagNavList.push({
-        name: "概览",
-        params: {},
-        query: {},
-        meta: {},
-        path: "/admin/dashboard",
-      });
-      this.sendChangeMenuOpen({ name, params, query, meta, path });
-      this.addTag({ name, params, query, meta, path });
-    },
     // 点击显示主题风格设置
     showDrawerFunc(value) {
       this.$emit("showDrawer", value);
@@ -129,10 +74,6 @@ export default {
     //   let memoryColor = localStorage.getItem("themeColor");
     //   this.theme1 = memoryColor
     // },
-    // 请求父组件改变菜单的打开状态
-    sendChangeMenuOpen(newRoute) {
-      this.$emit("changeMenuOpen", newRoute);
-    },
   },
   components: {
     // StyleSwitch,
@@ -144,20 +85,8 @@ export default {
     TopMenuA,
     TagsNav,
   },
-  mounted() {
-    this.initTag();
-    // this.$nextTick(() => {
-    //   const { name, params, query, meta, path} = this.$route
-    //   // this.localStorageDate();
-    //   this.sendChangeMenuOpen({ name, params, query, meta, path})
-    // })
-  },
-  watch: {
-    $route(newRoute) {
-      this.sendChangeMenuOpen(newRoute);
-      this.addTag(newRoute);
-    },
-  },
+  mounted() {},
+  watch: {},
   created() {},
 };
 </script>

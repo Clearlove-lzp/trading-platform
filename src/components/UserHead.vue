@@ -20,6 +20,7 @@
       </div>
       <template #list>
         <DropdownMenu>
+          <DropdownItem name="ownSpace">个人中心</DropdownItem>
           <DropdownItem name="loginout">退出登录</DropdownItem>
         </DropdownMenu>
       </template>
@@ -58,6 +59,7 @@ export default {
   methods: {
     handleClickUserDropdown(name) {
       if (name === "ownSpace") {
+        this.$router.push("/admin/personerCenter");
       } else if (name === "loginout") {
         // 退出登录
         if (this.getUserInfo.admin_id) {

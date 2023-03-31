@@ -133,22 +133,11 @@ export default {
     },
     // 添加标签
     addTag(newRoute) {
-      let lock = this.routes.some((item) => {
-        if (item.children && item.children.length > 0) {
-          return item.children.some((item1) => {
-            return item1.name === newRoute.name;
-          });
-        } else {
-          return item.name === newRoute.name;
-        }
-      });
-      if (lock) {
-        // const { name, params, query, meta, path} = this.$route
-        this.checkRoute(this.tagNavList, newRoute);
-        if (!this.checkResult) {
-          this.tagNavList.push(newRoute);
-        }
+      this.checkRoute(this.tagNavList, newRoute);
+      if (!this.checkResult) {
+        this.tagNavList.push(newRoute);
       }
+      // }
     },
     // 初始化标签
     initTag() {

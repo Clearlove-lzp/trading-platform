@@ -138,6 +138,14 @@ const routes = [
             /* webpackChunkName: "admin/orderManagement" */ "../views/admin/orderManagement/index.vue"
           ),
       },
+      {
+        path: "/admin/personerCenter",
+        name: "个人中心",
+        component: () =>
+          import(
+            /* webpackChunkName: "admin/personerCenter" */ "../views/admin/personerCenter/index.vue"
+          ),
+      },
     ],
   },
 ];

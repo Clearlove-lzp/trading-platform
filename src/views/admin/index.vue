@@ -4,9 +4,7 @@
       <LayOutA
         :routes="routes"
         :activeName="newRoute"
-        :openNames="newRouteA"
         :layOutType="layOutType"
-        @changeMenuOpen="changeMenuOpen"
         @showDrawer="showDrawer"
         :theme="theme"
       ></LayOutA>
