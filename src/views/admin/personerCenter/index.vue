@@ -1,7 +1,7 @@
 <template>
   <div class="personerCenter">
     <Row :gutter="20">
-      <Col span="24" style="margin-bottom: 10px">
+      <Col :sm="24" :md="24" :lg="9" :xl="6" style="margin-bottom: 10px">
         <Card class="box-card">
           <template #title>
             <div class="clearfix">
@@ -12,87 +12,75 @@
             <div style="text-align: center">
               <div class="el-upload">
                 <img
-                  :src="
-                    user.avatarName
-                      ? baseApi + '/avatar/' + user.avatarName
-                      : Avatar
-                  "
+                  v-lazy="require('@/assets/imgs/avatar.jpeg')"
                   title="点击上传头像"
                   class="avatar"
                   @click="toggleShow"
                 />
-                <!-- <myUpload
+                <myUpload
                   v-model="show"
-                  :headers="headers"
-                  :url="updateAvatarApi"
                   @crop-upload-success="cropUploadSuccess"
-                /> -->
+                />
               </div>
             </div>
             <ul class="user-info">
               <li>
                 <div style="height: 100%">
-                  <svg-icon icon-class="login" /> 登录账号
+                  <Icon type="ios-log-in" /> 登录账号
                   <div class="user-right">{{ user.username }}</div>
                 </div>
               </li>
               <li>
-                <svg-icon icon-class="user1" /> 用户昵称
+                <Icon type="ios-contact-outline" /> 用户昵称
                 <div class="user-right">{{ user.nickName }}</div>
               </li>
               <li>
-                <svg-icon icon-class="dept" /> 所属部门
+                <Icon type="ios-git-network" /> 所属部门
                 <div class="user-right">{{ user.dept.name }}</div>
               </li>
               <li>
-                <svg-icon icon-class="phone" /> 手机号码
+                <Icon type="ios-phone-portrait" /> 手机号码
                 <div class="user-right">{{ user.phone }}</div>
               </li>
               <li>
-                <svg-icon icon-class="email" /> 用户邮箱
+                <Icon type="ios-mail-outline" /> 用户邮箱
                 <div class="user-right">{{ user.email }}</div>
               </li>
-              <li>
-                <svg-icon icon-class="anq" /> 安全设置
+              <!-- <li>
+                <Icon type="ios-settings-outline" /> 安全设置
                 <div class="user-right">
                   <a @click="$refs.pass.dialog = true">修改密码</a>
                   <a @click="$refs.email.dialog = true">修改邮箱</a>
                 </div>
-              </li>
+              </li> -->
             </ul>
           </div>
         </Card>
       </Col>
-      <Col span="24">
+      <Col :sm="24" :md="16" :lg="15" :xl="18">
         <!--    用户资料    -->
         <Card class="box-card">
-          <Tabs v-model="activeName" @tab-click="handleClick">
-            <!-- <TabPane label="用户资料" name="first">
+          <Tabs v-model="activeName" @on-click="handleClick">
+            <TabPane label="用户资料" name="first">
               <Form
                 ref="form"
                 :model="form"
                 :rules="rules"
                 style="margin-top: 10px"
                 size="small"
-                label-width="65px"
+                :label-width="100"
               >
                 <FormItem label="昵称" prop="nickName">
-                  <el-input v-model="form.nickName" style="width: 35%" />
+                  <Input v-model="form.nickName" style="width: 35%" />
                   <span style="color: #c0c0c0; margin-left: 10px"
                     >用户昵称不作为登录使用</span
                   >
                 </FormItem>
                 <FormItem label="手机号" prop="phone">
-                  <el-input v-model="form.phone" style="width: 35%" />
+                  <Input v-model="form.phone" style="width: 35%" />
                   <span style="color: #c0c0c0; margin-left: 10px"
                     >手机号码不能重复</span
                   >
-                </FormItem>
-                <FormItem label="性别">
-                  <RadioGroup v-model="form.gender" style="width: 178px">
-                    <Radio label="男">男</Radio>
-                    <el-radio label="女">女</el-radio>
-                  </RadioGroup>
                 </FormItem>
                 <FormItem label="">
                   <Button
@@ -104,7 +92,7 @@
                   >
                 </FormItem>
               </Form>
-            </TabPane> -->
+            </TabPane>
             <!--    操作日志    -->
             <!-- <TabPane label="操作日志" name="second">
               <el-table v-loading="loading" :data="data" style="width: 100%">
@@ -167,7 +155,7 @@
 </template>
 
 <script>
-// import myUpload from "vue-image-crop-upload";
+import myUpload from "vue-image-crop-upload";
 import { mapGetters } from "vuex";
 // import updatePass from "./center/updatePass";
 // import updateEmail from "./center/updateEmail";
@@ -180,6 +168,7 @@ import store from "@/store";
 export default {
   name: "Center",
   // components: { updatePass, updateEmail, myUpload },
+  components: { myUpload },
   // mixins: [crud],
   data() {
     // 自定义验证
@@ -222,7 +211,7 @@ export default {
     };
   },
   computed: {
-    // ...mapGetters(["user", "updateAvatarApi", "baseApi"]),
+    // ...mapGetters(["user", "updateAvatarApi"]),
   },
   created() {
     // this.form = {
@@ -247,7 +236,8 @@ export default {
       return true;
     },
     cropUploadSuccess(jsonData, field) {
-      store.dispatch("GetInfo").then(() => {});
+      console.log(jsonData);
+      console.log(field);
     },
     doSubmit() {
       if (this.$refs["form"]) {
@@ -273,8 +263,7 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss">
 .personerCenter {
-  margin-top: 10px;
-  width: 100%;
+  padding: 20px 20px 45px 20px;
 }
 .avatar {
   width: 120px;
@@ -295,5 +284,12 @@ export default {
       color: #317ef3;
     }
   }
+}
+
+.el-upload {
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
 }
 </style>
