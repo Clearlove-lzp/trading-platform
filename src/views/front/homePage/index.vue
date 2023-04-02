@@ -139,7 +139,6 @@
                         :size="40"
                         type="ios-arrow-dropright"
                       />
-                      <!-- <div class="item-last-bottom-img"><img v-lazy="item.mainImage" alt=""></div> -->
                     </div>
                   </div>
                 </div>
@@ -201,7 +200,6 @@
                         :size="40"
                         type="ios-arrow-dropright"
                       />
-                      <!-- <div class="item-last-bottom-img"><img v-lazy="item.mainImage" alt=""></div> -->
                     </div>
                   </div>
                 </div>
@@ -365,10 +363,11 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../../../assets/scss/reset.scss";
 @import "../../../assets/scss/mixin.scss";
 @import "../../../assets/scss/config.scss";
+@import "../../../assets/scss/base.scss";
 @import "view-ui-plus/dist/styles/viewuiplus.css";
 .index {
   .container {

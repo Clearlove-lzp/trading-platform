@@ -25,7 +25,7 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .order-header {
   padding: 30px 0;
   border-bottom: 2px solid #ff6600;

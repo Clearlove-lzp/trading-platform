@@ -74,7 +74,7 @@ export default {
       });
     },
     gotoCart() {
-      this.$router.push("/cart");
+      this.$router.push("/shoppingCart");
     },
     login() {
       this.$router.push("/login");
@@ -90,11 +90,14 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+@import "../../assets/scss/reset.scss";
 @import "../../assets/scss/base.scss";
 @import "../../assets/scss/mixin.scss";
 @import "../../assets/scss/config.scss";
+@import "view-ui-plus/dist/styles/viewuiplus.css";
 .header {
+  font-size: 12px;
   .nav-topbar {
     height: 39px;
     line-height: 39px;

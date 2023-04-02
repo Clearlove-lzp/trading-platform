@@ -36,6 +36,38 @@ const routes = [
             /* webpackChunkName: "orderlist" */ "../views/front/orderlist/index.vue"
           ),
       },
+      {
+        path: "/shoppingCart",
+        name: "我的购物车",
+        component: () =>
+          import(
+            /* webpackChunkName: "shoppingCart" */ "../views/front/shoppingCart/index.vue"
+          ),
+      },
+      {
+        path: "/orderConfirm",
+        name: "订单确认",
+        component: () =>
+          import(
+            /* webpackChunkName: "orderConfirm" */ "../views/front/orderConfirm/index.vue"
+          ),
+      },
+      {
+        path: "/orderPay",
+        name: "订单支付",
+        component: () =>
+          import(
+            /* webpackChunkName: "orderPay" */ "../views/front/orderPay/index.vue"
+          ),
+      },
+      {
+        path: "/orderAlipay",
+        name: "订单阿里支付",
+        component: () =>
+          import(
+            /* webpackChunkName: "orderAlipay" */ "../views/front/orderAlipay/index.vue"
+          ),
+      },
     ],
   },
   {

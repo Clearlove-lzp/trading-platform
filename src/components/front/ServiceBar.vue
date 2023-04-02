@@ -15,7 +15,7 @@ export default {
   name: "service-bar",
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 //   @import '../assets/scss/base.scss';
 @import "../../assets/scss/mixin.scss";
 .service {

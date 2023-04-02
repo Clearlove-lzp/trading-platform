@@ -9,7 +9,7 @@ export default {
   name: "no-data",
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .no-data {
   text-align: center;
   font-size: 20px;

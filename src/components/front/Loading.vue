@@ -8,7 +8,7 @@ export default {
   name: "loading",
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .loading {
   height: 80px;
   line-height: 80px;

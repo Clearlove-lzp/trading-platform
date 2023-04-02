@@ -27,24 +27,24 @@
               <li>
                 <div style="height: 100%">
                   <Icon type="ios-log-in" /> 登录账号
-                  <div class="user-right">{{ user.username }}</div>
+                  <div class="user-right">{{ user.seller_account }}</div>
                 </div>
               </li>
               <li>
-                <Icon type="ios-contact-outline" /> 用户昵称
-                <div class="user-right">{{ user.nickName }}</div>
+                <Icon type="ios-contact-outline" /> 店铺名
+                <div class="user-right">{{ user.seller_name }}</div>
               </li>
               <li>
-                <Icon type="ios-git-network" /> 所属部门
-                <div class="user-right">{{ user.dept.name }}</div>
+                <Icon type="ios-card-outline" /> 身份证号
+                <div class="user-right">{{ seller_idcard }}</div>
               </li>
               <li>
                 <Icon type="ios-phone-portrait" /> 手机号码
-                <div class="user-right">{{ user.phone }}</div>
+                <div class="user-right">{{ user.seller_tel }}</div>
               </li>
               <li>
-                <Icon type="ios-mail-outline" /> 用户邮箱
-                <div class="user-right">{{ user.email }}</div>
+                <Icon type="ios-mail-outline" /> 邮箱
+                <div class="user-right">{{ user.seller_email }}</div>
               </li>
               <!-- <li>
                 <Icon type="ios-settings-outline" /> 安全设置
@@ -70,16 +70,22 @@
                 size="small"
                 :label-width="100"
               >
-                <FormItem label="昵称" prop="nickName">
-                  <Input v-model="form.nickName" style="width: 35%" />
+                <FormItem label="店铺名" prop="seller_name">
+                  <Input v-model="form.seller_name" style="width: 35%" />
                   <span style="color: #c0c0c0; margin-left: 10px"
-                    >用户昵称不作为登录使用</span
+                    >店铺名不作为登录使用</span
                   >
                 </FormItem>
-                <FormItem label="手机号" prop="phone">
-                  <Input v-model="form.phone" style="width: 35%" />
+                <FormItem label="手机号" prop="seller_tel">
+                  <Input v-model="form.seller_tel" style="width: 35%" />
                   <span style="color: #c0c0c0; margin-left: 10px"
                     >手机号码不能重复</span
+                  >
+                </FormItem>
+                <FormItem label="邮箱" prop="seller_email">
+                  <Input v-model="form.seller_email" style="width: 35%" />
+                  <span style="color: #c0c0c0; margin-left: 10px"
+                    >邮箱不能重复</span
                   >
                 </FormItem>
                 <FormItem label="">
@@ -191,8 +197,8 @@ export default {
       },
       form: {},
       rules: {
-        nickName: [
-          { required: true, message: "请输入用户昵称", trigger: "blur" },
+        seller_name: [
+          { required: true, message: "请输入店铺名", trigger: "blur" },
           {
             min: 2,
             max: 20,
@@ -200,17 +206,28 @@ export default {
             trigger: "blur",
           },
         ],
-        phone: [{ required: true, trigger: "blur", validator: validPhone }],
+        seller_tel: [
+          { required: true, trigger: "blur", validator: validPhone },
+        ],
       },
       user: {
-        dept: {
-          name: "测试",
-        },
+        seller_account: "messi",
+        seller_name: "里奥梅西",
+        seller_idcard: "342922199809871232",
+        seller_tel: "13800000000",
+        seller_email: "134444@qq.com",
       },
       baseApi: "",
     };
   },
   computed: {
+    seller_idcard() {
+      if (this.user.seller_idcard) {
+        let reg = /^(\d{4})\d{11}(\d{3}|\d{4}X)$/;
+        let result = this.user.seller_idcard.replace(reg, "$1***********$2");
+        return result;
+      }
+    },
     // ...mapGetters(["user", "updateAvatarApi"]),
   },
   created() {

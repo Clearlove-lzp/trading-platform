@@ -1,8 +1,8 @@
 <template>
-  <div class="order-list">
+  <div class="shopping-cart">
     <div class="nav-header">
       <div class="container">
-        <div class="main-title">我的订单</div>
+        <div class="main-title">我的购物车</div>
         <div class="header-search">
           <div class="wrapper">
             <input type="text" name="keyword" />
@@ -11,13 +11,7 @@
         </div>
       </div>
     </div>
-    <Tabs value="name1">
-      <TabPane label="全部订单" name="name1"></TabPane>
-      <TabPane label="待授权" name="name2"></TabPane>
-      <TabPane label="待收货" name="name3"></TabPane>
-      <TabPane label="待评价" name="name4"></TabPane>
-    </Tabs>
-    <table class="table-order">
+    <table class="table-order" ref="tableOrder">
       <tr>
         <th class="title-th">
           <Checkbox
@@ -29,9 +23,7 @@
         <th class="title-th">商品</th>
         <th class="title-th">单价</th>
         <th class="title-th">数量</th>
-        <th class="title-th">实付款</th>
-        <th class="title-th">最晚发货时间</th>
-        <th class="title-th">订单状态</th>
+        <th class="title-th">小计</th>
         <th class="title-th">操作</th>
       </tr>
       <template v-for="(x, i) in produltList" :key="i">
@@ -57,8 +49,6 @@
           <td class="base-info">{{ x.price }}</td>
           <td class="base-info">{{ x.count }}</td>
           <td class="base-info">{{ x.total }}</td>
-          <td class="base-info">{{ x.lastTime }}</td>
-          <td class="base-info">{{ x.status }}</td>
           <td>
             <div class="order-action">
               <span>订单详情</span>
@@ -69,6 +59,20 @@
         </tr>
       </template>
     </table>
+    <div
+      class="clearfix"
+      :class="{ 'order-wrap': !isOver, 'order-wrap-fixed': isOver }"
+      ref="orderWrap"
+    >
+      <div class="cart-tip fl">
+        <a href="/#/index">继续购物</a>
+        共<span>0</span>件商品，已选择<span>0</span>件
+      </div>
+      <div class="total fr">
+        合计：<span>80</span>元
+        <a href="javascript:;" class="btn" @click="orderFunc">去结算</a>
+      </div>
+    </div>
     <ServiceBar></ServiceBar>
   </div>
 </template>
@@ -79,7 +83,7 @@ import NoData from "@/components/front/NoData";
 import infiniteScroll from "vue-infinite-scroll";
 import ServiceBar from "@/components/front/ServiceBar.vue";
 export default {
-  name: "order-list",
+  name: "shopping-cart",
   components: {
     OrderHeader,
     Loading,
@@ -104,16 +108,114 @@ export default {
           lastTime: "2022-12-13 22:00:12",
           status: "未发货",
         },
+        {
+          time: "2022-12-1",
+          orderNo: "2560479320126",
+          ckecked: false,
+          img: require("@/assets/imgs/猫2.jpg"),
+          name: "中小企业信用评级数据",
+          tip: "按条数购买，非一次性购买",
+          price: "￥80",
+          count: 100,
+          total: 8000,
+          lastTime: "2022-12-13 22:00:12",
+          status: "未发货",
+        },
+        {
+          time: "2022-12-1",
+          orderNo: "2560479320126",
+          ckecked: false,
+          img: require("@/assets/imgs/猫2.jpg"),
+          name: "中小企业信用评级数据",
+          tip: "按条数购买，非一次性购买",
+          price: "￥80",
+          count: 100,
+          total: 8000,
+          lastTime: "2022-12-13 22:00:12",
+          status: "未发货",
+        },
+        {
+          time: "2022-12-1",
+          orderNo: "2560479320126",
+          ckecked: false,
+          img: require("@/assets/imgs/猫2.jpg"),
+          name: "中小企业信用评级数据",
+          tip: "按条数购买，非一次性购买",
+          price: "￥80",
+          count: 100,
+          total: 8000,
+          lastTime: "2022-12-13 22:00:12",
+          status: "未发货",
+        },
+        {
+          time: "2022-12-1",
+          orderNo: "2560479320126",
+          ckecked: false,
+          img: require("@/assets/imgs/猫2.jpg"),
+          name: "中小企业信用评级数据",
+          tip: "按条数购买，非一次性购买",
+          price: "￥80",
+          count: 100,
+          total: 8000,
+          lastTime: "2022-12-13 22:00:12",
+          status: "未发货",
+        },
+        {
+          time: "2022-12-1",
+          orderNo: "2560479320126",
+          ckecked: false,
+          img: require("@/assets/imgs/猫2.jpg"),
+          name: "中小企业信用评级数据",
+          tip: "按条数购买，非一次性购买",
+          price: "￥80",
+          count: 100,
+          total: 8000,
+          lastTime: "2022-12-13 22:00:12",
+          status: "未发货",
+        },
+        {
+          time: "2022-12-1",
+          orderNo: "2560479320126",
+          ckecked: false,
+          img: require("@/assets/imgs/猫2.jpg"),
+          name: "中小企业信用评级数据",
+          tip: "按条数购买，非一次性购买",
+          price: "￥80",
+          count: 100,
+          total: 8000,
+          lastTime: "2022-12-13 22:00:12",
+          status: "未发货",
+        },
       ],
+      isOver: false,
     };
   },
   mounted() {
     this.getOrderList();
+    this.$nextTick(() => {
+      this.computedHeight();
+    });
+    window.addEventListener("scroll", (e) => {
+      this.computedHeight();
+    });
   },
   directives: {
     infiniteScroll,
   }, //设置一个infiniteScroll指令，之后就可以v-infinite-scroll进行使用了
   methods: {
+    computedHeight() {
+      if (
+        this.$refs.tableOrder.offsetTop +
+          this.$refs.tableOrder.clientHeight +
+          70 -
+          window.scrollY >
+        window.innerHeight
+      ) {
+        this.isOver = true;
+      } else {
+        this.isOver = false;
+      }
+    },
     productHandleCheckAll() {
       this.productCheckAll = !this.productCheckAll;
     },
@@ -180,15 +282,21 @@ export default {
           }
         });
     },
+    //购物车下单
+    orderFunc() {
+      this.$router.push("/orderConfirm");
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
 @import "../../../assets/scss/reset.scss";
+@import "../../../assets/scss/base.scss";
+@import "../../../assets/scss/button.scss";
 @import "../../../assets/scss/mixin.scss";
 @import "../../../assets/scss/config.scss";
 @import "view-ui-plus/dist/styles/viewuiplus.css";
-.order-list {
+.shopping-cart {
   width: 1226px;
   margin: 0 auto;
 }
@@ -275,6 +383,79 @@ export default {
   .base-info {
     font: normal 12px/1.5 Verdana, simsun, Sans-Serif;
     text-align: center;
+  }
+}
+
+.order-wrap {
+  background-color: #eee;
+  font-size: 14px;
+  color: #666666;
+  margin-top: 20px;
+  height: 50px;
+  line-height: 50px;
+  .cart-tip {
+    margin-left: 29px;
+    a {
+      color: #666666;
+      margin-right: 37px;
+    }
+    span {
+      color: #ff6600;
+      margin: 0 5px;
+    }
+  }
+  .total {
+    font-size: 14px;
+    color: #ff6600;
+    span {
+      font-size: 24px;
+    }
+    a {
+      width: 202px;
+      height: 50px;
+      line-height: 50px;
+      font-size: 18px;
+      margin-left: 37px;
+    }
+  }
+}
+
+.order-wrap-fixed {
+  position: fixed;
+  width: 1226px;
+  left: 50%;
+  margin-left: -613px;
+  bottom: 0;
+  z-index: 20;
+  background-color: #eee;
+  font-size: 14px;
+  color: #666666;
+  height: 50px;
+  line-height: 50px;
+  .cart-tip {
+    margin-left: 29px;
+    a {
+      color: #666666;
+      margin-right: 37px;
+    }
+    span {
+      color: #ff6600;
+      margin: 0 5px;
+    }
+  }
+  .total {
+    font-size: 14px;
+    color: #ff6600;
+    span {
+      font-size: 24px;
+    }
+    a {
+      width: 202px;
+      height: 50px;
+      line-height: 50px;
+      font-size: 18px;
+      margin-left: 37px;
+    }
   }
 }
 </style>
