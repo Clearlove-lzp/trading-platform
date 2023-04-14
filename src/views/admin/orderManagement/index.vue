@@ -99,59 +99,65 @@ import {
   useState,
   useModal,
 } from "@/hook/index.js";
-// import { cutoverLevelLimitList, cutoverLevelLimitDel, cutoverLevelLimitEnabled, cutoverLevelLimitDisabled } from '@/api/index';
+import {
+  orderManagementSelectById,
+  orderManagementSelectByCondition,
+  cutoverLevelLimitDel,
+  cutoverLevelLimitEnabled,
+  cutoverLevelLimitDisabled,
+} from "@/api/index";
 import { Message } from "view-ui-plus";
 import { resolveComponent } from "vue";
 
 const allLabel = (h) => {
   return h("div", [
     h("span", "全部订单"),
-    h(resolveComponent("Badge"), {
-      count: 3,
-    }),
+    // h(resolveComponent("Badge"), {
+    //   count: 3,
+    // }),
   ]);
 };
 
 const willSendOutLabel = (h) => {
   return h("div", [
     h("span", "待发货"),
-    h(resolveComponent("Badge"), {
-      count: 1,
-    }),
+    // h(resolveComponent("Badge"), {
+    //   count: 1,
+    // }),
   ]);
 };
 
 const hasSendOutLabel = (h) => {
   return h("div", [
     h("span", "已发货"),
-    h(resolveComponent("Badge"), {
-      count: 1,
-    }),
+    // h(resolveComponent("Badge"), {
+    //   count: 1,
+    // }),
   ]);
 };
 
 const drawbackLabel = (h) => {
   return h("div", [
     h("span", "退款中"),
-    h(resolveComponent("Badge"), {
-      count: 1,
-    }),
+    // h(resolveComponent("Badge"), {
+    //   count: 1,
+    // }),
   ]);
 };
 
 const hasDoneLabel = (h) => {
   return h("div", [
     h("span", "已完成"),
-    h(resolveComponent("Badge"), {
-      count: 1,
-    }),
+    // h(resolveComponent("Badge"), {
+    //   count: 1,
+    // }),
   ]);
 };
 
 const columns = [
   {
     title: "订单日期",
-    key: "orderTime",
+    key: "order_buy_time",
     align: "center",
   },
   {
@@ -167,12 +173,12 @@ const columns = [
   },
   {
     title: "单价",
-    key: "price",
+    key: "order_pay",
     align: "center",
   },
   {
     title: "数量",
-    key: "count",
+    key: "order_buy_num",
     align: "center",
   },
   {
@@ -203,74 +209,8 @@ const { userInfo } = useUserInfo();
 const { pages, queryPageFunc, queryCurrentFunc, queryLimitFunc } = usePage(); // 分页器
 const [detailInfo, setDetailInfo] = useState({});
 
-const getParams = () => {
-  let params = {
-    currentPage: pages.current,
-    pageSize: pages.limit,
-    orderId: AppliForm.orderId,
-  };
-  return params;
-};
-
-const AllData = [
-  {
-    orderTime: "2023-01-12 12:00:00",
-    orderId: "order-20230112120000-001",
-    proPic: require("@/assets/logo.png"),
-    price: "80",
-    count: "10",
-    amount: "800",
-    buyer: "t*****",
-    status: "待发货",
-  },
-  {
-    orderTime: "2023-01-12 12:00:00",
-    orderId: "order-20230112120000-001",
-    proPic: require("@/assets/logo.png"),
-    price: "80",
-    count: "10",
-    amount: "800",
-    buyer: "t*****",
-    status: "已发货",
-  },
-  {
-    orderTime: "2023-01-12 12:00:00",
-    orderId: "order-20230112120000-001",
-    proPic: require("@/assets/logo.png"),
-    price: "80",
-    count: "10",
-    amount: "800",
-    buyer: "t*****",
-    status: "退款中",
-  },
-  {
-    orderTime: "2023-01-12 12:00:00",
-    orderId: "order-20230112120000-001",
-    proPic: require("@/assets/logo.png"),
-    price: "80",
-    count: "10",
-    amount: "800",
-    buyer: "t*****",
-    status: "已完成",
-  },
-];
 // 查询  表格数据
 const { datalist, setDatalist, loading, setLoading } = useTable();
-const query = () => {
-  let params = getParams();
-  setDatalist(AllData);
-  pages.total = datalist.value.length;
-  // setLoading(true)
-  // cutoverLevelLimitList(params).then(res => {
-  //   setLoading(false);
-  //   if(res.data.code === 200) {
-  //     setDatalist(res.data.result.records);
-  //     pages.total = res.data.result.total;
-  //   }
-  // })
-};
-
-useEffect(query, []);
 
 // 删除
 const deleteFunc = (info) => {
@@ -287,18 +227,42 @@ const deleteFunc = (info) => {
   // })
 };
 
-const tabChange = (name) => {
-  if (name === "全部订单") {
-    setDatalist(AllData);
-  } else {
-    setDatalist(
-      AllData.filter((x) => {
-        return x.status === name;
-      })
-    );
-  }
-  pages.total = datalist.value.length;
+const queryAll = () => {
+  let params = `?page=${pages.current}&count=${pages.limit}`;
+  setLoading(true);
+  orderManagementSelectById(params).then((res) => {
+    setLoading(false);
+    if (res.data.code === 1) {
+      setDatalist(res.data.data.order);
+      pages.total = res.data.data.page.total_count;
+    }
+  });
 };
+
+const queryStatus = (name) => {
+  let params = `?page=${pages.current}&count=${pages.limit}&order_status=${name}`;
+  setLoading(true);
+  orderManagementSelectByCondition(params).then((res) => {
+    setLoading(false);
+    if (res.data.code === 1) {
+      setDatalist(res.data.data.order);
+      pages.total = res.data.data.page.total_count;
+    }
+  });
+};
+
+const tabChange = (name) => {
+  pages.current = 1;
+  if (name === "全部订单") {
+    queryAll();
+  } else {
+    queryStatus(name);
+  }
+};
+
+useEffect(() => {
+  tabChange("全部订单");
+}, []);
 </script>
 
 <style scoped>

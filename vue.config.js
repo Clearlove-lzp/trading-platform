@@ -33,7 +33,7 @@ module.exports = defineConfig({
     port: 8080,
     proxy: {
       "/agencyStr": {
-        target: "http://192.168.3.43:8080", // 本地代理
+        target: "http://192.168.3.11:8080", // 本地代理
         changeOrigin: true,
         pathRewrite: {
           "^/agencyStr": "",

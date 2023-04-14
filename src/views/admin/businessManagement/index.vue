@@ -122,7 +122,7 @@ import {
   useEffect,
   useState,
 } from "@/hook/index.js";
-import { businessGet, businessDelete } from "@/api/index";
+import { getAllBusiness, businessDelete } from "@/api/index";
 
 import { Message } from "view-ui-plus";
 
@@ -190,7 +190,7 @@ const { datalist, setDatalist, loading, setLoading } = useTable();
 const query = () => {
   let params = `?page=${pages.current}&count=${pages.limit}&orderId=${AppliForm.orderId}`;
   setLoading(true);
-  businessGet(params).then((res) => {
+  getAllBusiness(params).then((res) => {
     setLoading(false);
     if (res.data.code === 1) {
       setDatalist(res.data.result.records);

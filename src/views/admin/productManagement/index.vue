@@ -203,7 +203,7 @@ const query = () => {
         return x;
       });
       setDatalist(arr);
-      pages.total = res.data.data.page.total_page;
+      pages.total = res.data.data.page.total_count;
     }
   });
 };

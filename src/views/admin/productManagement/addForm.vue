@@ -227,8 +227,14 @@ import {
 } from "@/hook/index";
 import { Message } from "view-ui-plus";
 import { toRef, watch } from "vue";
-import { datasetAdd, uploadFile } from "@/api/index";
+import {
+  datasetAdd,
+  uploadFile,
+  datasetUpdate,
+  datasetGetDetail,
+} from "@/api/index";
 import moment from "moment";
+import { agencyStr } from "@/axiosConfig/enviromentConfig.js";
 
 const ruleValidate = {
   data_name: [{ required: true, message: "数据名称不能为空" }],
@@ -338,7 +344,8 @@ const modalOK = async () => {
     data_pic: AppliForm.data_pic,
   };
   setLoading(true);
-  datasetAdd(params).then(
+  let func = AppliForm.data_id ? datasetUpdate : datasetAdd;
+  func(params).then(
     (res) => {
       setLoading(false);
       if (res.data.code === 1) {
@@ -353,6 +360,36 @@ const modalOK = async () => {
       setLoading(false);
     }
   );
+};
+
+const queryDetail = async () => {
+  let result = {};
+  if (props.detailInfo.data_id) {
+    let params = `?data_id=${props.detailInfo.data_id}`;
+    const res = await datasetGetDetail(params);
+    if (res.data.code === 1) result = res.data.data;
+  }
+  AppliForm.data_id = result.data_id ? result.data_id : "";
+  AppliForm.data_name = result.data_name ? result.data_name : "";
+  AppliForm.data_intro = result.data_intro ? result.data_intro : "";
+  AppliForm.data_use = result.data_use ? result.data_use : "";
+  AppliForm.data_type = result.data_type ? result.data_type : "";
+  AppliForm.data_field = result.data_field ? result.data_field : "";
+  AppliForm.image_format = result.image_format ? result.image_format : "";
+  AppliForm.text_language = result.text_language ? result.text_language : "";
+  AppliForm.text_avg_len = result.text_avg_len ? result.text_avg_len : 0;
+  AppliForm.attr_num = result.attr_num ? result.attr_num : 0;
+  AppliForm.quality = result.quality ? result.quality : "";
+  AppliForm.data_per_price = result.data_per_price ? result.data_per_price : 0;
+  AppliForm.data_status = result.data_status ? result.data_status : true;
+  AppliForm.data_pic = result.data_pic ? result.data_pic : "";
+  if (result.data_pic) {
+    defaultList.value.push({
+      name: "image",
+      url: agencyStr + "/file" + result.data_pic,
+      filePath: result.data_pic,
+    });
+  }
 };
 
 watch(
@@ -372,55 +409,7 @@ watch(
 const visibleChange = (value) => {
   if (value) {
     // 打开模态框执行
-    AppliForm.data_id = props.detailInfo.data_id
-      ? props.detailInfo.data_id
-      : "";
-    AppliForm.data_name = props.detailInfo.data_name
-      ? props.detailInfo.data_name
-      : "";
-    AppliForm.data_intro = props.detailInfo.data_intro
-      ? props.detailInfo.data_intro
-      : "";
-    AppliForm.data_use = props.detailInfo.data_use
-      ? props.detailInfo.data_use
-      : "";
-    AppliForm.data_type = props.detailInfo.data_type
-      ? props.detailInfo.data_type
-      : "";
-    AppliForm.data_field = props.detailInfo.data_field
-      ? props.detailInfo.data_field
-      : "";
-    AppliForm.image_format = props.detailInfo.image_format
-      ? props.detailInfo.image_format
-      : "";
-    AppliForm.text_language = props.detailInfo.text_language
-      ? props.detailInfo.text_language
-      : "";
-    AppliForm.text_avg_len = props.detailInfo.text_avg_len
-      ? props.detailInfo.text_avg_len
-      : 0;
-    AppliForm.attr_num = props.detailInfo.attr_num
-      ? props.detailInfo.attr_num
-      : 0;
-    AppliForm.quality = props.detailInfo.quality
-      ? props.detailInfo.quality
-      : "";
-    AppliForm.data_per_price = props.detailInfo.data_per_price
-      ? props.detailInfo.data_per_price
-      : 0;
-    AppliForm.data_status = props.detailInfo.data_status
-      ? props.detailInfo.data_status
-      : true;
-    AppliForm.data_pic = props.detailInfo.data_pic
-      ? props.detailInfo.data_pic
-      : "";
-    if (props.detailInfo.data_pic) {
-      defaultList.value.push({
-        name: "image",
-        url: props.detailInfo.data_pic_path,
-        filePath: props.detailInfo.data_pic,
-      });
-    }
+    queryDetail();
   }
 };
 </script>
