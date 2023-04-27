@@ -14,7 +14,7 @@
           :label-width="80"
           :rules="loginRules"
         >
-          <FormItem prop="seller_account" label="用户名">
+          <FormItem prop="seller_account" label="账号">
             <Input
               v-model="AppliForm.seller_account"
               type="text"
@@ -181,7 +181,7 @@ let emailPass = (rule, value, callback) => {
 
 const loginRules = {
   seller_account: [
-    { required: true, trigger: "blur", message: "用户名不能为空" },
+    { required: true, trigger: "blur", message: "账号不能为空" },
   ],
   seller_name: [{ required: true, trigger: "blur", message: "店铺名不能为空" }],
   seller_psd: [{ required: true, trigger: "blur", message: "密码不能为空" }],

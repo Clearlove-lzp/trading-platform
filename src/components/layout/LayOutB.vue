@@ -56,7 +56,9 @@
               />
             </div>
             <Content class="content-wrapper">
-              <router-view />
+              <router-view
+                v-if="getUserInfo.seller_id || getUserInfo.admin_id"
+              />
             </Content>
           </Layout>
         </Content>
@@ -74,6 +76,7 @@ import Fullscreen from "@/components/Fullscreen";
 // import StyleSwitch from "@/components/StyleSwitch";
 import TagsNav from "@/components/TagsNav";
 import ThemeIcon from "@/components/ThemeIcon";
+import { mapState } from "vuex";
 
 export default {
   props: ["routes", "activeName", "openNames", "theme"],
@@ -103,6 +106,9 @@ export default {
     rotateIcon() {
       return ["menu-icon", this.isCollapsed ? "rotate-icon" : ""];
     },
+    ...mapState({
+      getUserInfo: (state) => state.user.userInfo,
+    }),
   },
   methods: {
     // 点击显示主题风格设置

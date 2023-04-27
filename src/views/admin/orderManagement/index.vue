@@ -20,7 +20,7 @@
             </Col>
             <Col span="4" align="left">
               <Space direction="horizontal">
-                <Button type="primary" @click="queryPageFunc(query)"
+                <Button type="primary" @click="queryPageFunc(tabChange)"
                   >查询</Button
                 >
                 <Button type="primary" @click="resetForm()">重置</Button>
@@ -251,17 +251,19 @@ const queryStatus = (name) => {
   });
 };
 
+const [tabname, setTablename] = useState("全部订单");
 const tabChange = (name) => {
   pages.current = 1;
-  if (name === "全部订单") {
+  if (name) setTablename(name);
+  if (tabname.value === "全部订单") {
     queryAll();
   } else {
-    queryStatus(name);
+    queryStatus(tabname.value);
   }
 };
 
 useEffect(() => {
-  tabChange("全部订单");
+  tabChange();
 }, []);
 </script>
 

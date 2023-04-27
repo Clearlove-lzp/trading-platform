@@ -1,29 +1,29 @@
 import axios from "axios";
 import { agencyStr } from "@/axiosConfig/enviromentConfig.js";
 
-// 订单查询
-export function businessGet(params) {
-  return axios.get(agencyStr + `/api/admin/business/get` + params).then(
-    (res) => {
-      return Promise.resolve(res);
-    },
-    (err) => {
-      return Promise.reject(err);
-    }
-  );
-}
+// // 订单查询
+// export function businessGet(params) {
+//   return axios.get(agencyStr + `/api/admin/business/get` + params).then(
+//     (res) => {
+//       return Promise.resolve(res);
+//     },
+//     (err) => {
+//       return Promise.reject(err);
+//     }
+//   );
+// }
 
-// 订单删除
-export function businessDelete(params) {
-  return axios.post(agencyStr + `/api/admin/business/delete`, params).then(
-    (res) => {
-      return Promise.resolve(res);
-    },
-    (err) => {
-      return Promise.reject(err);
-    }
-  );
-}
+// // 订单删除
+// export function businessDelete(params) {
+//   return axios.post(agencyStr + `/api/admin/business/delete`, params).then(
+//     (res) => {
+//       return Promise.resolve(res);
+//     },
+//     (err) => {
+//       return Promise.reject(err);
+//     }
+//   );
+// }
 
 // 删除订单
 export function deleteOrder(params) {
@@ -121,4 +121,78 @@ export function updateBusiness(params) {
         return Promise.reject(err);
       }
     );
+}
+
+// 查询所有用户
+export function adminSelectAll(params) {
+  return axios.get(agencyStr + `/api/admin/selectAll` + params).then(
+    (res) => {
+      return Promise.resolve(res);
+    },
+    (err) => {
+      return Promise.reject(err);
+    }
+  );
+}
+
+// 删除用户
+export function adminUserDelete(params) {
+  return axios.get(agencyStr + `/api/admin/delete` + params).then(
+    (res) => {
+      return Promise.resolve(res);
+    },
+    (err) => {
+      return Promise.reject(err);
+    }
+  );
+}
+
+// 用户信息更新
+export function upadteUser(params) {
+  return axios.post(agencyStr + `/api/admin/upadte`, params).then(
+    (res) => {
+      return Promise.resolve(res);
+    },
+    (err) => {
+      return Promise.reject(err);
+    }
+  );
+}
+
+// // 根据用户名查询
+// export function selectByUsername(params) {
+//   return axios.get(agencyStr + `/api/admin/selectByUsername` + params).then(
+//     (res) => {
+//       return Promise.resolve(res);
+//     },
+//     (err) => {
+//       return Promise.reject(err);
+//     }
+//   );
+// }
+
+// 根据用户名和角色查询
+export function selectByUsernameAndRole(params) {
+  return axios
+    .get(agencyStr + `/api/admin/selectByUsernameAndRole` + params)
+    .then(
+      (res) => {
+        return Promise.resolve(res);
+      },
+      (err) => {
+        return Promise.reject(err);
+      }
+    );
+}
+
+// 添加用户
+export function userInsert(params) {
+  return axios.post(agencyStr + `/api/admin/insert`, params).then(
+    (res) => {
+      return Promise.resolve(res);
+    },
+    (err) => {
+      return Promise.reject(err);
+    }
+  );
 }

@@ -26,7 +26,9 @@
         <!-- 主题一的面包屑 -->
         <PathLink></PathLink>
         <div class="main-content">
-          <router-view></router-view>
+          <router-view
+            v-if="getUserInfo.seller_id || getUserInfo.admin_id"
+          ></router-view>
         </div>
       </div>
     </div>
@@ -42,6 +44,7 @@ import UserHead from "../UserHead";
 import PathLink from "@/components/PathLink";
 import TopMenuA from "@/components/topMenus/TopMenuA";
 import TagsNav from "@/components/TagsNav";
+import { mapState } from "vuex";
 
 export default {
   props: ["routes", "activeName", "layOutType", "idx", "theme"],
@@ -50,6 +53,11 @@ export default {
       isFullscreen: false,
       collpase: false,
     };
+  },
+  computed: {
+    ...mapState({
+      getUserInfo: (state) => state.user.userInfo,
+    }),
   },
   methods: {
     // 点击显示主题风格设置

@@ -10,14 +10,26 @@
       <div class="form">
         <Form :model="AppliForm" :rules="loginRules" ref="formRef">
           <FormItem prop="seller_name">
-            <Input v-model="AppliForm.seller_name" type="text" auto-complete="off" placeholder="账号">
+            <Input
+              v-model="AppliForm.seller_name"
+              type="text"
+              auto-complete="off"
+              placeholder="账号"
+            >
               <template #prefix>
                 <Icon type="ios-person-outline" />
               </template>
             </Input>
           </FormItem>
           <FormItem prop="seller_psd">
-            <Input v-model="AppliForm.seller_psd" type="password" password auto-complete="off" placeholder="密码" @keyup.enter.native="loginUp">
+            <Input
+              v-model="AppliForm.seller_psd"
+              type="password"
+              password
+              auto-complete="off"
+              placeholder="密码"
+              @keyup.enter="loginUp"
+            >
               <template #prefix>
                 <Icon type="ios-lock-outline" />
               </template>
@@ -26,7 +38,12 @@
           <FormItem prop="code">
             <Row :gutter="20">
               <Col span="12">
-                <Input v-model="AppliForm.code" auto-complete="off" placeholder="验证码" @keyup.enter.native="loginUp">
+                <Input
+                  v-model="AppliForm.code"
+                  auto-complete="off"
+                  placeholder="验证码"
+                  @keyup.enter="loginUp"
+                >
                   <template #prefix>
                     <Icon type="ios-unlock-outline" />
                   </template>
@@ -34,20 +51,29 @@
               </Col>
               <Col span="12">
                 <div class="login-code">
-                  <img :src="codeUrl" @click="getCode">
+                  <img :src="codeUrl" @click="getCode" />
                 </div>
               </Col>
             </Row>
           </FormItem>
           <Row :gutter="20">
             <Col span="12">
-              <Button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="loginUp">
+              <Button
+                :loading="loading"
+                type="primary"
+                style="width: 100%"
+                @click.prevent="loginUp"
+              >
                 <span v-if="!loading">登 录</span>
                 <span v-else>登 录 中...</span>
               </Button>
             </Col>
             <Col span="12">
-              <Button type="warning" style="width:100%;" @click.native.prevent="registerFunc">
+              <Button
+                type="warning"
+                style="width: 100%"
+                @click.prevent="registerFunc"
+              >
                 去注册
               </Button>
             </Col>
@@ -59,77 +85,78 @@
 </template>
 
 <script setup>
-import { loginSeller, loginCode } from '@/api/index';
-import { useForm, useState, useRouter, useEffect} from "@/hook/index.js";
+import { loginSeller, loginCode } from "@/api/index";
+import { useForm, useState, useRouter, useEffect } from "@/hook/index.js";
 import { Message } from "view-ui-plus";
-import md5 from 'js-md5'
+import md5 from "js-md5";
 
 const loginRules = {
-  seller_name: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
-  seller_psd: [{ required: true, trigger: 'blur', message: '密码不能为空' }],
-  code: [{ required: true, trigger: 'blur', message: '验证码不能为空' }]
-}
+  seller_name: [{ required: true, trigger: "blur", message: "用户名不能为空" }],
+  seller_psd: [{ required: true, trigger: "blur", message: "密码不能为空" }],
+  code: [{ required: true, trigger: "blur", message: "验证码不能为空" }],
+};
 
 // 表单
 const form = {
   seller_name: "",
   seller_psd: "",
-  code: ""
-}
-const [ formRef, AppliForm, resetForm, validateForm ] = useForm(form);
+  code: "",
+};
+const [formRef, AppliForm, resetForm, validateForm] = useForm(form);
 
 const [loading, setLoading] = useState(false);
 
-const { router } = useRouter()
-
+const { router } = useRouter();
 
 // 验证码
 const [codeUrl, setCodeUrl] = useState("");
 const getCode = () => {
-  let params = parseInt(Math.random() * 89999) + 10000
-  setCodeUrl(loginCode + params)
-}
-useEffect(getCode, [])
+  let params = parseInt(Math.random() * 89999) + 10000;
+  setCodeUrl(loginCode + params);
+};
+useEffect(getCode, []);
 
-const loginUp = async() => {
-  let boolean = await validateForm()
-  if(!boolean) {
+const loginUp = async () => {
+  let boolean = await validateForm();
+  if (!boolean) {
     return Message.error("请填写完整登录信息");
   }
   let params = {
     seller_name: AppliForm.seller_name,
     // seller_psd: md5(AppliForm.seller_psd),
     seller_psd: AppliForm.seller_psd,
-    code: AppliForm.code
-  }
+    code: AppliForm.code,
+  };
   setLoading(true);
-  loginSeller(params).then(res => {
-    setLoading(false);
-    if(res.data.code === 1) {
-      Message.success("登录成功")
-      window.localStorage.setItem("role", "seller");
-      router.push({
-        path: '/admin/dashboard'
-      })
-    }else {
-      Message.error(res.data.msg);
-      getCode();
+  loginSeller(params).then(
+    (res) => {
+      setLoading(false);
+      if (res.data.code === 1) {
+        Message.success("登录成功");
+        window.localStorage.setItem("role", "seller");
+        router.push({
+          path: "/admin/dashboard",
+        });
+      } else {
+        Message.error(res.data.msg);
+        getCode();
+      }
+    },
+    (err) => {
+      setLoading(false);
     }
-  }, err => {
-    setLoading(false);
-  })
-}
+  );
+};
 
 const registerFunc = () => {
   router.push({
-    path: '/admin/register'
-  })
-}
+    path: "/admin/register",
+  });
+};
 </script>
 
 <style lang='stylus' scoped>
-@import "view-ui-plus/dist/styles/viewuiplus.css";
-
+@import 'view-ui-plus/dist/styles/viewuiplus.css'
 .login
   position relative
   width 100vw

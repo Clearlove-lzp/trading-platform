@@ -54,7 +54,6 @@
                   >查询</Button
                 >
                 <Button type="primary" @click="resetForm()">重置</Button>
-                <Button type="success" @click="addFunc({})">新增</Button>
               </Space>
             </Col>
           </Row>
@@ -106,7 +105,9 @@
               placement="top-end"
               @on-ok="deleteFunc(row)"
             >
-              <Button type="error" size="small">删除</Button>
+              <Button type="error" v-show="row.role !== 'admin'" size="small"
+                >删除</Button
+              >
             </Poptip>
           </template>
         </i-table>
@@ -155,13 +156,18 @@ import {
   useModal,
 } from "@/hook/index.js";
 import addForm from "./addForm.vue";
-// import { cutoverLevelLimitList, cutoverLevelLimitDel, cutoverLevelLimitEnabled, cutoverLevelLimitDisabled } from '@/api/index';
+import {
+  adminSelectAll,
+  adminUserDelete,
+  cutoverLevelLimitEnabled,
+  cutoverLevelLimitDisabled,
+} from "@/api/index";
 import { Message } from "view-ui-plus";
 
 const columns = [
   {
-    title: "用户名",
-    key: "userName",
+    title: "账号",
+    key: "username",
     align: "center",
   },
   {
@@ -176,17 +182,12 @@ const columns = [
   },
   {
     title: "所属角色",
-    key: "jobName",
+    key: "role",
     align: "center",
   },
   {
     title: "创建时间",
     key: "createTime",
-    align: "center",
-  },
-  {
-    title: "创建人",
-    key: "createUserName",
     align: "center",
   },
   {
@@ -215,59 +216,16 @@ const { userInfo } = useUserInfo();
 const { pages, queryPageFunc, queryCurrentFunc, queryLimitFunc } = usePage(); // 分页器
 const [detailInfo, setDetailInfo] = useState({});
 
-const getParams = () => {
-  let params = {
-    currentPage: pages.current,
-    pageSize: pages.limit,
-    createUserName: AppliForm.createUserName,
-    userName: AppliForm.userName,
-    neakName: AppliForm.neakName,
-    phone: AppliForm.phone,
-  };
-  return params;
-};
-
 // 查询  表格数据
 const { datalist, setDatalist, loading, setLoading } = useTable();
 const query = () => {
-  let params = getParams();
-  setDatalist([
-    {
-      userName: "login_A",
-      neakName: "用户A",
-      phone: "13800000000",
-      jobName: "客户",
-      status: "是",
-      createUserName: "system",
-      createTime: "2023-03-22 12:00:00",
-    },
-    {
-      userName: "login_B",
-      neakName: "用户B",
-      phone: "13800000000",
-      jobName: "卖家",
-      status: "是",
-      createUserName: "system",
-      createTime: "2023-03-22 12:00:00",
-    },
-    {
-      userName: "system",
-      neakName: "system",
-      phone: "13800000000",
-      jobName: "系统管理员",
-      status: "是",
-      createUserName: "system",
-      createTime: "2023-03-22 12:00:00",
-    },
-  ]);
-  // setLoading(true)
-  // cutoverLevelLimitList(params).then(res => {
-  //   setLoading(false);
-  //   if(res.data.code === 200) {
-  //     setDatalist(res.data.result.records);
-  //     pages.total = res.data.result.total;
-  //   }
-  // })
+  let params = `?page=${pages.current}&count=${pages.limit}`;
+  setLoading(true);
+  adminSelectAll(params).then((res) => {
+    setLoading(false);
+    setDatalist(res.data.data.all_user);
+    pages.total = res.data.data.page.total_count;
+  });
 };
 
 useEffect(query, []);
@@ -281,17 +239,15 @@ const addFunc = (info) => {
 
 // 删除
 const deleteFunc = (info) => {
-  // let params = {
-  //   id: info.id
-  // }
-  // cutoverLevelLimitDel(params).then(res => {
-  //   if(res.data.code === 200) {
-  //     Message.success(res.data.message);
-  //     queryPageFunc(query)
-  //   }else{
-  //     Message.error(res.data.message);
-  //   }
-  // })
+  let params = `?username=${info.username}&user_role=${info.role}`;
+  adminUserDelete(params).then((res) => {
+    if (res.data.code === 1) {
+      Message.success(res.data.msg);
+      queryPageFunc(query);
+    } else {
+      Message.error(res.data.msg);
+    }
+  });
 };
 
 const switchChange = (value, row) => {

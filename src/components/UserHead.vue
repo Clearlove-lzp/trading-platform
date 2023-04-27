@@ -59,7 +59,11 @@ export default {
   methods: {
     handleClickUserDropdown(name) {
       if (name === "ownSpace") {
-        this.$router.push("/admin/personerCenter");
+        // 个人中心
+        if (this.getUserInfo.admin_id) {
+          return this.$router.push("/admin/adminCenter");
+        }
+        this.$router.push("/admin/sellerCenter");
       } else if (name === "loginout") {
         // 退出登录
         if (this.getUserInfo.admin_id) {

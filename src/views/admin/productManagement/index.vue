@@ -132,8 +132,8 @@ import addForm from "./addForm.vue";
 import {
   datasetGet,
   datasetDelete,
-  cutoverLevelLimitEnabled,
-  cutoverLevelLimitDisabled,
+  datasetUpdate,
+  datasetGetDetail,
 } from "@/api/index";
 import { Message } from "view-ui-plus";
 import { agencyStr } from "@/axiosConfig/enviromentConfig.js";
@@ -168,7 +168,7 @@ const columns = [
     align: "center",
   },
   {
-    title: "商品状态",
+    title: "是否上架",
     width: 100,
     key: "data_status",
     slot: "data_status",
@@ -232,21 +232,40 @@ const deleteFunc = (info) => {
   });
 };
 
-const switchChange = (value, row) => {
-  // let func = value === 2 ? cutoverLevelLimitEnabled : cutoverLevelLimitDisabled
-  // let params = {
-  //   id: row.id
-  // }
-  // func(params).then(res => {
-  //   if(res.data.code === 200) {
-  //     Message.success(res.data.message);
-  //   }else{
-  //     Message.error(res.data.message);
-  //     query()
-  //   }
-  // }, err => {
-  //   query()
-  // })
+const switchChange = async (value, row) => {
+  let result = {};
+  let detailparams = `?data_id=${row.data_id}`;
+  const res = await datasetGetDetail(detailparams);
+  if (res.data.code === 1) result = res.data.data;
+  let updateParams = {
+    data_name: result.data_name,
+    data_intro: result.data_intro,
+    data_use: result.data_use,
+    data_type: result.data_type,
+    data_field: result.data_field,
+    image_format: result.image_format,
+    text_language: result.text_language,
+    text_avg_len: result.text_avg_len,
+    attr_num: result.attr_num,
+    quality: result.quality,
+    data_per_price: result.data_per_price,
+    data_status: row.data_status,
+    data_id: result.data_id,
+    data_pic: result.data_pic,
+  };
+  datasetUpdate(updateParams).then(
+    (res1) => {
+      query();
+      if (res1.data.code === 1) {
+        Message.success(res1.data.msg);
+      } else {
+        Message.error(res1.data.msg);
+      }
+    },
+    (err) => {
+      query();
+    }
+  );
 };
 </script>
 

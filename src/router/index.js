@@ -171,11 +171,19 @@ const routes = [
           ),
       },
       {
-        path: "/admin/personerCenter",
-        name: "个人中心",
+        path: "/admin/adminCenter",
+        name: "管理员个人中心",
         component: () =>
           import(
-            /* webpackChunkName: "admin/personerCenter" */ "../views/admin/personerCenter/index.vue"
+            /* webpackChunkName: "admin/adminCenter" */ "../views/admin/personerCenter/adminCenter.vue"
+          ),
+      },
+      {
+        path: "/admin/sellerCenter",
+        name: "卖家个人中心",
+        component: () =>
+          import(
+            /* webpackChunkName: "admin/sellerCenter" */ "../views/admin/personerCenter/sellerCenter.vue"
           ),
       },
     ],

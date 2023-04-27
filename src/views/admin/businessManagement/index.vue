@@ -67,13 +67,13 @@
             </div>
           </template>
           <template #action="{ row }">
-            <Button
+            <!-- <Button
               type="warning"
               size="small"
               style="margin-right: 5px"
               @click="addFunc(row)"
               >编辑</Button
-            >
+            > -->
             <Poptip
               confirm
               transfer
@@ -122,51 +122,51 @@ import {
   useEffect,
   useState,
 } from "@/hook/index.js";
-import { getAllBusiness, businessDelete } from "@/api/index";
+import { getAllBusiness, deleteOrder } from "@/api/index";
 
 import { Message } from "view-ui-plus";
 
 const columns = [
   {
     title: "订单编号",
-    key: "orderId",
+    key: "order_id",
     align: "center",
   },
   {
     title: "买方",
-    key: "buyer",
+    key: "user_id",
     align: "center",
   },
   {
     title: "卖方",
-    key: "seller",
+    key: "seller_id",
     align: "center",
   },
   {
     title: "交易内容",
-    key: "content1",
+    key: "data_id",
     align: "center",
   },
   {
     title: "交易金额",
-    key: "amount",
+    key: "order_pay",
     align: "center",
   },
   {
     title: "创建时间",
-    key: "createTime",
+    key: "order_buy_time",
     align: "center",
   },
   {
     title: "完成时间",
-    key: "updateTime",
+    key: "order_finish_time",
     align: "center",
   },
   {
     title: "交易状态",
     width: 100,
-    key: "status",
-    slot: "status",
+    key: "business_status",
+    // slot: "status",
     align: "center",
   },
   {
@@ -188,13 +188,13 @@ const [detailInfo, setDetailInfo] = useState({});
 // 查询  表格数据
 const { datalist, setDatalist, loading, setLoading } = useTable();
 const query = () => {
-  let params = `?page=${pages.current}&count=${pages.limit}&orderId=${AppliForm.orderId}`;
+  let params = `?page=${pages.current}&count=${pages.limit}&data_name=${AppliForm.orderId}`;
   setLoading(true);
   getAllBusiness(params).then((res) => {
     setLoading(false);
     if (res.data.code === 1) {
-      setDatalist(res.data.result.records);
-      pages.total = res.data.result.total;
+      setDatalist(res.data.data.order);
+      pages.total = res.data.data.page.total_count;
     }
   });
 };
@@ -203,17 +203,15 @@ useEffect(query, []);
 
 // 删除
 const deleteFunc = (info) => {
-  // let params = {
-  //   id: info.id
-  // }
-  // cutoverLevelLimitDel(params).then(res => {
-  //   if(res.data.code === 200) {
-  //     Message.success(res.data.message);
-  //     queryPageFunc(query)
-  //   }else{
-  //     Message.error(res.data.message);
-  //   }
-  // })
+  let params = `?order_id=${info.order_id}`;
+  deleteOrder(params).then((res) => {
+    if (res.data.code === 1) {
+      Message.success(res.data.msg);
+      queryPageFunc(query);
+    } else {
+      Message.error(res.data.msg);
+    }
+  });
 };
 
 const switchChange = (value, row) => {

@@ -16,44 +16,67 @@
         :model="AppliForm"
         :label-width="120"
       >
-        <FormItem label="用户名" prop="userName">
-          <Input class="cdp-input" v-model="AppliForm.userName"></Input>
-        </FormItem>
-        <FormItem label="密码" prop="password">
+        <FormItem prop="seller_account" label="账号">
           <Input
-            class="cdp-input"
-            v-model="AppliForm.password"
-            type="password"
-          ></Input>
-        </FormItem>
-        <FormItem label="昵称" prop="neakName">
-          <Input class="cdp-input" v-model="AppliForm.neakName"></Input>
-        </FormItem>
-        <FormItem label="手机号" prop="phone">
-          <Input class="cdp-input" v-model="AppliForm.phone"></Input>
-        </FormItem>
-        <FormItem label="所属角色" prop="jobName">
-          <Select class="cdp-input" v-model="AppliForm.jobName">
-            <Option value="系统管理员">系统管理员</Option>
-            <Option value="客户">客户</Option>
-            <Option value="卖家">卖家</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="状态" prop="status">
-          <i-switch
-            v-model="AppliForm.status"
-            true-value="是"
-            false-value="否"
-            true-color="#13ce66"
-            false-color="#ff4949"
+            v-model="AppliForm.seller_account"
+            type="text"
+            auto-complete="off"
+            @keyup.enter="registerFunc"
           >
-            <template #open>
-              <span>是</span>
+            <template #prefix>
+              <Icon type="ios-person-outline" />
             </template>
-            <template #close>
-              <span>否</span>
+          </Input>
+        </FormItem>
+        <FormItem prop="seller_name" label="用户名/店铺名">
+          <Input
+            v-model="AppliForm.seller_name"
+            type="text"
+            auto-complete="off"
+            @keyup.enter="registerFunc"
+          >
+            <template #prefix>
+              <Icon type="ios-person-outline" />
             </template>
-          </i-switch>
+          </Input>
+        </FormItem>
+        <FormItem prop="seller_tel" label="手机号">
+          <Input
+            v-model="AppliForm.seller_tel"
+            type="tel"
+            auto-complete="off"
+            placeholder="手机号"
+            @keyup.enter="registerFunc"
+          >
+            <template #prefix>
+              <Icon type="ios-call-outline" />
+            </template>
+          </Input>
+        </FormItem>
+        <FormItem prop="seller_idcard" label="身份证号">
+          <Input
+            v-model="AppliForm.seller_idcard"
+            auto-complete="off"
+            placeholder="身份证号"
+            @keyup.enter="registerFunc"
+          >
+            <template #prefix>
+              <Icon type="ios-card-outline" />
+            </template>
+          </Input>
+        </FormItem>
+        <FormItem prop="seller_email" label="邮箱">
+          <Input
+            v-model="AppliForm.seller_email"
+            type="email"
+            auto-complete="off"
+            placeholder="邮箱"
+            @keyup.enter="registerFunc"
+          >
+            <template #prefix>
+              <Icon type="ios-mail-outline" />
+            </template>
+          </Input>
         </FormItem>
       </Form>
     </div>
@@ -70,16 +93,54 @@
 import { useForm, useState, useUserInfo } from "@/hook/index";
 import { Message } from "view-ui-plus";
 import { toRef, computed } from "vue";
-// import { cutoverLevelLimitAdd, cutoverLevelLimitEdit } from '@/api/index';
+import { userInsert, upadteUser, selectByUsernameAndRole } from "@/api/index";
 import moment from "moment";
 
+let seller_telPass = (rule, value, callback) => {
+  let reg =
+    /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
+  if (value === "") {
+    callback(new Error("请输入手机号"));
+  } else if (!reg.test(value)) {
+    callback(new Error("手机号格式不正确"));
+  } else {
+    callback();
+  }
+};
+let seller_idcardPass = (rule, value, callback) => {
+  let IDRe18 =
+    /^([1-6][1-9]|50)\d{4}(18|19|20)\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+  let IDre15 =
+    /^([1-6][1-9]|50)\d{4}\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\d{3}$/;
+  if (value === "") {
+    callback(new Error("请输入身份证号"));
+  } else if (!IDRe18.test(value) && !IDre15.test(value)) {
+    callback(new Error("身份证号格式不正确"));
+  } else {
+    callback();
+  }
+};
+let emailPass = (rule, value, callback) => {
+  let emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+  if (value === "") {
+    callback();
+  } else if (!emailReg.test(value)) {
+    callback(new Error("邮箱格式不正确"));
+  } else {
+    callback();
+  }
+};
+
 const ruleValidate = {
-  userName: [{ required: true, message: "用户名不能为空" }],
-  password: [{ required: true, message: "密码不能为空" }],
-  neakName: [{ required: true, message: "昵称不能为空" }],
-  phone: [{ required: true, message: "手机号不能为空" }],
-  jobName: [{ required: true, message: "所属角色不能为空" }],
-  status: [{ required: true, message: "状态不能为空" }],
+  seller_account: [
+    { required: true, trigger: "blur", message: "账号不能为空" },
+  ],
+  seller_name: [{ required: true, trigger: "blur", message: "店铺名不能为空" }],
+  seller_tel: [{ required: true, validator: seller_telPass, trigger: "blur" }],
+  seller_idcard: [
+    { required: true, validator: seller_idcardPass, trigger: "blur" },
+  ],
+  seller_email: [{ validator: emailPass, trigger: "blur" }],
 };
 
 export default {
@@ -100,15 +161,12 @@ export default {
 
     // 表单
     const form = {
-      id: "",
-      userName: "",
-      password: "",
-      neakName: "",
-      phone: "",
-      jobName: "",
-      status: "是",
-      createUserId: "",
-      createUserName: "",
+      data_id: "",
+      seller_account: "",
+      seller_name: "",
+      seller_tel: "",
+      seller_idcard: "",
+      seller_email: "",
     };
     const [formRef, AppliForm, resetForm, validateForm] = useForm(form);
 
@@ -126,56 +184,62 @@ export default {
         return Message.error("请填写完整");
       }
       let params = {
-        userName: AppliForm.userName,
-        password: AppliForm.password,
-        neakName: AppliForm.neakName,
-        jobName: AppliForm.jobName,
-        phone: AppliForm.phone,
-        status: AppliForm.status,
-        id: AppliForm.id,
-        createUserId: AppliForm.createUserId,
-        createUserName: AppliForm.createUserName,
+        data_id: AppliForm.data_id,
+        seller_account: AppliForm.seller_account,
+        seller_name: AppliForm.seller_name,
+        seller_tel: AppliForm.seller_tel,
+        seller_idcard: AppliForm.seller_idcard,
+        seller_email: AppliForm.seller_email,
       };
-      // setLoading(true);
-      // let func = !AppliForm.id ? cutoverLevelLimitAdd : cutoverLevelLimitEdit
-      // func(params).then(res => {
-      //   setLoading(false);
-      //   if(res.data.code === 200) {
-      //     modalCancel();
-      //     emit('updateList');
-      //     Message.success(res.data.message);
-      //   }else{
-      //     Message.error(res.data.message);
-      //   }
-      // }, err => {
-      //   setLoading(false);
-      // })
+      setLoading(true);
+      let func = !AppliForm.id ? userInsert : upadteUser;
+      func(params).then(
+        (res) => {
+          setLoading(false);
+          if (res.data.code === 1) {
+            modalCancel();
+            emit("updateList");
+            Message.success(res.data.msg);
+          } else {
+            Message.error(res.data.msg);
+          }
+        },
+        (err) => {
+          setLoading(false);
+        }
+      );
 
       modalCancel();
+    };
+
+    const queryDetail = async () => {
+      let result = {};
+      if (props.detailInfo.id) {
+        let params = `?username=${props.detailInfo.username}&user_role=${props.detailInfo.role}`;
+        let res = await selectByUsernameAndRole(params);
+        if (res.data.code === 1) {
+          let arr = res.data.data.filter((x) => {
+            return x.role === props.detailInfo.role;
+          });
+          if (arr.length) result = arr[0];
+        }
+      }
+      AppliForm.data_id = result.data_id ? result.data_id : "";
+      AppliForm.seller_account = result.seller_account
+        ? result.seller_account
+        : "";
+      AppliForm.seller_name = result.seller_name ? result.seller_name : "";
+      AppliForm.seller_tel = result.seller_tel ? result.seller_tel : "";
+      AppliForm.seller_idcard = result.seller_idcard
+        ? result.seller_idcard
+        : "";
+      AppliForm.seller_email = result.seller_email ? result.seller_email : "";
     };
 
     const visibleChange = (value) => {
       if (value) {
         // 打开模态框执行
-        AppliForm.id = props.detailInfo.id ? props.detailInfo.id : "";
-        AppliForm.userName = props.detailInfo.userName
-          ? props.detailInfo.userName
-          : "";
-        AppliForm.password = props.detailInfo.password
-          ? props.detailInfo.password
-          : "";
-        AppliForm.neakName = props.detailInfo.neakName
-          ? props.detailInfo.neakName
-          : "";
-        AppliForm.phone = props.detailInfo.phone ? props.detailInfo.phone : "";
-        AppliForm.jobName = props.detailInfo.jobName
-          ? props.detailInfo.jobName
-          : "";
-        AppliForm.status = props.detailInfo.status
-          ? props.detailInfo.status
-          : "是";
-        // AppliForm.createUserId = props.detailInfo.createUserId ? props.detailInfo.createUserId : userInfo.userId;
-        // AppliForm.createUserName = props.detailInfo.createUserName ? props.detailInfo.createUserName : userInfo.userName;
+        queryDetail();
       }
     };
 
