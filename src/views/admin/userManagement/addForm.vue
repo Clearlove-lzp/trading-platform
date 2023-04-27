@@ -1,7 +1,7 @@
 <template>
   <Modal
     v-model="modalVisible"
-    :title="AppliForm.id ? '编辑' : '新增'"
+    title="编辑"
     width="550px"
     class-name="vertical-center-modal"
     :mask-closable="false"

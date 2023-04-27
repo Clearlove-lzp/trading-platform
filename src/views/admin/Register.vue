@@ -134,6 +134,7 @@
 import { sellerRegister } from "@/api/index";
 import { useForm, useState, useRouter } from "@/hook/index.js";
 import { Message } from "view-ui-plus";
+import md5 from "js-md5";
 
 let validatePass2 = (rule, value, callback) => {
   if (value === "") {
@@ -219,8 +220,8 @@ const registerFunc = async () => {
   let params = {
     seller_account: AppliForm.seller_account,
     seller_name: AppliForm.seller_name,
-    seller_psd: AppliForm.seller_psd,
-    seller_re_psd: AppliForm.seller_re_psd,
+    seller_psd: md5(AppliForm.seller_psd),
+    seller_re_psd: md5(AppliForm.seller_re_psd),
     seller_tel: AppliForm.seller_tel,
     seller_idcard: AppliForm.seller_idcard,
     seller_email: AppliForm.seller_email,

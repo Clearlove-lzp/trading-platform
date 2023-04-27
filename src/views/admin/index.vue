@@ -85,7 +85,7 @@ export default {
       this.newRouteA = [`/${str}`];
     },
     ...mapMutations("user", ["setUserInfo"]),
-    loginUser() {
+    getLoginInfo() {
       loginGetUser().then((res) => {
         if (res.data.code === 1) {
           this.setUserInfo(res.data.data);
@@ -113,7 +113,7 @@ export default {
   created() {
     this.ckeckMenu();
     this.checkLoyOut();
-    this.loginUser();
+    this.getLoginInfo();
   },
   updated() {},
 };

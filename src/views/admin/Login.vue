@@ -123,8 +123,8 @@ const loginUp = async () => {
   }
   let params = {
     seller_name: AppliForm.seller_name,
-    // seller_psd: md5(AppliForm.seller_psd),
-    seller_psd: AppliForm.seller_psd,
+    seller_psd: md5(AppliForm.seller_psd),
+    // seller_psd: AppliForm.seller_psd,
     code: AppliForm.code,
   };
   setLoading(true);

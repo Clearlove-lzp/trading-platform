@@ -40,8 +40,8 @@
           v-model="loginForm.code"
           auto-complete="off"
           placeholder="验证码"
-          style="width: 63%"
-          @keyup.enter="handleLogin"
+          style="width: 65%"
+          @keyup.enter="loginUp"
         >
           <template #prefix>
             <Icon type="ios-unlock-outline" />
@@ -51,7 +51,7 @@
           <img :src="codeUrl" @click="getCode" />
         </div>
       </FormItem>
-      <Checkbox v-model="loginForm.rememberMe" style="margin: 0 0 25px 0">
+      <Checkbox v-model="loginForm.checked" style="margin: 0 0 25px 0">
         记住我
       </Checkbox>
       <div class="button-container">
@@ -77,11 +77,12 @@
 
 <script>
 import { encrypt } from "@/libs/util.js";
-// import { getCodeImg } from '@/api/login'
+import { loginUser, loginCode } from "@/api/index";
 import Cookies from "js-cookie";
 import qs from "qs";
 import Background from "@/assets/imgs/background.jpg";
 import { mapMutations } from "vuex";
+import md5 from "js-md5";
 export default {
   name: "Login",
   data() {
@@ -92,9 +93,8 @@ export default {
       loginForm: {
         username: "",
         password: "",
-        rememberMe: false,
+        checked: false,
         code: "",
-        uuid: "",
       },
       loginRules: {
         username: [
@@ -127,7 +127,7 @@ export default {
   },
   created() {
     // 获取验证码
-    // this.getCode()
+    this.getCode();
     // 获取用户名密码等Cookie
     this.getCookie();
     // token 过期提示
@@ -136,22 +136,20 @@ export default {
   methods: {
     ...mapMutations("user", ["setUserInfo"]),
     getCode() {
-      getCodeImg().then((res) => {
-        this.codeUrl = res.img;
-        this.loginForm.uuid = res.uuid;
-      });
+      let params = parseInt(Math.random() * 89999) + 10000;
+      this.codeUrl = loginCode + params;
     },
     getCookie() {
       const username = Cookies.get("username");
       let password = Cookies.get("password");
-      const rememberMe = Cookies.get("rememberMe");
+      const checked = Cookies.get("checked");
       // 保存cookie里面的加密后的密码
       this.cookiePass = password === undefined ? "" : password;
       password = password === undefined ? this.loginForm.password : password;
       this.loginForm = {
         username: username === undefined ? this.loginForm.username : username,
         password: password,
-        rememberMe: rememberMe === undefined ? false : Boolean(rememberMe),
+        checked: checked === undefined ? false : Boolean(checked),
         code: "",
       };
     },
@@ -159,34 +157,42 @@ export default {
       this.$refs.loginFormRef.validate((valid) => {
         const user = {
           username: this.loginForm.username,
-          password: this.loginForm.password,
-          rememberMe: this.loginForm.rememberMe,
+          password: md5(this.loginForm.password),
+          checked: this.loginForm.checked,
           code: this.loginForm.code,
-          uuid: this.loginForm.uuid,
         };
         if (user.password !== this.cookiePass) {
           user.password = encrypt(user.password);
         }
         if (valid) {
           this.loading = true;
-          if (user.rememberMe) {
+          if (user.checked) {
             Cookies.set("username", user.username, { expires: 1 });
             Cookies.set("password", user.password, { expires: 1 });
-            Cookies.set("rememberMe", user.rememberMe, { expires: 1 });
+            Cookies.set("checked", user.checked, { expires: 1 });
           } else {
             Cookies.remove("username");
             Cookies.remove("password");
-            Cookies.remove("rememberMe");
+            Cookies.remove("checked");
           }
           this.setUserInfo(user);
           this.$router.push({ path: "/index" });
-          // this.$store.dispatch('Login', user).then(() => {
-          //   this.loading = false
-          //   this.$router.push({ path: '/dashboard' })
-          // }).catch(() => {
-          //   this.loading = false
-          //   this.getCode()
-          // })
+          loginUser(params).then(
+            (res) => {
+              setLoading(false);
+              if (res.data.code === 1) {
+                this.$Message.success("登录成功");
+                window.localStorage.setItem("role", "buyer");
+                this.$router.push({ path: "/index" });
+              } else {
+                Message.error(res.data.msg);
+                getCode();
+              }
+            },
+            (err) => {
+              setLoading(false);
+            }
+          );
         } else {
           console.log("error submit!!");
           return false;

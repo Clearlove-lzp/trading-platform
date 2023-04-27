@@ -103,10 +103,10 @@
 
 <script>
 import { encrypt } from "@/libs/util.js";
-import Cookies from "js-cookie";
 import Background from "@/assets/imgs/background.jpg";
 import { Message } from "view-ui-plus";
 import { userRegister } from "@/api/index.js";
+import md5 from "js-md5";
 export default {
   name: "Register",
   data() {
@@ -198,7 +198,7 @@ export default {
         const user = {
           username: this.loginForm.username,
           name: this.loginForm.name,
-          password: this.loginForm.password,
+          password: md5(this.loginForm.password),
           phone: this.loginForm.phone,
           code: this.loginForm.code,
           email: this.loginForm.email,
@@ -208,15 +208,6 @@ export default {
           user.password = encrypt(user.password);
         }
         if (valid) {
-          if (user.rememberMe) {
-            Cookies.set("username", user.username, { expires: 1 });
-            Cookies.set("password", user.password, { expires: 1 });
-            Cookies.set("rememberMe", user.rememberMe, { expires: 1 });
-          } else {
-            Cookies.remove("username");
-            Cookies.remove("password");
-            Cookies.remove("rememberMe");
-          }
           this.loading = true;
           userRegister(user).then(
             (res) => {
