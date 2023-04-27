@@ -15,6 +15,13 @@
           </template>
         </Input>
       </FormItem>
+      <FormItem prop="name" label="昵称" :label-width="80">
+        <Input v-model="loginForm.name" type="text" auto-complete="off">
+          <template #prefix>
+            <Icon type="ios-person-outline" />
+          </template>
+        </Input>
+      </FormItem>
       <FormItem prop="password" label="密码">
         <Input
           v-model="loginForm.password"
@@ -53,9 +60,9 @@
           </template>
         </Input>
       </FormItem>
-      <FormItem prop="idcard" label="身份证号">
+      <FormItem prop="id_card" label="身份证号">
         <Input
-          v-model="loginForm.idcard"
+          v-model="loginForm.id_card"
           auto-complete="off"
           @keyup.enter="handleLogin"
         >
@@ -99,6 +106,7 @@ import { encrypt } from "@/libs/util.js";
 import Cookies from "js-cookie";
 import Background from "@/assets/imgs/background.jpg";
 import { Message } from "view-ui-plus";
+import { userRegister } from "@/api/index.js";
 export default {
   name: "Register",
   data() {
@@ -122,7 +130,7 @@ export default {
         callback();
       }
     };
-    let idcardPass = (rule, value, callback) => {
+    let id_cardPass = (rule, value, callback) => {
       let IDRe18 =
         /^([1-6][1-9]|50)\d{4}(18|19|20)\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
       let IDre15 =
@@ -151,16 +159,18 @@ export default {
       cookiePass: "",
       loginForm: {
         username: "",
+        name: "",
         password: "",
         repassword: "",
         phone: "",
         email: "",
-        idcard: "",
+        id_card: "",
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", message: "用户名不能为空" },
+          { required: true, trigger: "blur", message: "账号不能为空" },
         ],
+        name: [{ required: true, trigger: "blur", message: "昵称不能为空" }],
         password: [
           { required: true, trigger: "blur", message: "密码不能为空" },
         ],
@@ -168,7 +178,7 @@ export default {
           { required: true, validator: validatePass2, trigger: "blur" },
         ],
         phone: [{ required: true, validator: phonePass, trigger: "blur" }],
-        idcard: [{ required: true, validator: idcardPass, trigger: "blur" }],
+        id_card: [{ required: true, validator: id_cardPass, trigger: "blur" }],
         email: [{ validator: emailPass, trigger: "blur" }],
       },
       loading: false,
@@ -187,16 +197,17 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         const user = {
           username: this.loginForm.username,
+          name: this.loginForm.name,
           password: this.loginForm.password,
-          rememberMe: this.loginForm.rememberMe,
+          phone: this.loginForm.phone,
           code: this.loginForm.code,
-          uuid: this.loginForm.uuid,
+          email: this.loginForm.email,
+          id_card: this.loginForm.id_card,
         };
         if (user.password !== this.cookiePass) {
           user.password = encrypt(user.password);
         }
         if (valid) {
-          this.loading = true;
           if (user.rememberMe) {
             Cookies.set("username", user.username, { expires: 1 });
             Cookies.set("password", user.password, { expires: 1 });
@@ -206,8 +217,23 @@ export default {
             Cookies.remove("password");
             Cookies.remove("rememberMe");
           }
-          this.$router.push({ path: "/login" });
-          Message.success("注册成功，前往登录");
+          this.loading = true;
+          userRegister(user).then(
+            (res) => {
+              this.loading = false;
+              if (res.data.code === 1) {
+                Message.success("注册成功，前往登录");
+                this.$router.push({
+                  path: "/login",
+                });
+              } else {
+                Message.error(res.data.msg);
+              }
+            },
+            (err) => {
+              this.loading = false;
+            }
+          );
           // this.$store.dispatch('Login', user).then(() => {
           //   this.loading = false
           //   this.$router.push({ path: '/dashboard' })

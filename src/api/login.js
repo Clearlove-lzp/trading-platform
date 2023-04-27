@@ -1,7 +1,7 @@
 import axios from "axios";
 import { agencyStr } from "@/axiosConfig/enviromentConfig.js";
 
-// 用户登录
+// 获取用户登录信息
 export function loginUser(data) {
   return axios.post(agencyStr + `/api/user/login`, data).then(
     (res) => {
@@ -55,6 +55,18 @@ export function loginGetUser() {
 // 卖家注册
 export function sellerRegister(data) {
   return axios.post(agencyStr + `/api/seller/register`, data).then(
+    (res) => {
+      return Promise.resolve(res);
+    },
+    (err) => {
+      return Promise.reject(err);
+    }
+  );
+}
+
+// 买家注册
+export function userRegister(data) {
+  return axios.post(agencyStr + `/api/user/register`, data).then(
     (res) => {
       return Promise.resolve(res);
     },

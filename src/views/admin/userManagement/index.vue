@@ -59,6 +59,11 @@
           </Row>
         </Form>
       </div>
+      <Tabs v-model="AppliForm.role" @on-click="queryPageFunc(query)">
+        <TabPane label="管理员" name="admin"></TabPane>
+        <TabPane label="卖家" name="seller"></TabPane>
+        <TabPane label="买家" name="user"></TabPane>
+      </Tabs>
       <!-- 表格数据 -->
       <div class="cdp-table">
         <i-table
@@ -66,7 +71,13 @@
           :loading="loading"
           size="small"
           stripe
-          :columns="columns"
+          :columns="
+            AppliForm.role === 'admin'
+              ? adminColumns
+              : AppliForm.role === 'seller'
+              ? sellerColumns
+              : userColumns
+          "
           :data="datalist"
         >
           <template #status="{ row }">
@@ -164,7 +175,49 @@ import {
 } from "@/api/index";
 import { Message } from "view-ui-plus";
 
-const columns = [
+const adminColumns = [
+  {
+    title: "账号",
+    key: "admin_name",
+    align: "center",
+  },
+  {
+    title: "昵称",
+    key: "admin_name",
+    align: "center",
+  },
+];
+
+const sellerColumns = [
+  {
+    title: "账号",
+    key: "seller_account",
+    align: "center",
+  },
+  {
+    title: "店铺名",
+    key: "seller_name",
+    align: "center",
+  },
+  {
+    title: "手机号",
+    key: "seller_tel",
+    align: "center",
+  },
+  {
+    title: "邮箱",
+    key: "seller_email",
+    align: "center",
+  },
+  {
+    title: "操作",
+    slot: "action",
+    width: 130,
+    align: "center",
+  },
+];
+
+const userColumns = [
   {
     title: "账号",
     key: "username",
@@ -172,7 +225,7 @@ const columns = [
   },
   {
     title: "昵称",
-    key: "neakName",
+    key: "name",
     align: "center",
   },
   {
@@ -181,20 +234,8 @@ const columns = [
     align: "center",
   },
   {
-    title: "所属角色",
-    key: "role",
-    align: "center",
-  },
-  {
-    title: "创建时间",
-    key: "createTime",
-    align: "center",
-  },
-  {
-    title: "是否启用",
-    width: 100,
-    key: "status",
-    slot: "status",
+    title: "邮箱",
+    key: "email",
     align: "center",
   },
   {
@@ -210,6 +251,7 @@ const form = {
   neakName: "",
   phone: "",
   createUserName: "",
+  role: "admin",
 };
 const [formRef, AppliForm, resetForm] = useForm(form);
 const { userInfo } = useUserInfo();
@@ -219,12 +261,14 @@ const [detailInfo, setDetailInfo] = useState({});
 // 查询  表格数据
 const { datalist, setDatalist, loading, setLoading } = useTable();
 const query = () => {
-  let params = `?page=${pages.current}&count=${pages.limit}`;
+  let params = `?page=${pages.current}&count=${pages.limit}&role=${AppliForm.role}`;
   setLoading(true);
   adminSelectAll(params).then((res) => {
     setLoading(false);
-    setDatalist(res.data.data.all_user);
-    pages.total = res.data.data.page.total_count;
+    if (res.data.code === 1) {
+      setDatalist(res.data.data.data);
+      pages.total = res.data.data.page.total_count;
+    }
   });
 };
 
@@ -239,7 +283,13 @@ const addFunc = (info) => {
 
 // 删除
 const deleteFunc = (info) => {
-  let params = `?username=${info.username}&user_role=${info.role}`;
+  let params = "";
+  if (AppliForm.role === "seller") {
+    params = `?username=${info.seller_account}&user_role=seller`;
+  } else {
+    params = `?username=${info.username}&user_role=user`;
+  }
+
   adminUserDelete(params).then((res) => {
     if (res.data.code === 1) {
       Message.success(res.data.msg);
