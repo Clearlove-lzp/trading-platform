@@ -148,8 +148,20 @@ export function adminUserDelete(params) {
 }
 
 // 用户信息更新
+// export function upadteUser(params) {
+//   return axios.post(agencyStr + `/api/admin/upadte`, params).then(
+//     (res) => {
+//       return Promise.resolve(res);
+//     },
+//     (err) => {
+//       return Promise.reject(err);
+//     }
+//   );
+// }
+
+// 买家信息更新
 export function upadteUser(params) {
-  return axios.post(agencyStr + `/api/admin/upadte`, params).then(
+  return axios.post(agencyStr + `/api/admin/update/user`, params).then(
     (res) => {
       return Promise.resolve(res);
     },

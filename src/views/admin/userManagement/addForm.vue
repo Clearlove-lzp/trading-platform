@@ -29,11 +29,24 @@
             </template>
           </Input>
         </FormItem>
-        <FormItem prop="name" label="用户名/店铺名">
+        <FormItem prop="name" label="昵称" v-if="AppliForm.role === 'user'">
           <Input
             v-model="AppliForm.name"
             type="text"
-            placeholder="用户名/店铺名"
+            placeholder="昵称"
+            auto-complete="off"
+            @keyup.enter="registerFunc"
+          >
+            <template #prefix>
+              <Icon type="ios-person-outline" />
+            </template>
+          </Input>
+        </FormItem>
+        <FormItem prop="name" label="店铺名" v-else>
+          <Input
+            v-model="AppliForm.name"
+            type="text"
+            placeholder="店铺名"
             auto-complete="off"
             @keyup.enter="registerFunc"
           >
@@ -135,7 +148,7 @@ let emailPass = (rule, value, callback) => {
 
 const ruleValidate = {
   username: [{ required: true, trigger: "blur", message: "账号不能为空" }],
-  name: [{ required: true, trigger: "blur", message: "店铺名不能为空" }],
+  name: [{ required: true, trigger: "blur", message: "不能为空" }],
   phone: [{ required: true, validator: phonePass, trigger: "blur" }],
   id_card: [{ required: true, validator: id_cardPass, trigger: "blur" }],
   email: [{ validator: emailPass, trigger: "blur" }],
@@ -165,6 +178,7 @@ export default {
       phone: "",
       id_card: "",
       email: "",
+      role: "",
     };
     const [formRef, AppliForm, resetForm, validateForm] = useForm(form);
 
@@ -188,7 +202,6 @@ export default {
         phone: AppliForm.phone,
         id_card: AppliForm.id_card,
         email: AppliForm.email,
-        role: "user",
       };
       setLoading(true);
       upadteUser(params).then(
@@ -206,18 +219,27 @@ export default {
           setLoading(false);
         }
       );
-
-      modalCancel();
     };
 
     const queryDetail = async () => {
       let result = props.detailInfo;
-      AppliForm.user_id = result.user_id ? result.user_id : "";
-      AppliForm.username = result.username ? result.username : "";
-      AppliForm.name = result.name ? result.name : "";
-      AppliForm.phone = result.phone ? result.phone : "";
-      AppliForm.id_card = result.id_card ? result.id_card : "";
-      AppliForm.email = result.email ? result.email : "";
+      if (result.role === "user") {
+        AppliForm.user_id = result.user_id ? result.user_id : "";
+        AppliForm.username = result.username ? result.username : "";
+        AppliForm.name = result.name ? result.name : "";
+        AppliForm.phone = result.phone ? result.phone : "";
+        AppliForm.id_card = result.id_card ? result.id_card : "";
+        AppliForm.email = result.email ? result.email : "";
+        AppliForm.role = result.role ? result.role : "";
+      } else {
+        AppliForm.user_id = result.seller_id ? result.seller_id : "";
+        AppliForm.username = result.seller_account ? result.seller_account : "";
+        AppliForm.name = result.seller_name ? result.seller_name : "";
+        AppliForm.phone = result.seller_tel ? result.seller_tel : "";
+        AppliForm.id_card = result.seller_idcard ? result.seller_idcard : "";
+        AppliForm.email = result.seller_email ? result.seller_email : "";
+        AppliForm.role = result.role ? result.role : "";
+      }
     };
 
     const visibleChange = (value) => {

@@ -52,6 +52,18 @@ export function loginGetUser() {
   );
 }
 
+// 获取用户信息
+export function loginUserDataGet() {
+  return axios.get(agencyStr + `/api/data/user/getUser`).then(
+    (res) => {
+      return Promise.resolve(res);
+    },
+    (err) => {
+      return Promise.reject(err);
+    }
+  );
+}
+
 // 卖家注册
 export function sellerRegister(data) {
   return axios.post(agencyStr + `/api/seller/register`, data).then(

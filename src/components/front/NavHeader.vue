@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "nav-header", //home直接引用的nav-header标签，与这个名字无关，与NavHeader.vue这个名字有关
   data() {
@@ -33,13 +33,16 @@ export default {
     };
   },
   computed: {
-    username() {
-      // return this.$store.state.username;
-    },
     cartCount() {
       // return this.$store.state.cartCount;
     },
-    ...mapState(["username", "cartCount"]),
+    ...mapState(["cartCount"]),
+    ...mapState({
+      getUserInfo: (state) => state.user.userInfo,
+    }),
+    username() {
+      return this.getUserInfo.name;
+    },
   },
   mounted() {
     // this.getProductList();
@@ -55,6 +58,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations("user", ["setUserInfo"]),
     getProductList() {
       this.axios
         .get("/products", {
@@ -80,12 +84,14 @@ export default {
       this.$router.push("/login");
     },
     logout() {
-      this.axios.post("/user/logout").then(() => {
-        this.$message.success("退出成功");
-        this.$cookie.set("userId", "", { expires: "-1" });
-        this.$store.dispatch("saveUserName", "");
-        this.$store.dispatch("saveCartCount", "0");
-      });
+      // this.axios.post("/user/logout").then(() => {
+      //   this.$message.success("退出成功");
+      //   this.$cookie.set("userId", "", { expires: "-1" });
+      //   this.$store.dispatch("saveUserName", "");
+      //   this.$store.dispatch("saveCartCount", "0");
+      // });
+      this.$router.push("/login");
+      this.setUserInfo({});
     },
   },
 };

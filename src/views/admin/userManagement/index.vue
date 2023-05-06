@@ -277,7 +277,7 @@ useEffect(query, []);
 // 新增/编辑 模态框
 const [addFormShow, openAddModal, closeAddModal] = useModal();
 const addFunc = (info) => {
-  setDetailInfo(info);
+  setDetailInfo({ ...info, role: AppliForm.role });
   openAddModal();
 };
 

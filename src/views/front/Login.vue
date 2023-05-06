@@ -175,14 +175,12 @@ export default {
             Cookies.remove("password");
             Cookies.remove("checked");
           }
-          this.setUserInfo(user);
-          this.$router.push({ path: "/index" });
-          loginUser(params).then(
+          loginUser(user).then(
             (res) => {
-              setLoading(false);
+              this.loading = false;
               if (res.data.code === 1) {
+                this.setUserInfo(res.data.data);
                 this.$Message.success("登录成功");
-                window.localStorage.setItem("role", "buyer");
                 this.$router.push({ path: "/index" });
               } else {
                 Message.error(res.data.msg);
@@ -190,7 +188,7 @@ export default {
               }
             },
             (err) => {
-              setLoading(false);
+              this.loading = false;
             }
           );
         } else {
