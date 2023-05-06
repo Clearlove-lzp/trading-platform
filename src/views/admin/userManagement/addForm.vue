@@ -19,6 +19,7 @@
         <FormItem prop="username" label="账号">
           <Input
             v-model="AppliForm.username"
+            disabled
             type="text"
             placeholder="账号"
             auto-complete="off"
@@ -68,7 +69,7 @@
             </template>
           </Input>
         </FormItem>
-        <FormItem prop="id_card" label="身份证号">
+        <!-- <FormItem prop="id_card" label="身份证号">
           <Input
             v-model="AppliForm.id_card"
             auto-complete="off"
@@ -79,7 +80,7 @@
               <Icon type="ios-card-outline" />
             </template>
           </Input>
-        </FormItem>
+        </FormItem> -->
         <FormItem prop="email" label="邮箱">
           <Input
             v-model="AppliForm.email"
@@ -108,7 +109,7 @@
 import { useForm, useState, useUserInfo } from "@/hook/index";
 import { Message } from "view-ui-plus";
 import { toRef, computed } from "vue";
-import { upadteUser, selectByUsernameAndRole } from "@/api/index";
+import { upadteUser, updateSeller } from "@/api/index";
 import moment from "moment";
 
 let phonePass = (rule, value, callback) => {
@@ -195,16 +196,25 @@ export default {
       if (!boolean) {
         return Message.error("请填写完整");
       }
-      let params = {
-        user_id: AppliForm.user_id,
-        username: AppliForm.username,
-        name: AppliForm.name,
-        phone: AppliForm.phone,
-        id_card: AppliForm.id_card,
-        email: AppliForm.email,
-      };
+      let params = {};
+      if (AppliForm.role === "user") {
+        params.user_id = AppliForm.user_id;
+        params.username = AppliForm.username;
+        params.name = AppliForm.name;
+        params.phone = AppliForm.phone;
+        params.id_card = AppliForm.id_card;
+        params.email = AppliForm.email;
+      } else {
+        params.seller_id = AppliForm.user_id;
+        params.seller_account = AppliForm.username;
+        params.seller_name = AppliForm.name;
+        params.seller_tel = AppliForm.phone;
+        params.seller_idcard = AppliForm.id_card;
+        params.seller_email = AppliForm.email;
+      }
       setLoading(true);
-      upadteUser(params).then(
+      let func = AppliForm.role === "user" ? upadteUser : updateSeller;
+      func(params).then(
         (res) => {
           setLoading(false);
           if (res.data.code === 1) {

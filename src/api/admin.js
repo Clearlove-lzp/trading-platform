@@ -171,6 +171,18 @@ export function upadteUser(params) {
   );
 }
 
+// 卖家信息更新
+export function updateSeller(params) {
+  return axios.post(agencyStr + `/api/admin/update/seller`, params).then(
+    (res) => {
+      return Promise.resolve(res);
+    },
+    (err) => {
+      return Promise.reject(err);
+    }
+  );
+}
+
 // // 根据用户名查询
 // export function selectByUsername(params) {
 //   return axios.get(agencyStr + `/api/admin/selectByUsername` + params).then(
