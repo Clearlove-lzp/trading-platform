@@ -77,16 +77,13 @@
 
 <script>
 import { encrypt } from "@/libs/util.js";
-import { 
-  loginUser, 
-  loginCode,
-} from "@/api/index";
+import { loginUser, loginCode } from "@/api/index";
 import Cookies from "js-cookie";
 import qs from "qs";
 import Background from "@/assets/imgs/background.jpg";
 import { mapMutations } from "vuex";
 import md5 from "js-md5";
-import { Message } from "view-ui-plus"
+import { Message } from "view-ui-plus";
 export default {
   name: "Login",
   data() {

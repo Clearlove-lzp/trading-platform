@@ -296,50 +296,51 @@ export const useTable = (key) => {
   };
 };
 
-
-export const useTablePaste = (value)=>{
-  const [modelValue, setModelVule] = useState(value)
+export const useTablePaste = (value) => {
+  const [modelValue, setModelVule] = useState(value);
   const [inputProps, setInputPros] = useState({
     rows: 4,
-    placeholder: '尝试从网页、Excel 或其它软件复制一段表格数据，粘贴在这里'
+    placeholder: "尝试从网页、Excel 或其它软件复制一段表格数据，粘贴在这里",
   });
   const [tableProps, setTablePros] = useState({});
   const [tableDatas, setTableDatas] = useState([]);
   const [tableColumns, setTableColumns] = useState([]);
 
   const handleSuccess = (tableData) => {
-    if (tableData.data || tableData.columns!=[]){
-      setTableColumns(tableData.columns.map((x)=>{
-        x['width'] = 200;
-        x['ellipsis'] = true;
-        x['resizable'] = true;
-        return x;
-      }));
+    if (tableData.data || tableData.columns != []) {
+      setTableColumns(
+        tableData.columns.map((x) => {
+          x["width"] = 200;
+          x["ellipsis"] = true;
+          x["resizable"] = true;
+          return x;
+        })
+      );
       setTableDatas(tableData.data);
     }
   };
   const handleError = (tableData, errorIndex) => {
-    console.log(tableData, errorIndex);  
+    console.log(tableData, errorIndex);
   };
   return [
-    modelValue, 
+    modelValue,
     setModelVule,
-    inputProps, 
+    inputProps,
     setInputPros,
-    tableProps, 
+    tableProps,
     setTablePros,
-    tableDatas, 
+    tableDatas,
     setTableDatas,
-    tableColumns, 
+    tableColumns,
     setTableColumns,
     handleSuccess,
     handleError,
   ];
-}
+};
 
 //标签与音频播放联合
 export const userPlayListAudio = () => {
-  const [audioList, setAudioList] =  useState([
+  const [audioList, setAudioList] = useState([
     // 'https://ea-sycdn.kuwo.cn/17f594cdaf5f405649e551eba31f0ed9/645f0d7e/resource/n2/26/44/830758683.mp3',
     // 'https://nc01-sycdn.kuwo.cn/127bb0f1793eec70ddceb5fbcb443a28/645f064c/resource/n3/93/0/3048220642.mp3',
     // 'https://ea-sycdn.kuwo.cn/9c976ee3809e07ca99ffc0037cb85186/645f0d94/resource/n3/56/75/326371242.mp3',
@@ -348,52 +349,52 @@ export const userPlayListAudio = () => {
   ]);
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
 
-  const handlePlay = (audioPlayer)=> {
+  const handlePlay = (audioPlayer) => {
     let index = audioPlayer.currentPlayIndex;
     setCurrentAudioIndex(index);
-  }
-  const handlePlayPrev = (audioPlayer)=> {
+  };
+  const handlePlayPrev = (audioPlayer) => {
     let index = audioPlayer.currentPlayIndex;
     setCurrentAudioIndex(index);
-  }
-  const handlePlayNext = (audioPlayer)=> {
+  };
+  const handlePlayNext = (audioPlayer) => {
     let index = audioPlayer.currentPlayIndex;
     setCurrentAudioIndex(index);
-  }
+  };
   const handleTagClose = (index) => {
     audioList.value.splice(index, 1);
-    console.log(audioList)
-  }
+    console.log(audioList);
+  };
   const handleTagClick = (index, audioPlayer) => {
     setCurrentAudioIndex(index);
-    if(!audioPlayer.isPlaying){
+    if (!audioPlayer.isPlaying) {
       audioPlayer.play();
     }
 
-    while (audioPlayer.currentPlayIndex != index){
-      console.log(audioPlayer.currentPlayIndex, index)
-      if (audioPlayer.currentPlayIndex < index){
+    while (audioPlayer.currentPlayIndex != index) {
+      console.log(audioPlayer.currentPlayIndex, index);
+      if (audioPlayer.currentPlayIndex < index) {
         audioPlayer.playNext();
       }
-      if (audioPlayer.currentPlayIndex > index){
+      if (audioPlayer.currentPlayIndex > index) {
         audioPlayer.playPrev();
       }
     }
-  }
+  };
 
   // http://localhost:8081/#/admin/productManagement
   return [
-    audioList, 
-    setAudioList, 
-    currentAudioIndex, 
+    audioList,
+    setAudioList,
+    currentAudioIndex,
     setCurrentAudioIndex,
     handlePlay,
     handlePlayPrev,
     handlePlayNext,
-    handleTagClose, 
-    handleTagClick
-  ]
-}
+    handleTagClose,
+    handleTagClick,
+  ];
+};
 
 export const useEcharts = () => {
   // echarts

@@ -129,16 +129,14 @@ export function orderManagementSelectByCondition(params) {
 
 //订单发货 http://localhost:8080/api/admin/orderManagement/send
 export function orderManagementSendGoods(params) {
-  return axios
-    .get(agencyStr + `/api/admin/orderManagement/send` + params)
-    .then(
-      (res) => {
-        return Promise.resolve(res);
-      },
-      (err) => {
-        return Promise.reject(err);
-      }
-    );
+  return axios.get(agencyStr + `/api/admin/orderManagement/send` + params).then(
+    (res) => {
+      return Promise.resolve(res);
+    },
+    (err) => {
+      return Promise.reject(err);
+    }
+  );
 }
 
 // 受理退款

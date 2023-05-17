@@ -44,12 +44,12 @@ export const decrypt = (word, keyStr) => {
 //将多个object合并为一个object, 参数为数组，每个元素为一个嵌套的object
 export const flattenObject = (data) => {
   let res = [];
-  data.forEach(element => {
-    let obj = {}
-    for (let e in element){
-      Object.assign(obj, element[e])
+  data.forEach((element) => {
+    let obj = {};
+    for (let e in element) {
+      Object.assign(obj, element[e]);
     }
-    res.push(obj)
+    res.push(obj);
   });
   return res;
 };

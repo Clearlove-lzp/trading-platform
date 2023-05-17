@@ -55,10 +55,18 @@
             <Button type="info" size="small" style="margin-right: 5px"
               >订单详情</Button
             >
-            <Button @click="sendGoods(row.order_id)" type="primary" size="small" v-show="row.order_status === '待发货'"
+            <Button
+              @click="sendGoods(row.order_id)"
+              type="primary"
+              size="small"
+              v-show="row.order_status === '待发货'"
               >发货</Button
             >
-            <Button @click="returnPay(row.order_id)" type="primary" size="small" v-show="row.order_status === '退款中'"
+            <Button
+              @click="returnPay(row.order_id)"
+              type="primary"
+              size="small"
+              v-show="row.order_status === '退款中'"
               >受理</Button
             >
           </template>
@@ -111,11 +119,10 @@ import {
   cutoverLevelLimitEnabled,
   cutoverLevelLimitDisabled,
 } from "@/api/index";
-import {flattenObject} from "@/libs/util";
+import { flattenObject } from "@/libs/util";
 import { agencyStr } from "@/axiosConfig/enviromentConfig.js";
 import { Message } from "view-ui-plus";
 import { resolveComponent } from "vue";
-
 
 const allLabel = (h) => {
   return h("div", [
@@ -231,7 +238,7 @@ const columns = [
 ];
 
 const form = {
-  orderId: ''
+  orderId: "",
 };
 const [formRef, AppliForm, resetForm] = useForm(form);
 const { userInfo } = useUserInfo();
@@ -273,8 +280,8 @@ const queryAll = () => {
 };
 
 const queryStatus = (name) => {
-  if (name === "全部订单"){
-    name = '';
+  if (name === "全部订单") {
+    name = "";
   }
   let params = `?page=${pages.current}&count=${pages.limit}&order_status=${name}&ID=${AppliForm.orderId}`;
   setLoading(true);
@@ -312,9 +319,8 @@ useEffect(() => {
   tabChange();
 }, []);
 
-
 //发货
-const sendGoods = (order_id)=> {
+const sendGoods = (order_id) => {
   let params = `?order_id=${order_id}`;
   setLoading(true);
   orderManagementSendGoods(params).then((res) => {
@@ -322,14 +328,14 @@ const sendGoods = (order_id)=> {
     if (res.data.code === 1) {
       Message.success(res.data.msg);
       refresh();
-    }else{
+    } else {
       Message.error(res.data.msg);
     }
-  })
-}
+  });
+};
 
 //退款
-const returnPay = (order_id)=> {
+const returnPay = (order_id) => {
   let params = `?order_id=${order_id}`;
   setLoading(true);
   orderManagementReturn(params).then((res) => {
@@ -337,12 +343,11 @@ const returnPay = (order_id)=> {
     if (res.data.code === 1) {
       Message.success(res.data.msg);
       refresh();
-    }else{
+    } else {
       Message.error(res.data.msg);
     }
-  })
-}
-
+  });
+};
 </script>
 
 <style scoped>

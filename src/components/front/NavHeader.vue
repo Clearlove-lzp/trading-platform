@@ -24,7 +24,7 @@
     <div v-if="!isLogin && !closed" class="nav-isLogin">
       <span>为方便您购买，请提前登录</span>
       <a href="/login">立即登录</a>
-      <Icon class="close" @click="closed=true" type="md-close"></Icon>
+      <Icon class="close" @click="closed = true" type="md-close"></Icon>
     </div>
   </div>
 </template>
@@ -33,7 +33,7 @@ import { mapState, mapMutations } from "vuex";
 import { Icon } from "view-ui-plus";
 export default {
   name: "nav-header", //home直接引用的nav-header标签，与这个名字无关，与NavHeader.vue这个名字有关
-  props:['isLogin'],
+  props: ["isLogin"],
   components: {
     Icon,
   },
@@ -56,7 +56,7 @@ export default {
     },
   },
   mounted() {
-    this.closed=false;
+    this.closed = false;
     // this.getProductList();
     let params = this.$route.params;
     if (params && params.from == "login") {
@@ -155,7 +155,7 @@ export default {
     background: #f7f7f7;
     a {
       padding-left: 20px;
-      color: #FF6600;
+      color: #ff6600;
     }
     .close {
       font-size: 18px;

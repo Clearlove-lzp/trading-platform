@@ -84,7 +84,7 @@ export default {
       ],
     };
   },
-  emits: ['localStorageDate', 'changeLayOut'],
+  emits: ["localStorageDate", "changeLayOut"],
   components: {},
   computed: {},
   methods: {

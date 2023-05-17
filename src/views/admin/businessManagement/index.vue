@@ -96,7 +96,7 @@ import {
   useState,
 } from "@/hook/index.js";
 import { getAllBusiness, deleteOrder } from "@/api/index";
-import {flattenObject} from "@/libs/util"
+import { flattenObject } from "@/libs/util";
 import { Message } from "view-ui-plus";
 
 const columns = [

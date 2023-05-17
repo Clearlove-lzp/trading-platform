@@ -9,9 +9,9 @@ import VueLazyLoad from "vue-lazyload";
 
 import "viewerjs/dist/viewer.css";
 import VueViewer from "v-viewer";
-import VueVideoPlayer from '@videojs-player/vue';
-import 'video.js/dist/video-js.css';
-import AudioPlayer from '@liripeng/vue-audio-player'
+import VueVideoPlayer from "@videojs-player/vue";
+import "video.js/dist/video-js.css";
+import AudioPlayer from "@liripeng/vue-audio-player";
 
 const app = createApp(App);
 // router钩子函数
