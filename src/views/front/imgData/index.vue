@@ -2,87 +2,6 @@
   <div class="index">
     <Catergory></Catergory>
     <div class="container">
-      <div class="swiper-box">
-        <div class="nav-menu">
-          <ul class="menu-wrap">
-            <li class="menu-item">
-              <a href="javascript:;">经济建设</a>
-              <div class="children">
-                <ul v-for="(item, i) in menuList" :key="i">
-                  <li v-for="(sub, j) in item" :key="j">
-                    <a :href="sub ? '/#/product/' + sub.id : ''">
-                      <img
-                        :src="
-                          sub
-                            ? sub.img
-                            : require('@/assets/imgs/item-box-1.png')
-                        "
-                        alt=""
-                      />
-                      {{ sub ? sub.name : "小米9" }}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:;">道路交通</a>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:;">环境资源</a>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:;">教育科技</a>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:;">文化休闲</a>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:;">城市管理</a>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:;">机构团体</a>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:;">民生服务</a>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:;">地理空间</a>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:;">气象气候</a>
-            </li>
-          </ul>
-        </div>
-        <swiper
-          ref="mySwiper"
-          class="mySwiper"
-          :modules="modules"
-          :navigation="true"
-          :loop="true"
-          :autoplay="{ delay: 10000, disableOnInteraction: false }"
-          :pagination="{ clickable: true }"
-        >
-          <swiper-slide v-for="(item, index) in idnexData.banner" :key="index">
-            <a
-              :href="
-                item.recommend.target_url
-                  ? item.recommend.target_url
-                  : '/product/' + item.data.data_id
-              "
-            >
-              <img
-                :src="
-                  !item.recommend.pic || item.recommend.pic === null
-                    ? agencyStr + '/file' + item.data.data_pic
-                    : agencyStr + '/file' + item.recommend.pic
-                "
-                :alt="item.data.data_name"
-              />
-            </a>
-          </swiper-slide>
-        </swiper>
-      </div>
       <!-- <div class="ads-box">
         <a
           :href="'/product/' + item.data_id"
@@ -105,190 +24,115 @@
     <div class="product">
       <div class="container">
         <div class="product-box">
-          <h2>数据产品</h2>
+          <h2>图片数据</h2>
           <div class="wrapper">
-            <!-- <div class="banner-left">
-              <a href="/#/product/35"
-                ><img v-lazy="require('@/assets/imgs/mix-alpha.jpg')" alt=""
-              /></a>
-            </div> -->
             <div class="list-box">
               <div class="list">
-                <template v-for="(item, i) in idnexData.product" :key="i">
-                  <div
-                    class="item"
-                    v-if="i + 1 <= 9"
-                    @click="
-                      $router.push(`${
-                        item.recommend.target_url
-                          ? item.recommend.target_url
-                          : '/product/' + item.data.data_id
-                      }
-                        `)
+                <template v-for="(item, i) in currentData" :key="i">
+                  <a
+                    :href="
+                      item.recommend.target_url
+                        ? item.recommend.target_url
+                        : '/product/' + item.data.data_id
                     "
                   >
-                    <span :class="{ 'new-pro': i % 2 == 0 }">新品</span>
-                    <div class="item-img">
-                      <img
-                        v-lazy="
-                          item.recommend.pic
-                            ? agencyStr + '/file' + item.recommend.pic
-                            : agencyStr + '/file' + item.data.data_pic
-                        "
-                        :alt="item.data.data_name"
-                      />
-                    </div>
-                    <div class="item-info">
-                      <h3>{{ item.data.data_name }}</h3>
-                      <p>{{ item.data.data_intro }}</p>
-                      <p class="price" @click="addCart(item.data.data_id)">
-                        {{ item.data.data_per_price }}元
-                      </p>
-                    </div>
-                  </div>
-                  <div class="item item-last" :key="j" v-if="i + 1 === 10">
-                    <div
-                      class="item-last-top"
-                      @click="
-                        $router.push(
-                          `${
-                            item.recommend.target_url
-                              ? item.recommend.target_url
-                              : '/product/' + item.data.data_id
-                          }`
-                        )
-                      "
-                    >
-                      <div class="item-last-top-left">
+                    <div class="item" v-if="i + 1 <= 20">
+                      <span :class="{ 'new-pro': i % 2 == 0 }">新品</span>
+                      <div class="item-img">
+                        <img
+                          v-lazy="
+                            item.recommend.pic
+                              ? agencyStr + '/file' + item.recommend.pic
+                              : agencyStr + '/file' + item.data.data_pic
+                          "
+                          :alt="item.data.data_name"
+                        />
+                      </div>
+                      <div class="item-info">
                         <h3>{{ item.data.data_name }}</h3>
+                        <p>{{ item.data.data_intro }}</p>
                         <p class="price" @click="addCart(item.data.data_id)">
                           {{ item.data.data_per_price }}元
                         </p>
                       </div>
-                      <div class="item-last-top-right">
-                        <div class="item-last-top-img">
-                          <img
-                            v-lazy="
-                              item.recommend.pic
-                                ? agencyStr + '/file' + item.recommend.pic
-                                : agencyStr + '/file' + item.data.data_pic
-                            "
-                            :alt="item.data.data_name"
+                    </div>
+                  </a>
+                  <!-- <div class="item item-last" :key="j" v-if="i + 1 === 10">
+                    <a
+                      :href="
+                        item.recommend.target_url
+                          ? item.recommend.target_url
+                          : '/product/' + item.data.data_id
+                      "
+                    >
+                      <div class="item-last-top">
+                        <div class="item-last-top-left">
+                          <h3>{{ item.data.data_name }}</h3>
+                          <p class="price" @click="addCart(item.data.data_id)">
+                            {{ item.data.data_per_price }}元
+                          </p>
+                        </div>
+                        <div class="item-last-top-right">
+                          <div class="item-last-top-img">
+                            <img
+                              v-lazy="
+                                item.recommend.pic
+                                  ? agencyStr + '/file' + item.recommend.pic
+                                  : agencyStr + '/file' + item.data.data_pic
+                              "
+                              :alt="item.data.data_name"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    <a
+                      :href="
+                        item.recommend.target_url
+                          ? item.recommend.target_url
+                          : '/product/' + item.data.data_id
+                      "
+                    >
+                      <div class="item-last-bottom">
+                        <div class="item-last-bottom-left">
+                          <h2>浏览更多</h2>
+                          <p>图片数据</p>
+                        </div>
+                        <div class="item-last-bottom-right">
+                          <Icon
+                            class="item-last-bottom-right-icon"
+                            :size="40"
+                            type="ios-arrow-dropright"
                           />
                         </div>
                       </div>
-                    </div>
-                    <div class="item-last-bottom">
-                      <div class="item-last-bottom-left">
-                        <h2>浏览更多</h2>
-                        <p>数据产品</p>
-                      </div>
-                      <div class="item-last-bottom-right">
-                        <Icon
-                          class="item-last-bottom-right-icon"
-                          :size="40"
-                          type="ios-arrow-dropright"
-                        />
-                      </div>
-                    </div>
-                  </div>
+                    </a>
+                  </div> -->
                 </template>
               </div>
             </div>
           </div>
-        </div>
-        <div class="product-box">
-          <h2>数据服务</h2>
-          <div class="wrapper">
-            <!-- <div class="banner-left"> -->
-            <!-- <a href="/#/product/35"
-              ><img v-lazy="require('@/assets/imgs/mix-alpha.jpg')" alt=""
-            /></a>
-          </div> -->
-            <div class="list-box">
-              <div class="list">
-                <template v-for="(item, i) in idnexData.service" :key="i">
-                  <div
-                    class="item"
-                    v-if="i + 1 <= 9"
-                    @click="
-                      $router.push(
-                        `${
-                          item.recommend.target_url
-                            ? item.recommend.target_url
-                            : '/product/' + item.data.data_id
-                        }`
-                      )
-                    "
-                  >
-                    <span :class="{ 'new-pro': i % 2 == 0 }">新品</span>
-                    <div class="item-img">
-                      <img
-                        v-lazy="
-                          item.recommend.pic
-                            ? agencyStr + '/file' + item.recommend.pic
-                            : agencyStr + '/file' + item.data.data_pic
-                        "
-                        :alt="item.data.data_name"
-                      />
-                    </div>
-                    <div class="item-info">
-                      <h3>{{ item.data.data_name }}</h3>
-                      <p>{{ item.data.data_intro }}</p>
-                      <p class="price" @click="addCart(item.data.data_id)">
-                        {{ item.data.data_per_price }}元
-                      </p>
-                    </div>
-                  </div>
-                  <div class="item item-last" :key="j" v-if="i + 1 === 10">
-                    <div
-                      class="item-last-top"
-                      @click="
-                        $router.push(
-                          `${
-                            item.recommend.target_url
-                              ? item.recommend.target_url
-                              : '/product/' + item.data.data_id
-                          }`
-                        )
-                      "
-                    >
-                      <div class="item-last-top-left">
-                        <h3>{{ item.data.data_name }}</h3>
-                        <p class="price" @click="addCart(item.data.data_id)">
-                          {{ item.data.data_per_price }}元
-                        </p>
-                      </div>
-                      <div class="item-last-top-right">
-                        <div class="item-last-top-img">
-                          <img
-                            v-lazy="
-                              item.recommend.pic
-                                ? agencyStr + '/file' + item.recommend.pic
-                                : agencyStr + '/file' + item.data.data_pic
-                            "
-                            :alt="item.data.data_name"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="item-last-bottom">
-                      <div class="item-last-bottom-left">
-                        <h2>浏览更多</h2>
-                        <p>数据产品</p>
-                      </div>
-                      <div class="item-last-bottom-right">
-                        <Icon
-                          class="item-last-bottom-right-icon"
-                          :size="40"
-                          type="ios-arrow-dropright"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </template>
-              </div>
-            </div>
+          <div class="cdp-page">
+            <Page
+              @on-change="
+                (value) => {
+                  queryCurrentFunc(value);
+                }
+              "
+              :total="pages.total"
+              :page-size="pages.limit"
+              :page-size-opts="[10, 20, 50]"
+              @on-page-size-change="
+                (value) => {
+                  queryLimitFunc(value);
+                }
+              "
+              :current="pages.current"
+              placement="top"
+              show-total
+              show-sizer
+              show-elevator
+            />
           </div>
         </div>
       </div>
@@ -323,13 +167,14 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/swiper.css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { productlist } from "./index.js";
 import { agencyStr } from "@/axiosConfig/enviromentConfig";
-
+import { usePage } from "@/hook/index.js";
 import { getRec } from "@/api/index.js";
 import { Message } from "view-ui-plus";
 
 SwiperCore.use([Navigation, Autoplay, Pagination]);
+
+const { pages, queryPageFunc, queryCurrentFunc, queryLimitFunc } = usePage(); // 分页器
 
 export default {
   name: "index",
@@ -342,84 +187,16 @@ export default {
   },
   data() {
     return {
-      agencyStr: agencyStr,
-      slideList: [
-        {
-          id: "42",
-          img: require("@/assets/imgs/slider/slide-1.jpg"),
-        },
-        {
-          id: "45",
-          img: require("@/assets/imgs/slider/slide-2.jpg"),
-        },
-        {
-          id: "46",
-          img: require("@/assets/imgs/slider/slide-3.jpg"),
-        },
-        {
-          id: "",
-          img: require("@/assets/imgs/slider/slide-4.jpg"),
-        },
-        {
-          id: "",
-          img: require("@/assets/imgs/slider/slide-5.jpg"),
-        },
-      ],
-      menuList: [
-        [
-          {
-            id: 30,
-            img: require("@/assets/imgs/item-box-1.png"),
-            name: "小米CC9",
-          },
-          {
-            id: 31,
-            img: require("@/assets/imgs/item-box-2.png"),
-            name: "小米8青春版",
-          },
-          {
-            id: 32,
-            img: require("@/assets/imgs/item-box-3.jpg"),
-            name: "Redmi K20 Pro",
-          },
-          {
-            id: 33,
-            img: require("@/assets/imgs/item-box-4.jpg"),
-            name: "移动4G专区",
-          },
-        ],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-      ],
-      adsList: [
-        {
-          id: 33,
-          img: require("@/assets/imgs/ads/ads-1.png"),
-        },
-        {
-          id: 48,
-          img: require("@/assets/imgs/ads/ads-2.jpg"),
-        },
-        {
-          id: 45,
-          img: require("@/assets/imgs/ads/ads-3.png"),
-        },
-        {
-          id: 47,
-          img: require("@/assets/imgs/ads/ads-4.jpg"),
-        },
-      ],
-      phoneList: [],
+      agencyStr,
       showModal: false,
       modules: [Navigation, Autoplay, Pagination],
       idnexData: {
-        banner: [],
-        service: [],
         product: [],
       },
+      pages,
+      queryPageFunc,
+      queryCurrentFunc,
+      queryLimitFunc,
     };
   },
   mounted() {
@@ -427,12 +204,7 @@ export default {
   },
   methods: {
     init() {
-      this.loadData("banner");
-      this.loadData("service");
       this.loadData("product");
-      console.log(this.idnexData);
-      const arr = productlist.slice(6, 14);
-      this.phoneList = [arr.slice(0, 4), arr.slice(4, 8)];
     },
     addCart(id) {
       this.axios
@@ -458,6 +230,22 @@ export default {
           Message.error(res.data.msg);
         }
       });
+    },
+  },
+  computed: {
+    currentData() {
+      let baseArr = JSON.parse(JSON.stringify(this.idnexData.product));
+      return baseArr.filter((item, index) => {
+        return (
+          (this.pages.current - 1) * this.pages.limit <= index &&
+          index < this.pages.current * this.pages.limit
+        );
+      });
+    },
+  },
+  watch: {
+    "idnexData.product"() {
+      this.pages.total = this.idnexData.product.length;
     },
   },
 };
@@ -603,7 +391,6 @@ export default {
               background-color: $colorG;
               text-align: center;
               transition: all 0.3s linear;
-              cursor: pointer;
               span {
                 display: inline-block;
                 width: 67px;
@@ -759,5 +546,11 @@ export default {
 
 .mySwiper {
   height: 451px;
+}
+
+.cdp-page {
+  padding-top: 10px;
+  text-align: center;
+  width: 100%;
 }
 </style>

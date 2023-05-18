@@ -2,7 +2,7 @@
   <div class="order-list">
     <div class="nav-header">
       <div class="container">
-        <div class="main-title">我的订单</div>
+        <div class="main-title">订单详情</div>
         <div class="header-search">
           <div class="wrapper">
             <input type="text" name="keyword" />
@@ -11,28 +11,66 @@
         </div>
       </div>
     </div>
-    <Tabs value="name1">
-      <TabPane label="全部订单" name="name1"></TabPane>
-      <TabPane label="待授权" name="name2"></TabPane>
-      <TabPane label="待收货" name="name3"></TabPane>
-      <TabPane label="待评价" name="name4"></TabPane>
-    </Tabs>
+
+    <div class="order-detail-one wrapper">
+      <div class="left">
+        <div class="order-num">订单号：231545686223</div>
+        <div class="order-state">完成</div>
+        <div class="order-img">
+          <a href="#"><img src="@/assets/imgs/prodect.png" alt="" /></a>
+        </div>
+      </div>
+      <div class="right">
+        <div class="right-img">
+          <div class="one">
+            <div class="box">
+              <img src="@/assets/imgs/提交订单.png" alt="" />
+              <span class="text">∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙></span>
+              <div class="submit">
+                <div>提交订单</div>
+                <div>2022-12-2</div>
+                <div>20:43</div>
+              </div>
+            </div>
+            <div class="box">
+              <img src="@/assets/imgs/支付成功.png" alt="" />
+              <span class="text">∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙></span>
+              <div class="submit">
+                <div>支付成功</div>
+                <div>2022-12-2</div>
+                <div>20:43</div>
+              </div>
+            </div>
+            <div class="box">
+              <img src="@/assets/imgs/授权成功.png" alt="" />
+              <span class="text">∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙></span>
+              <div class="submit">
+                <div>卖家发货</div>
+                <div>2022-12-2</div>
+                <div>20:43</div>
+              </div>
+            </div>
+            <div class="box">
+              <img src="@/assets/imgs/确认收货.png" alt="" />
+              <div class="submit">
+                <div>确认收货</div>
+                <div>2022-12-2</div>
+                <div>20:43</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <table class="table-order">
       <tr>
-        <th class="title-th" width="8%">
-          <Checkbox
-            :model-value="productCheckAll"
-            @click.prevent="productHandleCheckAll"
-          ></Checkbox>
-          <span>全选</span>
-        </th>
         <th class="title-th" colspan="2">商品</th>
-        <th class="title-th" width="10%">单价</th>
-        <th class="title-th" width="10%">数量</th>
-        <th class="title-th" width="10%">实付款</th>
-        <th class="title-th" width="10%">最晚发货时间</th>
-        <th class="title-th" width="10%">订单状态</th>
-        <th class="title-th" width="10%">操作</th>
+        <th class="title-th" width="13%">单价</th>
+        <th class="title-th" width="13%">数量</th>
+        <th class="title-th" width="13%">实付款</th>
+        <th class="title-th" width="13%">订单状态</th>
+        <th class="title-th" width="13%">操作</th>
       </tr>
       <template v-for="(x, i) in produltList" :key="i">
         <tr>
@@ -43,16 +81,8 @@
           <td class="order-td"></td>
           <td class="order-td"></td>
           <td class="order-td"></td>
-          <td class="order-td"></td>
-          <td class="order-td"></td>
         </tr>
         <tr>
-          <td class="base-info">
-            <Checkbox
-              :model-value="x.checked"
-              @click.prevent="productHandleCheckOne(i)"
-            ></Checkbox>
-          </td>
           <td colspan="2">
             <div class="productBox">
               <div class="producrt-img"><img :src="x.img" alt="" /></div>
@@ -67,11 +97,9 @@
           <td class="base-info">{{ x.price }}</td>
           <td class="base-info">{{ x.count }}</td>
           <td class="base-info">{{ x.total }}</td>
-          <td class="base-info">{{ x.lastTime }}</td>
           <td class="base-info">{{ x.status }}</td>
           <td>
             <div class="order-action">
-              <span @click="$router.push('/orderDetail')">订单详情</span>
               <span>申请售后</span>
               <span>确认收货</span>
             </div>
@@ -79,6 +107,28 @@
         </tr>
       </template>
     </table>
+
+    <div class="information wrapper">
+      <div class="left-one">
+        <div class="user">订单信息</div>
+        <div class="user-name">订单编号：12313564</div>
+        <div class="phone">买家留言-</div>
+        <div class="phone">发票抬头</div>
+        <div class="phone">发票类型：电子发票</div>
+        <div class="phone">发票内容：明细</div>
+      </div>
+      <div class="left">
+        <div class="user">用户信息</div>
+        <div class="user-name">收货人：2135465412</div>
+        <div class="phone">联系方式：136******5231</div>
+      </div>
+      <div class="right">
+        <div class="user">付款信息</div>
+        <div class="user-name">付款方式：在线支付</div>
+        <div class="phone">付款时间：2022-12-2 21:45</div>
+      </div>
+    </div>
+
     <ServiceBar></ServiceBar>
   </div>
 </template>
@@ -86,7 +136,6 @@
 import OrderHeader from "@/components/front/OrderHeader.vue";
 import Loading from "@/components/front/Loading";
 import NoData from "@/components/front/NoData";
-import infiniteScroll from "vue-infinite-scroll";
 import ServiceBar from "@/components/front/ServiceBar.vue";
 export default {
   name: "order-list",
@@ -98,26 +147,11 @@ export default {
   },
   data() {
     return {
-      productCheckAll: false,
-      modeCheckAll: false,
       produltList: [
         {
           time: "2022-12-1",
           orderNo: "2560479320126",
-          checked: false,
-          img: require("@/assets/imgs/猫2.jpg"),
-          name: "中小企业信用评级数据",
-          tip: "按条数购买，非一次性购买",
-          price: "￥80",
-          count: 100,
-          total: 8000,
-          lastTime: "2022-12-13 22:00:12",
-          status: "未发货",
-        },
-        {
-          time: "2022-12-1",
-          orderNo: "2560479320126",
-          checked: false,
+          ckecked: false,
           img: require("@/assets/imgs/猫2.jpg"),
           name: "中小企业信用评级数据",
           tip: "按条数购买，非一次性购买",
@@ -133,23 +167,8 @@ export default {
   mounted() {
     this.getOrderList();
   },
-  directives: {
-    infiniteScroll,
-  }, //设置一个infiniteScroll指令，之后就可以v-infinite-scroll进行使用了
+  directives: {},
   methods: {
-    productHandleCheckOne(i) {
-      this.produltList[i].checked = !this.produltList[i].checked;
-      this.productCheckAll = this.produltList.every((x) => x.checked);
-    },
-    productHandleCheckAll() {
-      this.productCheckAll = !this.productCheckAll;
-      this.produltList.map((x) => {
-        x.checked = this.productCheckAll;
-      });
-    },
-    modeHandleCheckAll() {
-      this.modeCheckAll = !this.modeCheckAll;
-    },
     getOrderList() {
       // this.loading=true
       // this.axios.get('/orders',{
@@ -163,52 +182,6 @@ export default {
       //     this.total = res.total;
       //     this.showNextPage = res.hasNextPage;
       // })
-    },
-    goPay(orderNo) {
-      this.$router.push({
-        path: "/order/pay",
-        query: {
-          orderNo,
-        },
-      });
-    },
-    //第一种分页器方式
-    handleChange(pageNum) {
-      this.pageNum = pageNum;
-      this.getOrderList();
-    },
-    //第二种加载更多按钮方式
-    loadMore() {
-      this.pageNum++;
-      this.getOrderList();
-    },
-    //第三种滚动加载
-    scrollMore() {
-      this.busy = true;
-      setTimeout(() => {
-        this.pageNum++;
-        this.getList();
-      }, 500); //设置定时器，防止一直调用接口
-    },
-    //滚动加载专用接口调用函数
-    getList() {
-      this.loading = true;
-      this.axios
-        .get("/orders", {
-          params: {
-            pageSize: 10,
-            pageNum: this.pageNum,
-          },
-        })
-        .then((res) => {
-          this.list = this.list.concat(res.list);
-          this.loading = false;
-          if (res.hasNextPage) {
-            this.busy = false;
-          } else {
-            this.busy = true;
-          }
-        });
     },
   },
 };
@@ -274,6 +247,7 @@ export default {
   td {
     .productBox {
       display: flex;
+      padding: 0 20px;
       .producrt-img {
         width: 60px;
         img {
@@ -306,5 +280,109 @@ export default {
     font: normal 12px/1.5 Verdana, simsun, Sans-Serif;
     text-align: center;
   }
+}
+
+.order-detail-one {
+  margin-top: 25px;
+  margin-bottom: 35px;
+  display: flex;
+  align-items: center;
+  border-top: 3px solid #cccbcb;
+  background-color: #fff;
+}
+
+.order-detail-one .left {
+  flex-grow: 1;
+  margin-top: 20px;
+  margin-bottom: 35px;
+  border-right: 1px solid #f1f1f1;
+}
+
+.order-detail-one .right {
+  flex-grow: 6;
+}
+
+.order-detail-one .left .order-num {
+  font-size: 14px;
+  line-height: 50px;
+  color: #999;
+  text-align: center;
+}
+
+.order-detail-one .left .order-state {
+  font-size: 24px;
+  color: #71b247;
+  text-align: center;
+  font-weight: bold;
+}
+
+.order-detail-one .left .order-img {
+  text-align: center;
+}
+
+.order-detail-one .left .order-img img {
+  margin-top: 15px;
+  width: 100px;
+  height: 100px;
+}
+
+.order-detail-one .right .right-img .one {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.order-detail-one .right img {
+  width: 50px;
+  height: 50px;
+}
+
+.order-detail-one .right .right-img .one .text {
+  padding-left: 20px;
+  padding-right: 20px;
+  color: #8faadc;
+}
+
+.order-detail-one .right .right-img .one .submit {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.information {
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+  margin-top: 25px;
+}
+
+.information .left-one {
+  padding: 20px 50px;
+  flex-grow: 1;
+  border-right: 1px solid #f1f1f1;
+}
+
+.information .left {
+  padding: 20px 50px;
+  flex-grow: 1;
+  border-right: 1px solid #f1f1f1;
+}
+
+.information .right {
+  padding: 20px 50px;
+  flex-grow: 1;
+}
+
+.information .user {
+  font-size: 18px;
+  padding-bottom: 10px;
+}
+
+.information .user-name {
+  padding-bottom: 5px;
+}
+
+.information .phone {
+  padding-bottom: 5px;
 }
 </style>

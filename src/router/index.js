@@ -80,6 +80,78 @@ const routes = [
             /* webpackChunkName: "orderAlipay" */ "../views/front/orderAlipay/index.vue"
           ),
       },
+      {
+        path: "/dataProduct",
+        name: "数据产品",
+        component: () =>
+          import(
+            /* webpackChunkName: "dataProduct" */ "../views/front/dataProduct/index.vue"
+          ),
+      },
+      {
+        path: "/dataServe",
+        name: "数据服务",
+        component: () =>
+          import(
+            /* webpackChunkName: "dataServe" */ "../views/front/dataServe/index.vue"
+          ),
+      },
+      {
+        path: "/structuredData",
+        name: "结构化数据",
+        component: () =>
+          import(
+            /* webpackChunkName: "structuredData" */ "../views/front/structuredData/index.vue"
+          ),
+      },
+      {
+        path: "/imgData",
+        name: "图片数据",
+        component: () =>
+          import(
+            /* webpackChunkName: "imgData" */ "../views/front/imgData/index.vue"
+          ),
+      },
+      {
+        path: "/textData",
+        name: "文本数据",
+        component: () =>
+          import(
+            /* webpackChunkName: "textData" */ "../views/front/textData/index.vue"
+          ),
+      },
+      {
+        path: "/videoData",
+        name: "视频数据",
+        component: () =>
+          import(
+            /* webpackChunkName: "videoData" */ "../views/front/videoData/index.vue"
+          ),
+      },
+      {
+        path: "/radioData",
+        name: "音频数据",
+        component: () =>
+          import(
+            /* webpackChunkName: "radioData" */ "../views/front/radioData/index.vue"
+          ),
+      },
+      {
+        path: "/otherData",
+        name: "其他",
+        component: () =>
+          import(
+            /* webpackChunkName: "otherData" */ "../views/front/otherData/index.vue"
+          ),
+      },
+      {
+        path: "/orderDetail",
+        name: "订单详情",
+        component: () =>
+          import(
+            /* webpackChunkName: "orderDetail" */ "../views/front/orderDetail/index.vue"
+          ),
+      },
     ],
   },
   {

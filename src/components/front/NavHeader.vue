@@ -4,8 +4,8 @@
       <div class="container">
         <div class="topbar-menu">
           <router-link to="/index">xxx数据交易平台</router-link>
-          <router-link to="">数据产品</router-link>
-          <router-link to="">数据服务</router-link>
+          <router-link to="/dataProduct">数据产品</router-link>
+          <router-link to="/dataServe">数据服务</router-link>
         </div>
         <div class="topbar-user">
           <a href="javascript:;" v-if="username">{{ username }}</a>

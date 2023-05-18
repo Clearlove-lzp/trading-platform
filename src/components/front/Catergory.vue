@@ -6,22 +6,22 @@
       </div>
       <div class="header-menu">
         <div class="item-menu">
-          <span>结构化数据</span>
+          <span @click="toTypePage('/structuredData')">结构化数据</span>
         </div>
         <div class="item-menu">
-          <span>图片数据</span>
+          <span @click="toTypePage('/imgData')">图片数据</span>
         </div>
         <div class="item-menu">
-          <span>文本数据</span>
+          <span @click="toTypePage('/textData')">文本数据</span>
         </div>
         <div class="item-menu">
-          <span>视频数据</span>
+          <span @click="toTypePage('/videoData')">视频数据</span>
         </div>
         <div class="item-menu">
-          <span>音频数据</span>
+          <span @click="toTypePage('/radioData')">音频数据</span>
         </div>
         <div class="item-menu">
-          <span>其他</span>
+          <span @click="toTypePage('/otherData')">其他</span>
         </div>
       </div>
       <div class="header-search">
@@ -42,7 +42,11 @@ export default {
   },
   components: {},
   computed: {},
-  methods: {},
+  methods: {
+    toTypePage(path) {
+      this.$router.push(path);
+    },
+  },
   watch: {},
   mounted() {},
   created() {},
